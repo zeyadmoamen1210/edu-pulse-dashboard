@@ -1,0 +1,438 @@
+<template>
+  <div class="grades">
+      <div class="container-fluid">
+        
+        <div class="row">
+            <div class="col-md-6">
+                <StarHeader v-if="secName" :title="secName"></StarHeader>
+            </div>
+            <div class="col-md-6 text-right ">
+                
+              <div class="d-flex justify-content-end ">
+                    <div>
+                        <el-select clearable v-model="filterSystem" placeholder="Filter With Systems">
+                            <el-option
+                            v-for="sys in systemsOpt"
+                            :key="sys.id"
+                            :label="sys.nameEn"
+                            :value="sys.id">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div>
+                        
+
+                        <el-popover
+                            placement="right"
+                            width="400"
+                            v-model="addClassPopOver"
+                            trigger="click">
+
+
+                            <el-form :model="addSection" ref="addSection" class="add-section-pop">
+                                <el-form-item
+                                    prop="nameEn"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input english name',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In English</label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In English"
+                                v-model="addSection.nameEn"
+                                ></el-input>
+                                </el-form-item>
+
+
+                                <el-form-item
+                                    prop="nameAr"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input arabic name',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In Arabic </label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In Arabic"
+                                v-model="addSection.nameAr"
+                                ></el-input>
+                                </el-form-item>
+
+
+
+
+                                <el-form-item
+                                    prop="capacity"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input capacity',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In Capacity </label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In Arabic"
+                                v-model="addSection.capacity"
+                                ></el-input>
+                                </el-form-item>
+
+
+
+                                <el-form-item
+                                    prop="system"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input system',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Detemine System </label>
+                                <el-select clearable v-model="addSection.system" placeholder="Filter With Systems">
+                                    <el-option
+                                    v-for="sys in systemsOpt"
+                                    :key="sys.id"
+                                    :label="sys.nameEn"
+                                    :value="sys.id">
+                                    </el-option>
+                                </el-select>
+                                </el-form-item>
+
+                                <el-form-item>
+                                    
+
+                                    <el-button @click="submitForm('addSection')" type="primary">Add Section</el-button>
+                                </el-form-item>
+
+                            </el-form>
+
+                            <el-button slot="reference" type="primary" icon="el-icon-folder-add" circle></el-button>
+                        </el-popover>
+
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-3" v-for="sec in sections" :key="sec.id">
+                <div class="grade justify-content-between d-flex">
+                    <!-- <h6> {{sec.nameAr}} </h6> -->
+                    <div>
+                        <h6> {{sec.nameEn}} </h6>
+                    </div>
+                    <div>
+                        <el-tooltip class="item" effect="dark" content="Grade Capacity" placement="top-start">
+                            <el-button type="text" circle plain>{{sec.capacity}}</el-button>
+                        </el-tooltip>
+
+                        <el-tooltip class="item" effect="dark" content="Total Students" placement="top-start">
+                            <el-button type="text" circle plain>{{sec.students.length}}</el-button>
+                        </el-tooltip>
+                    </div>
+
+                    <div>
+                        
+                        <el-button @click="hanleUpdateSection(sec)" slot="reference" type="primary" icon="el-icon-folder-add" circle></el-button>
+
+                        <el-popconfirm
+                            confirm-button-text='OK'
+                            @confirm="confirmDeleteSubject(sec)"
+                            cancel-button-text='No, Thanks'
+                            icon="el-icon-info"
+                            v-model="deleteSubjectPop"
+                            icon-color="red"
+                            title="Are you sure to delete this?"
+                            >
+                            <el-button type="danger" icon="el-icon-delete" slot="reference" circle></el-button>
+                            </el-popconfirm>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
+
+
+      <el-dialog
+        title="Tips"
+        width="50%"
+        :visible.sync="updateSectionPop"
+        >
+        
+      <el-form :model="updateSection" ref="updateSection" class="add-section-pop">
+                                <el-form-item
+                                    prop="nameEn"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input english name',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In English</label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In English"
+                                v-model="updateSection.nameEn"
+                                ></el-input>
+                                </el-form-item>
+
+
+                                <el-form-item
+                                    prop="nameAr"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input arabic name',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In Arabic </label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In Arabic"
+                                v-model="updateSection.nameAr"
+                                ></el-input>
+                                </el-form-item>
+
+
+
+
+                                <el-form-item
+                                    prop="capacity"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input capacity',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Name In Capacity </label>
+                                <el-input
+                                suffix-icon="el-icon-edit"
+                                placeholder="Name In Arabic"
+                                v-model="updateSection.capacity"
+                                ></el-input>
+                                </el-form-item>
+
+
+
+                                <el-form-item
+                                    prop="system"
+                                    :rules="[
+                                    {
+                                        required: true,
+                                        message: 'Please input system',
+                                        trigger: 'blur'
+                                    },
+                                    
+                                    ]"
+                                >
+                                <label>Detemine System </label>
+                                <el-select clearable v-model="updateSection.system" placeholder="Filter With Systems">
+                                    <el-option
+                                    v-for="sys in systemsOpt"
+                                    :key="sys.id"
+                                    :label="sys.nameEn"
+                                    :value="sys.id">
+                                    </el-option>
+                                </el-select>
+                                </el-form-item>
+
+                                <el-form-item>
+                                    
+
+                                    <el-button @click="submitUpdateForm('updateSection')" type="primary">Update</el-button>
+                                </el-form-item>
+
+                            </el-form>
+        
+    </el-dialog>
+
+
+
+
+
+  </div>
+</template>
+
+<script>
+import StarHeader from '@/components/StarHeader'
+export default {
+    middleware:['auth'],
+    components:{
+        StarHeader
+    },
+    data(){
+        return {
+            isLoading: true,
+            sections:[],
+            secName:'',
+            filterSystem:'',
+            systemsOpt:{},
+            addClassPopOver:false,
+            addSection:{},
+            deleteSubjectPop:false,
+            updateSection:{},
+            updateSectionPop:false
+        }
+    },
+    watch:{
+        filterSystem(val){
+            this.getClassSections(val);
+        }
+    },
+    mounted(){
+        this.getClassSections();
+        this.getSystems();
+    },
+    methods:{
+        hanleUpdateSection(sec){
+            this.updateSectionPop = true;
+            this.updateSection = {...sec}
+        },
+        submitUpdateForm(updateSection){
+            this.updateSectionPop = false;
+            console.log(updateSection)
+            console.log(this.$refs[updateSection])
+
+            this.$refs[updateSection].validate((valid) => {
+                if(valid){
+                    this.updateSecInBackend();
+                }
+            })
+        },
+        updateSecInBackend(){
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.$axios.patch(`/sections/${this.updateSection.id}`, this.updateSection).then(res => {
+                this.getClassSections();
+            }).finally(() => loading.close());
+        },
+        confirmDeleteSubject(sec){
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.$axios.delete(`/sections/${sec.id}`).then(res => {
+                this.deleteSubjectPop = !this.deleteSubjectPop;
+                this.getClassSections();
+            }).finally(() => loading.close());
+        },
+        submitForm(addSection){
+            
+            this.$refs[addSection].validate((valid) => {
+                if(valid){
+                    this.createNewSection();
+                }
+            })
+        },
+        createNewSection(){
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.$axios.post(`/classes/${this.$route.params.id}/systems/${this.addSection.system}/sections`, this.addSection).then(res => {
+                this.addClassPopOver = !this.addClassPopOver;
+                this.getClassSections();
+            }).finally(() => loading.close());
+        },
+        getSystems(){
+            this.isLoading = true;
+             const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.$axios.get(`/systems?paginate=false`).then(res => {
+                this.systemsOpt = res.data;
+            }).finally(() => loading.close());
+        },
+        getClassSections(system = 0){
+            this.isLoading = true;
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.$axios.get(`/classes/${this.$route.params.id}/sections${system > 0 ? '?system='+system : ''}`).then(res => {
+                this.sections = res.data.docs;
+                this.secName = this.sections[0].class.nameEn
+            }).finally(() => loading.close());
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.grades{
+    padding-top: 20px;
+    .grade{
+        padding: 10px;
+        background: #FFF;
+        border: 1px solid #e8e7e7;
+        border-radius: 10px;
+        margin-top: 10px;
+
+        .el-button.is-circle{
+                width: 31px;
+    padding: 0;
+    height: 28px;
+    font-size: 12px;
+        }
+        h6{
+            margin-bottom: 0;
+            padding-top: 4px;
+        }
+    }
+
+   
+}
+
+ .add-section-pop{
+     
+        label{
+            margin-bottom: 0;
+        }
+        .el-select{
+            display: block !important;
+        }
+    }
+
+    .el-popover.el-popper{
+        max-width: 350px !important;
+    }
+</style>

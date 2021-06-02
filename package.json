@@ -1,0 +1,25 @@
+{
+  "name": "educational-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1622309801.87126e3",
+    "@nuxtjs/axios": "^5.13.1",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.9.1",
+    "element-ui": "^2.15.1",
+    "moment-timezone": "^0.5.33",
+    "node-sass": "^4.14.1",
+    "nuxt": "^2.15.3",
+    "vue-moment": "^4.1.0"
+  },
+  "devDependencies": {
+    "sass-loader": "^10.1.1"
+  }
+}
