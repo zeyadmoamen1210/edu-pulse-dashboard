@@ -27,7 +27,9 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/element-ui',
-    '@/plugins/moment.js'
+    '@/plugins/moment.js',
+    '@/plugins/vuesax.js',
+    '@/plugins/vue-phone.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -5,6 +5,11 @@
                 <StarHeader title="Systems List"></StarHeader>
             </div>
 
+
+            <div>
+                <vs-button @click="addSystemPopup = true">Add System</vs-button>
+            </div>
+
             <div class="table-container">
                 <el-table
                     :data="allSystems"
@@ -74,10 +79,16 @@
 
 
 
-        <el-dialog
-        title="Update System"
-        :visible.sync="showEditModel"
+        <vs-dialog
+        v-model="showEditModel"
         >
+
+        <template #header>
+        <h4 class="not-margin">
+            Update System
+        </h4>
+        </template>
+
         <el-form :model="currSystemToEdit" ref="currSystemToEdit" class="create-system">
               <div class="inputs-grid row">
                     <div class="col-md-6">
@@ -133,7 +144,84 @@
                 >
               </el-form-item>
             </el-form>
-        </el-dialog>
+        </vs-dialog>
+
+
+
+
+        <vs-dialog v-model="addSystemPopup">
+
+            <template #header>
+            <h4 class="not-margin">
+                Add System
+            </h4>
+            </template>
+
+
+            <div class="create-system">
+              <el-form :model="createSystem" ref="createSystem" class="create-system">
+              <div class="inputs-grid row">
+                    <div class="col-md-6">
+                        <el-form-item
+                            prop="nameEn"
+                            :rules="[
+                            {
+                                required: true,
+                                message: 'Please input english name',
+                                trigger: 'blur'
+                            },
+                            
+                            ]"
+                        >
+                            <el-input
+                            suffix-icon="el-icon-edit"
+                            placeholder="Name In English"
+                            v-model="createSystem.nameEn"
+                            ></el-input>
+                        </el-form-item>
+                    </div>
+
+                    <div class="col-md-6">
+                        <el-form-item
+                        prop="nameAr"
+                            :rules="[
+                            {
+                                required: true,
+                                message: 'Please input english arabic',
+                                trigger: 'blur'
+                            },
+                            
+                            ]"
+                        >
+                            <el-input
+                            suffix-icon="el-icon-edit"
+                            placeholder="Name In Arabic"
+                            v-model="createSystem.nameAr"
+                            ></el-input>
+                        </el-form-item>
+                    </div>
+              </div>
+
+              <el-form-item>
+
+                    <el-button type="success" @click="submitForm('createSystem')"
+                    >Create</el-button
+                    >
+                    <el-button type="danger" @click="resetForm('createSystem')">Reset</el-button>
+
+                
+              </el-form-item>
+
+
+              
+
+
+            </el-form>
+          </div>
+
+          
+
+        </vs-dialog>
 
 
   </div>
@@ -144,6 +232,11 @@ export default {
     middleware:['auth'],
     data(){
         return {
+            createSystem:{
+                nameAr:"",
+                nameEn:""
+            },
+            addSystemPopup: false,
             allSystems:[],
             page:1,
             totalPages:1,
@@ -153,6 +246,47 @@ export default {
         }
     },
     methods:{
+
+        submitForm(formName){
+            this.$refs[formName].validate((valid) => {
+                if(valid){
+                    this.createNewSystem();
+                    this.addSystemPopup = false;
+                }
+            })
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        },
+        createNewSystem(){
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+
+            this.$axios.post(`/systems`, this.createSystem).then(res => {
+                this.$notify({
+                    title: 'تم بنجاح!',
+                    message: `لقد تم إضافة النظام بنجاح`,
+                    type: 'success'
+                });
+                this.createSystem = {};
+                this.getSystems();
+            }).catch(error => {
+                
+                this.$notify.error({
+                    title: 'خطأ!',
+                    message: `حدث خطأ ما !`
+                });
+            }).finally(() => loading.close());
+
+
+            
+        },
+
+
         updateSystem(){
             this.showEditModel = false;
             const loading = this.$loading({

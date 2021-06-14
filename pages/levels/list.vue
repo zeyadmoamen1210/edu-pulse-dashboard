@@ -5,6 +5,12 @@
                 <StarHeader title="Levels List"></StarHeader>
             </div>
 
+
+            <div>
+                <vs-button @click="addLevelPopup = true">Add Level</vs-button>
+            </div>
+
+
             <div class="table-container">
                 <el-table
                     :data="allLevels"
@@ -80,10 +86,17 @@
 
 
 
-        <el-dialog
+        <vs-dialog
         title="Update Level"
-        :visible.sync="showEditModel"
+        v-model="showEditModel"
         >
+
+        <template #header>
+        <h4 class="not-margin">
+            Update Level
+        </h4>
+        </template>
+
         <el-form :model="currLevelToEdit" ref="currLevelToEdit" class="create-level">
               <div class="inputs-grid row">
                     <div class="col-md-6">
@@ -140,7 +153,71 @@
                 
               </el-form-item>
             </el-form>
-        </el-dialog>
+        </vs-dialog>
+
+
+
+        <vs-dialog v-model="addLevelPopup">
+
+            <template #header>
+            <h4 class="not-margin">
+                Add Level
+            </h4>
+            </template>
+
+            <div class="create-level">
+              <el-form :model="createLevels" ref="createLevels" class="create-levels">
+              <div class="inputs-grid row">
+                    <div class="col-md-6">
+                        <el-form-item
+                            prop="nameEn"
+                            :rules="[
+                            {
+                                required: true,
+                                message: 'Please input english name',
+                                trigger: 'blur'
+                            },
+                            
+                            ]"
+                        >
+                            <el-input
+                            suffix-icon="el-icon-edit"
+                            placeholder="Name In English"
+                            v-model="createLevels.nameEn"
+                            ></el-input>
+                        </el-form-item>
+                    </div>
+
+                    <div class="col-md-6">
+                        <el-form-item
+                        prop="nameAr"
+                            :rules="[
+                            {
+                                required: true,
+                                message: 'Please input english arabic',
+                                trigger: 'blur'
+                            },
+                            
+                            ]"
+                        >
+                            <el-input
+                            suffix-icon="el-icon-edit"
+                            placeholder="Name In Arabic"
+                            v-model="createLevels.nameAr"
+                            ></el-input>
+                        </el-form-item>
+                    </div>
+              </div>
+
+              <el-form-item>
+                <el-button type="success" @click="submitForm('createLevels')"
+                  >Create Level</el-button
+                >
+                <el-button type="danger" @click="resetForm('createLevels')">Reset</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </vs-dialog>
 
 
   </div>
@@ -151,15 +228,61 @@ export default {
     middleware:['auth'],
     data(){
         return {
+            addLevelPopup: false,
             allLevels:[],
             page:1,
             totalPages:1,
 
             showEditModel: false,
-            currLevelToEdit:{}
+            currLevelToEdit:{},
+            createLevels:{
+                nameAr:"",
+                nameEn:""
+            },
         }
     },
     methods:{
+
+
+        submitForm(formName){
+            this.$refs[formName].validate((valid) => {
+                if(valid){
+                    this.createNewLevel();
+                    this.addLevelPopup = false;
+                }
+            })
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        },
+        createNewLevel(){
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+
+            this.$axios.post(`/levels`, this.createLevels).then(res => {
+                this.$notify({
+                    title: 'تم بنجاح!',
+                    message: `لقد تم إضافة النظام بنجاح`,
+                    type: 'success'
+                });
+                this.getLevels();
+            }).catch(error => {
+                
+                this.$notify.error({
+                    title: 'خطأ!',
+                    message: `حدث خطأ ما !`
+                });
+            }).finally(() => loading.close());
+
+
+            
+        },
+
+
         showClasses(ele){
             this.$router.push(`/levels/${ele.id}`);
         },

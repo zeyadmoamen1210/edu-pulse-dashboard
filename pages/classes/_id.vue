@@ -130,24 +130,35 @@
               </div>
             </div>
             <div class="col-md-3" v-for="sec in sections" :key="sec.id">
-                <div class="grade justify-content-between d-flex">
+                <div class="grade">
                     <!-- <h6> {{sec.nameAr}} </h6> -->
-                    <div>
+                    <div class="d-flex">
+                        <h6 class="mr-2 ml-2 title"> section / </h6>
                         <h6> {{sec.nameEn}} </h6>
                     </div>
-                    <div>
-                        <el-tooltip class="item" effect="dark" content="Grade Capacity" placement="top-start">
-                            <el-button type="text" circle plain>{{sec.capacity}}</el-button>
-                        </el-tooltip>
 
-                        <el-tooltip class="item" effect="dark" content="Total Students" placement="top-start">
-                            <el-button type="text" circle plain>{{sec.students.length}}</el-button>
-                        </el-tooltip>
+                    <el-divider></el-divider>
+                    <div>
+
+                        <div class="d-flex">
+                            <h6 class="mr-2 ml-2 title"> capacity / </h6>
+                            <span>{{sec.capacity}}</span>
+                        </div>
+
+                        <el-divider></el-divider>
+
+                        <div class="d-flex">
+                            <h6 class="mr-2 ml-2 title"> reserved / </h6>
+                            <span>{{sec.students.length}}</span>
+                        </div>
                     </div>
 
-                    <div>
+                    <el-divider></el-divider>
+
+                    <div class="mt-3 mr-2 ml-2 ">
                         
                         <el-button @click="hanleUpdateSection(sec)" slot="reference" type="primary" icon="el-icon-folder-add" circle></el-button>
+                        <el-button @click="$router.push(`/section/${sec.id}`)" type="success" icon="el-icon-more" circle></el-button>
 
                         <el-popconfirm
                             confirm-button-text='OK'
@@ -170,13 +181,13 @@
 
 
 
-      <el-dialog
-        title="Tips"
-        width="50%"
-        :visible.sync="updateSectionPop"
-        >
+
+        <vs-dialog not-close v-model="updateSectionPop">
         
-      <el-form :model="updateSection" ref="updateSection" class="add-section-pop">
+
+
+        <div class="con-form">
+            <el-form :model="updateSection" ref="updateSection" class="add-section-pop">
                                 <el-form-item
                                     prop="nameEn"
                                     :rules="[
@@ -265,12 +276,16 @@
                                 <el-form-item>
                                     
 
-                                    <el-button @click="submitUpdateForm('updateSection')" type="primary">Update</el-button>
+                                    <el-button type="primary" @click="submitUpdateForm('updateSection')">Update</el-button>
                                 </el-form-item>
 
                             </el-form>
+        </div>
+
         
-    </el-dialog>
+      </vs-dialog>
+
+
 
 
 
@@ -315,13 +330,15 @@ export default {
             this.updateSection = {...sec}
         },
         submitUpdateForm(updateSection){
-            this.updateSectionPop = false;
+            
             console.log(updateSection)
             console.log(this.$refs[updateSection])
 
             this.$refs[updateSection].validate((valid) => {
                 if(valid){
                     this.updateSecInBackend();
+                    this.updateSectionPop = false;
+                }else{
                 }
             })
         },
@@ -407,6 +424,22 @@ export default {
         border-radius: 10px;
         margin-top: 10px;
 
+        h6{
+            margin-bottom:7px !important;
+            margin-top:0 
+        }
+
+        .el-divider{
+            margin: 2px;
+        }
+
+        h6.title{
+            font-size: 12px;
+            margin-bottom: 0 !important;
+            margin-top: 4px;
+            color: #2c4484;
+        }
+
         .el-button.is-circle{
                 width: 31px;
     padding: 0;
@@ -415,7 +448,7 @@ export default {
         }
         h6{
             margin-bottom: 0;
-            padding-top: 4px;
+            
         }
     }
 

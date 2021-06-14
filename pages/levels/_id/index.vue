@@ -5,7 +5,7 @@
                 <StarHeader title="Grades List"></StarHeader>
             </div>
 
-            <el-button type="primary mt-3" @click="openAddForm()">Add Grade</el-button>
+            <vs-button type="primary mt-3" @click="openAddForm()">Add Grade</vs-button>
 
             <div class="table-container">
                 <el-table
@@ -82,10 +82,17 @@
 
 
 
-        <el-dialog
+        <vs-dialog
         title="Update Class"
-        :visible.sync="showEditModel"
+        v-model="showEditModel"
         >
+
+        <template #header>
+        <h4 class="not-margin">
+            Update Class
+        </h4>
+        </template>
+
         <el-form :model="currClassToEdit" ref="currClassToEdit" class="create-class">
               <div class="inputs-grid row">
                     <div class="col-md-6">
@@ -142,7 +149,7 @@
                 
               </el-form-item>
             </el-form>
-        </el-dialog>
+        </vs-dialog>
 
 
 
@@ -151,10 +158,18 @@
 
 
 
-        <el-dialog
+        <vs-dialog
         title="Add Grade"
-        :visible.sync="showAddModel"
+        v-model="showAddModel"
         >
+
+        <template #header>
+        <h4 class="not-margin">
+            Add Grade
+        </h4>
+        </template>
+
+
         <el-form :model="currClassToAdd" ref="currClassToAdd" class="create-class">
               <div class="inputs-grid row">
                     <div class="col-md-6">
@@ -211,7 +226,7 @@
                 
               </el-form-item>
             </el-form>
-        </el-dialog>
+        </vs-dialog>
 
 
   </div>
@@ -273,6 +288,7 @@ export default {
             });
 
             this.$axios.post(`/levels/${this.$route.params.id}/classes`, {...this.currClassToAdd}).then(res => {
+                this.currClassToAdd = {};
                 this.getClasses(this.page);
                 this.$notify({
                     title: 'تم بنجاح!',

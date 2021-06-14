@@ -9,35 +9,20 @@
       @close="handleClose"
       :collapse="collapse"
     >
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-s-tools"></i>
-          <span slot="title">Systems</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1" @click.native="$router.push(`/systems`)">
-              <i class="el-icon-star-off"></i>
-              Create Systme</el-menu-item>
-          <el-menu-item index="1-2" @click.native="$router.push(`/systems/list`)">
-              <i class="el-icon-star-off"></i>
-              Systems List</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
       
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-wallet"></i>
-          <span slot="title">Levels</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1" @click.native="$router.push(`/levels`)">
-              <i class="el-icon-star-off"></i>
-              Create Level</el-menu-item>
-          <el-menu-item index="1-2" @click.native="$router.push(`/levels/list`)">
-              <i class="el-icon-star-off"></i>
-              Levels List</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+
+      <el-menu-item index="4" @click.native="$router.push(`/systems/list`)">
+        <i class="el-icon-setting"></i>
+        <span>Systems</span>
+      </el-menu-item>
+
+
+      <el-menu-item index="2" @click.native="$router.push(`/levels/list`)">
+        <i class="el-icon-setting"></i>
+        <span>Levels</span>
+      </el-menu-item>
+      
+      
 
 
      
@@ -45,20 +30,10 @@
     
 
 
-      <el-submenu index="6">
-        <template slot="title">
-          <i class="el-icon-user"></i>
-          <span slot="title">Students</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1">
-              <i class="el-icon-star-off"></i>
-              Create Student</el-menu-item>
-          <el-menu-item index="1-2">
-              <i class="el-icon-star-off"></i>
-              Student List</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      <el-menu-item index="6" @click.native="$router.push(`/students`)">
+        <i class="el-icon-setting"></i>
+        <span>Students</span>
+      </el-menu-item>
 
 
     </el-menu>
