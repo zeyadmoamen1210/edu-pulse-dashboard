@@ -15,7 +15,7 @@
 <script>
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
-import Loading from '@/components/Loading'
+import Loading from '@/components/loading'
 export default {
   components:{
     Sidebar,
