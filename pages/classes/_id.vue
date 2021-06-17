@@ -1,6 +1,6 @@
 <template>
   <div class="grades">
-      <div class="container-fluid">
+      <div class="container-fluid" >
         
         <div class="row">
             <div class="col-md-6">
@@ -80,14 +80,14 @@
                                         message: 'Please input capacity',
                                         trigger: 'blur'
                                     },
-                                    
+                                    { type: 'number', message: 'age must be a number'}
                                     ]"
                                 >
                                 <label>Name In Capacity </label>
                                 <el-input
                                 suffix-icon="el-icon-edit"
                                 placeholder="Name In Arabic"
-                                v-model="addSection.capacity"
+                                v-model.number="addSection.capacity"
                                 ></el-input>
                                 </el-form-item>
 
@@ -123,7 +123,7 @@
 
                             </el-form>
 
-                            <el-button slot="reference" type="primary" icon="el-icon-folder-add" circle></el-button>
+                            <el-button slot="reference" type="primary" circle> <img src="@/assets/imgs/add.svg" style="width:15px" alt=""> </el-button>
                         </el-popover>
 
                     </div>
@@ -157,7 +157,7 @@
 
                     <div class="mt-3 mr-2 ml-2 ">
                         
-                        <el-button @click="hanleUpdateSection(sec)" slot="reference" type="primary" icon="el-icon-folder-add" circle></el-button>
+                        <el-button @click="hanleUpdateSection(sec)" slot="reference" type="primary" icon="el-icon-edit" circle>  </el-button>
                         <el-button @click="$router.push(`/section/${sec.id}`)" type="success" icon="el-icon-more" circle></el-button>
 
                         <el-popconfirm
@@ -238,14 +238,15 @@
                                         message: 'Please input capacity',
                                         trigger: 'blur'
                                     },
-                                    
+                                    { type: 'number', message: 'age must be a number'}
                                     ]"
                                 >
                                 <label>Name In Capacity </label>
                                 <el-input
+                                type="number"
                                 suffix-icon="el-icon-edit"
                                 placeholder="Name In Arabic"
-                                v-model="updateSection.capacity"
+                                v-model.number="updateSection.capacity"
                                 ></el-input>
                                 </el-form-item>
 
@@ -296,10 +297,12 @@
 
 <script>
 import StarHeader from '@/components/StarHeader'
+import Loading from '@/components/Loading'
 export default {
     middleware:['auth'],
     components:{
-        StarHeader
+        StarHeader,
+        Loading
     },
     data(){
         return {
@@ -343,23 +346,13 @@ export default {
             })
         },
         updateSecInBackend(){
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
             this.$axios.patch(`/sections/${this.updateSection.id}`, this.updateSection).then(res => {
                 this.getClassSections();
             }).finally(() => loading.close());
         },
         confirmDeleteSubject(sec){
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+             const loading = this.$vs.loading();
             this.$axios.delete(`/sections/${sec.id}`).then(res => {
                 this.deleteSubjectPop = !this.deleteSubjectPop;
                 this.getClassSections();
@@ -374,37 +367,22 @@ export default {
             })
         },
         createNewSection(){
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
             this.$axios.post(`/classes/${this.$route.params.id}/systems/${this.addSection.system}/sections`, this.addSection).then(res => {
                 this.addClassPopOver = !this.addClassPopOver;
+                this.addSection = {};
                 this.getClassSections();
             }).finally(() => loading.close());
         },
         getSystems(){
-            this.isLoading = true;
-             const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
             this.$axios.get(`/systems?paginate=false`).then(res => {
                 this.systemsOpt = res.data;
             }).finally(() => loading.close());
         },
         getClassSections(system = 0){
-            this.isLoading = true;
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
+            
             this.$axios.get(`/classes/${this.$route.params.id}/sections${system > 0 ? '?system='+system : ''}`).then(res => {
                 this.sections = res.data.docs;
                 this.secName = this.sections[0].class.nameEn

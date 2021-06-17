@@ -40,6 +40,8 @@ export default {
     padding: 15px;
     border-bottom: 1px solid #CCC;
     background: #fff;
+    z-index: 999;
+    // box-shadow: -1px 1px 20px 0px #e4e4e4;
 
     .collapse-img{
         width: 20px;

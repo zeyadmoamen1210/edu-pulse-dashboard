@@ -5,36 +5,54 @@
 
           <div class="section-details">
 
-              <div class="status d-flex">
-                    <h6 class="locked" v-if="section.locked">Locked</h6>
-                    <h6 class="available" v-else>Available</h6>
-                </div>
+              
+
+              <!-- <vs-button @click="makeItAvailable(section)" danger v-if="section.locked"> Locked </vs-button>
+              <vs-button @click="makeItAvailable(section)"  success v-else> Available </vs-button> -->
 
 
               <div class="row">
 
                   <div class="col-md-3">
-                    <div class="stats">
-                        <h6><span class="title">Nums Of Students: </span> <span v-if="section.students"> {{section.students.length }} </span></h6>
+                    <div>
+                        <h6>Nums Of Students: </h6>
+                        <div class="stats">
+                            <img src="@/assets/imgs/students.svg" style="width: 50px;" alt="">
+                            <h6 class="num"><span  v-if="section.students"> {{section.students.length }} </span></h6>
+                        </div>
                     </div>
                   </div>
 
                   <div class="col-md-3">
-                        <div class="stats">
-                              <h6><span class="title">Capacity: </span>{{section.capacity }} </h6>
+                        <div>
+                            <h6>Capacity:</h6>
+                            
+                            <div class="stats">
+                                <img src="@/assets/imgs/chair.svg" style="width: 50px;" alt="">
+                                <h6 class="num">{{section.capacity }} </h6>
+                            </div>
                         </div>
                   </div>
 
                   <div class="col-md-3">
-                        <div class="stats">
-                              <h6 v-if="section.system"> <span class="title">System / </span>  {{section.system.nameEn}} </h6>
-                          </div>
+                        <div>
+                            <h6>System: </h6>
+                            
+                            <div class="stats">
+                                <img src="@/assets/imgs/maintenance.svg" style="width: 50px;" alt="">
+                                <h6 v-if="section.system"> {{section.system.nameEn}} </h6>
+                            </div>
+                        </div>
                   </div>
 
                   <div class="col-md-3">
-                        <div class="stats">
-                              <h6 v-if="section.system "> <span class="title">Class / </span>  {{section.class.nameEn}} </h6>
-                          </div>
+                        <div>
+                            <h6>Class: </h6>
+                            <div class="stats">
+                                <img src="@/assets/imgs/presentation.svg" style="width: 50px;" alt="">
+                                <h6 v-if="section.system ">  {{section.class.nameEn}} </h6>
+                            </div>
+                        </div>
                   </div>
 
 
@@ -44,10 +62,10 @@
                   <div class="subjects">
                       <vs-button @click="addSubjectPopup = true">Add Subject</vs-button>
 
-
-                      <div class="row">
+                    <NoData v-if="allSubjects.length == 0" width="150px" />
+                      <div class="row" v-else>
                       <div class="col-md-3 " v-for="subject in allSubjects" :key="subject.id">
-                          <div class="subject d-flex">
+                          <!-- <div class="subject d-flex">
                                 <div class="img">
                                     <vs-avatar size="50" >
                                             <img style="height:100%" :src="subject.photo" alt="">
@@ -79,6 +97,42 @@
                                     <div> <img @click="handleUpdate(subject)" src="@/assets/imgs/pencil.svg" alt=""> </div>
                                 </div>
                             </div>
+                             -->
+
+
+
+                             <vs-card type="5">
+                                <template #title>
+                                <h3>{{subject.nameEn}}</h3>
+                                </template>
+                                <template #img>
+                                <img v-if="subject.photo" :src="subject.photo" alt="">
+                                <img v-else src="https://pngimage.net/wp-content/uploads/2018/06/subject-icon-png-7.png" alt="">
+                                </template>
+                                <template #text>
+                                <p>
+                                    {{$moment(subject.createdAt).fromNow()}}
+                                </p>
+                                </template>
+                                <template #interactions>
+                                <vs-button @click="handleUpdate(subject)" color="#17A2B8" icon>
+                                    <div> <i class="el-icon-edit"></i>  </div>
+                                </vs-button>
+                                <vs-button style="padding:0" class="btn-chat" danger color="danger">
+                                    <el-popconfirm
+                                    style="padding: 0;display: block;"
+                                    confirm-button-text='OK'
+                                    cancel-button-text='No, Thanks'
+                                    @confirm="confirmDelete(subject)"
+                                    icon="el-icon-info"
+                                    icon-color="red"
+                                    title="Are you sure to delete this?"
+                                    >
+                                    <i class="el-icon-delete" slot="reference"></i>
+                                    </el-popconfirm>
+                                </vs-button>
+                                </template>
+                            </vs-card>
                       </div>
                   </div>
 
@@ -289,16 +343,41 @@
 
 
       </vs-dialog>
+
+      <vs-dialog v-model="toggleLockedPopup">
+          <template #header>
+            <h5  class="not-margin">
+                {{currSection.isLocked ? 'Make It Available' : 'Make It Locked'}}
+            </h5>
+            </template>
+            <h6 style="font-size: 15px;color: #387782;"> Are You Sure, You Want To Make {{currSection.nameEn}} Locked ! </h6>
+            <h6 style="font-size: 11px;color: #a2a2a2;">That Mean Student Cant Be Access This Section</h6>
+
+            <template #footer>
+            <div class="con-footer d-flex">
+                <vs-button border @click="changeSectionStatus()" >
+                    Ok
+                </vs-button>
+
+                <vs-button danger @click="toggleLockedPopup=false" transparent>
+                    Cancel
+                </vs-button>
+            </div>
+            </template>
+      </vs-dialog>
   </div>
 </template>
 
 <script>
 import StartHeader from '@/components/StarHeader';
+import NoData from '@/components/NoData';
 export default {
+    middleware:['auth'],
     components:{
-        StartHeader
+        StartHeader,
+        NoData
     },
-    created(){
+    mounted(){
         this.getSection();
         this.getSectionSubjects();
     },
@@ -314,10 +393,30 @@ export default {
             page:1,
             totalPages:1,
             updateSubjectPopup:false,
-            updateSubject:{}
+            updateSubject:{},
+            toggleLockedPopup: false,
+            currSection:{}
         }
     },
     methods:{
+        // changeSectionStatus(){
+        //     this.toggleLockedPopup = false;
+        //     let loading = this.$vs.loading();
+        //     let lockedOrNot = !this.currSection.locked ? true : false;
+        //     this.$axios.patch(`/sections/${this.currSection.id}`, {isLocked: lockedOrNot}).then(res => {
+        //         this.$notify({
+        //             title: 'تم بنجاح!',
+        //             message: `لقد تم تغيير حالة القسم بنجاح`,
+        //             type: 'success'
+        //         });
+        //         this.getSection();
+        //     }).finally(() => loading.close())
+        // },
+        makeItAvailable(section){
+            this.currSection = {...section};
+            this.toggleLockedPopup = true;
+        },
+       
         handleUpdate(subject){
             this.updateSubjectPopup = true;
             console.log(subject)
@@ -329,8 +428,8 @@ export default {
             const loading = this.$vs.loading();
             this.$axios.delete(`subjects/${sub.id}`).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم حذف المادة التعليمية بنجاح`,
+                    title: 'Success!',
+                    message: `Subject Deleted Successfully!`,
                     type: 'success'
                 });
                 this.getSectionSubjects()
@@ -348,12 +447,7 @@ export default {
         },
         addNewSubjectInBackend(){
             this.addSubjectPopup = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
             let formData = new FormData();
             formData.append("nameAr", this.addNewSubject.nameAr);
             formData.append("nameEn", this.addNewSubject.nameEn);
@@ -362,8 +456,8 @@ export default {
             }
             this.$axios.post(`/sections/${this.$route.params.id}/subjects`, formData).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم إضافة المادة التعليمية بنجاح`,
+                    title: 'Success!',
+                    message: `Subject Added Successfully!`,
                     type: 'success'
                 });
                 this.addSubjectPopup = false;
@@ -371,8 +465,8 @@ export default {
                 this.getSectionSubjects();
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
 
@@ -380,12 +474,7 @@ export default {
 
         updateSubjectInBackend(){
             this.updateSubjectPopup = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
             let formData = new FormData();
             formData.append("nameAr", this.updateSubject.nameAr);
             formData.append("nameEn", this.updateSubject.nameEn);
@@ -394,16 +483,16 @@ export default {
             }
             this.$axios.patch(`/subjects/${this.updateSubject.id}`, formData).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم تعديل المادة التعليمية بنجاح`,
+                    title: 'Success!',
+                    message: `Subject Updated Successfully !`,
                     type: 'success'
                 });
                 this.updateSubjectPopup = false;
                 this.getSectionSubjects();
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong !`
                 });
             }).finally(() => loading.close());
         },
@@ -428,18 +517,18 @@ export default {
 
 
         getSectionSubjects(){
-            this.isLoading = true;
+            const loading = this.$vs.loading();
             this.$axios.get(`/sections/${this.$route.params.id}/subjects`).then(res => {
                 this.allSubjects = res.data.docs;
                 this.page = res.data.page;
                 this.totalPages = res.data.totalPages;
-            }).finally(() => this.isLoading = false);
+            }).finally(() => loading.close());
         },
         getSection(){
-            this.isLoading = true;
+            const loading = this.$vs.loading();
             this.$axios.get(`/sections/${this.$route.params.id}`).then(res => {
                 this.section = {...res.data};
-            }).finally(() => this.isLoading = false);
+            }).finally(() => loading.close());
         }
     }
 }
@@ -456,13 +545,60 @@ export default {
         position: relative;
 
         .col-md-3{
+            >div{
+                padding:15px;
+                h6{
+                    padding: 0 15px;
+                    font-size: 15px;
+                    font-weight: 400;
+                }
+            }
             .stats{
-                padding: 7px 7px;
                 background: #f7f7f7;
                 margin: 11px 15px;
                 text-align: center;
                 border-bottom: 1px solid #dbdfea;
+                border-radius: 11px;
+                color:#fff;
+                padding: 30px;
+                display: flex;
+                justify-content: space-around;
+                h6{
+                    padding-top:15px;
+                    font-size: 15px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                .num{
+                    font-size: 26px;
+                    padding-top: 9px;
+                }
             }
+
+            &:first-of-type{
+                    .stats{
+                        background: #f0932b;
+                    }
+                }
+                &:nth-of-type(2){
+                    .stats{
+                        background: #eb4d4b;
+                    }
+
+                }
+                &:nth-of-type(3){
+                    .stats{
+                        background: #be2edd;
+                    }
+                    
+                }
+                &:nth-of-type(4){
+                    .stats{
+                        background: #6ab04c;
+                    }
+
+                }
         }
 
 
@@ -497,6 +633,7 @@ export default {
     }
     .subjects{
         padding: 0 8px;
+        margin-bottom: 25px;
 
         .subject{
             background: #fff;

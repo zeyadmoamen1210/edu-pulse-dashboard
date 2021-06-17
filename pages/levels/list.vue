@@ -20,12 +20,7 @@
                         sortable
                         label="ID">
                     </el-table-column>
-                    <el-table-column
-                        prop="nameAr"
-                        sortable
-                        label="Arabic Name"
-                        >
-                    </el-table-column>
+                    
                     <el-table-column
                         prop="nameEn"
                         sortable
@@ -256,25 +251,20 @@ export default {
             this.$refs[formName].resetFields();
         },
         createNewLevel(){
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
 
             this.$axios.post(`/levels`, this.createLevels).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم إضافة النظام بنجاح`,
+                    title: 'Success!',
+                    message: `System Added Successfully!`,
                     type: 'success'
                 });
                 this.getLevels();
             }).catch(error => {
                 
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
 
@@ -288,23 +278,18 @@ export default {
         },
         updateLevel(){
             this.showEditModel = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             this.$axios.put(`/levels/${this.currLevelToEdit.id}`, {nameAr: this.currLevelToEdit.nameAr,nameEn: this.currLevelToEdit.nameEn }).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم تعديل المرحلة التعليمي بنجاح`,
+                    title: 'Success!',
+                    message: `Level Updated Successfully!`,
                     type: 'success'
                 });
                 this.getLevels(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
         },
@@ -321,24 +306,19 @@ export default {
             this.showEditModel = true;
         },
         confirmDelete(index, ele){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             console.log(ele)
             this.$axios.delete(`/levels/${ele.id}`).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم حذف المرحلة التعليمي بنجاح`,
+                    title: 'Success!',
+                    message: `Level Deleted Successfully!`,
                     type: 'success'
                 });
                 this.getLevels(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
         },
@@ -348,12 +328,7 @@ export default {
             this.getLevels(e)
         },
         getLevels(page){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
 
             this.$axios.get(`/levels?page=${page}`).then(res => {
                 res.data.docs.forEach(ele => {

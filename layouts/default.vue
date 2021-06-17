@@ -5,7 +5,8 @@
       <Sidebar :collapse="isCollapse" />
       <Navbar @isCollapse="collapseVal" />
     </template>
-    <div class="main-content">
+    <Loading v-if="isLoading" />
+    <div class="main-content" v-else>
       <Nuxt />
     </div>
   </div>
@@ -14,15 +15,23 @@
 <script>
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
+import Loading from '@/components/Loading'
 export default {
   components:{
     Sidebar,
-    Navbar
+    Navbar,
+    Loading
   },
   data(){
     return{
       isCollapse: true,
+      isLoading: true
     }
+  },
+  created(){
+    setTimeout(() => {
+      this.isLoading = false
+    }, 3000)
   },
   methods:{
     collapseVal(val){
@@ -34,6 +43,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "../assets/styles/override.scss";
+
 *{
   padding:0;
   margin:0;
@@ -69,16 +81,16 @@ padding: 7px 5px 10px;
 }
 
 .el-notification {
-  direction: rtl;
-  text-align: right;
+  direction: ltr;
+  text-align: left;
   padding: 0 !important;
   .el-icon-close{
-    right:auto !important;
-    left:10px !important;
+    left:auto !important;
+    right:10px !important;
   }
   .el-notification__icon{
     margin-top: 25px !important;
-    margin-right: 20px;
+    margin-left: 20px;
    
   }
   .el-notification__content{
@@ -92,4 +104,15 @@ padding: 7px 5px 10px;
 .el-button+.el-button{
   margin:0 !important;
 }
+
+
+@media (max-width: 768px){
+  .el-menu--collapse{
+    display: none !important;
+  }
+  .main-content{
+    padding-left: 0 !important;
+  }
+}
+
 </style>

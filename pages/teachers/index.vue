@@ -1,14 +1,15 @@
 <template>
-  <div class="students-page">
-      <div class="container-fluid" >
-          
+  <div class="teachers-page">
+      <div class="container-fluid">
           <div class="star-container mt-3">
-            <StarHeader title="Students"></StarHeader>
+          <StarHeader title="Teachers"></StarHeader>
           </div>
-          <div class="students">
+          <div class="teachers">
               <div class="row">
               <div class="col-md-3">
                   <div class="filters">
+
+                      <vs-button @click="handleAddTeacher()"> New Teacher </vs-button>
 
                       <div>
                           <label for="email">Email</label>
@@ -17,7 +18,7 @@
                             placeholder="Email"
                             type="email"
                             v-model="emailVal"
-                            @keydown.native.enter="getStudents()"
+                            @keydown.native.enter="getTeachers()"
                             ></el-input>
                       </div>
 
@@ -28,7 +29,7 @@
                             placeholder="User Name"
                             type="text"
                             v-model="usernameVal"
-                            @keydown.native.enter="getStudents()"
+                            @keydown.native.enter="getTeachers()"
                             ></el-input>
                       </div>
 
@@ -40,11 +41,11 @@
                             placeholder="Phone"
                             type="text"
                             v-model="phoneVal"
-                            @keydown.native.enter="getStudents()"
+                            @keydown.native.enter="getTeachers()"
                             ></el-input>
                       </div>
 
-                      <div>
+                      <!-- <div>
                             <label>Systems</label>
                             <el-select clearable v-model="systemVal" placeholder="Systems">
                                 <el-option
@@ -54,7 +55,7 @@
                                 :value="item.id">
                                 </el-option>
                             </el-select>
-                        </div>
+                        </div> -->
 
                         <div>
                             <label>Levels</label>
@@ -95,41 +96,52 @@
                         </div>
 
 
-                        <div v-if="sectionVal">
-                            <vs-button @click="handleAddStudent()"> New Student </vs-button>
+                        <div >
+                            <label>Subjects</label>
+                            <el-select clearable v-model="subjectVal" placeholder="Subjects">
+                                <el-option
+                                v-for="item in subjects"
+                                :key="item.id"
+                                :label="item.nameEn"
+                                :value="item.id">
+                                </el-option>
+                            </el-select>
                         </div>
+
+
+                        
                   </div>
               </div>
 
               <div class="col-md-9">
-                <NoData v-if="allStudents.length == 0" />
-                  <div class="students-section" v-else>
+                  <NoData v-if="allTeachers.length == 0" />
+                  <div class="teachers-section" v-else>
                       
                       <div class="row">
-                          <div class="col-md-4" v-for="student in allStudents" :key="student.id">
+                          <div class="col-md-4" v-for="teacher in allTeachers" :key="teacher.id">
                              <div class="stud">
                                     <div class="text-center">
                                             <vs-avatar size="70" style="margin:auto;margin-bottom:10px;" >
-                                                <img style="height:100%" :src="student.photo" alt="">
+                                                <img style="height:100%" :src="teacher.photo" alt="">
                                             </vs-avatar>
                                     </div>
                                     <div class="content">
-                                        <h6> {{student.username}} </h6>
-                                        <h6 > {{student.email}} </h6>
-                                        <h6> {{student.address}} </h6>
-
-                                        <h6 v-if="student.level"> {{student.level.nameEn}} </h6>
-                                        <h6 v-if="student.system"> {{student.system.nameEn}} </h6>
-
-                                        <h6 @click="handleChangeSubject(student)" class="btn subject" v-if="student.section"> {{student.section.nameEn}} </h6>
+                                        <h6> {{teacher.username}} </h6>
+                                        <h6 > {{teacher.email}} </h6>
+                                        <h6 > {{teacher.phone}} </h6>
+                                        <h6> {{teacher.address}} </h6>
+                                        <h6 @click="handleChangeSubject(teacher)" class="btn subject"> Assign To Section </h6>
+                                        <h6 @click="showAssignedToTeacher(teacher)" class="btn subject" style="background: var(--success)"> Assigned </h6>
                                     </div>
                              </div>
                           </div>
                       </div>
 
+
                        <div class="center con-pagination">
                         <vs-pagination progress v-model="page" :length="totalPages" />
                       </div>
+
                   </div>
               </div>
           </div>
@@ -139,15 +151,15 @@
 
 
 
-      <vs-dialog v-model="addNewStudentPopup">
+      <vs-dialog v-model="addNewTeacherPopup">
 
           <template #header>
             <h4 class="not-margin">
-                Add Student
+                Add Teacher
             </h4>
             </template>
 
-          <el-form :model="addStudent" ref="addStudent" class="add-student-form">
+          <el-form :model="addTeacher" ref="addTeacher" class="add-teacher-form">
 
 
               <el-form-item
@@ -161,8 +173,8 @@
                 ]"
               >
                 <el-input
-                  placeholder="Email"
-                  v-model="addStudent.username"
+                  placeholder="User Name"
+                  v-model="addTeacher.username"
                 ></el-input>
               </el-form-item>
 
@@ -183,7 +195,7 @@
               >
                 <el-input
                   placeholder="Email"
-                  v-model="addStudent.email"
+                  v-model="addTeacher.email"
                 ></el-input>
               </el-form-item>
 
@@ -200,29 +212,13 @@
                 <el-input
                   placeholder="Password"
                   type="password"
-                  v-model="addStudent.password"
+                  v-model="addTeacher.password"
                 ></el-input>
               </el-form-item>
 
 
 
-              <el-form-item
-                prop="address"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input address',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <el-input
-                  placeholder="Address"
-                  type="address"
-                  v-model="addStudent.address"
-                ></el-input>
-              </el-form-item>
-
+             
 
               <el-form-item
                prop="phone"
@@ -236,14 +232,14 @@
                 >
                   <vue-phone-number-input
                     @update="updatePhone"
-                    v-model="addStudent.phone"
+                    v-model="addTeacher.phone"
                     default-country-code="JO"
                     
                     />
               </el-form-item>
 
 
-              <el-form-item
+               <el-form-item
                     prop="photo"
                     
                 >
@@ -270,20 +266,12 @@
                 </el-form-item>
 
 
-              <el-form-item>
-                  <label for="">Must Change Password</label>
-                    <el-switch
-                    v-model="addStudent.mustChange"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949">
-                    </el-switch>
-              </el-form-item>
 
 
 
 
               <el-form-item>
-                <el-button class="form-button" type="primary" @click="addNewStudent('addStudent')"
+                <el-button class="form-button" type="primary" @click="addNewTeacher('addTeacher')"
                   >add</el-button
                 >
               </el-form-item>
@@ -294,13 +282,13 @@
 
       <vs-dialog class="change-subject" v-model="openChangeSubject">
           <template #header>
-            <h5 class="not-margin" v-if="currStudent">
-                Change {{currStudent.username}} Subject
+            <h5 class="not-margin" v-if="currTeacher">
+                Change {{currTeacher.username}} Subject
             </h5>
             </template>
 
 
-            <el-form :model="changeSubject" ref="changeSubject" class="change-student-form">
+            <el-form :model="changeSubject" ref="changeSubject" class="change-teacher-form">
 
 
               <el-form-item
@@ -360,9 +348,31 @@
                 ]"
               >
                 <label>Sections</label>
-                <el-select clearable v-model="changeSubject.sectionVal" placeholder="Sections">
+                <el-select clearable @change="getSubjects(changeSubject.sectionVal)" v-model="changeSubject.sectionVal" placeholder="Sections">
                     <el-option
                     v-for="item in sections"
+                    :key="item.id"
+                    :label="item.nameEn"
+                    :value="item.id">
+                    </el-option>
+                </el-select>
+              </el-form-item>
+
+
+              <el-form-item
+                prop="subjectVal"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input subject',
+                    trigger: 'blur'
+                  }
+                ]"
+              >
+                <label>Subjects</label>
+                <el-select clearable v-model="changeSubject.subjectVal" placeholder="Subjects">
+                    <el-option
+                    v-for="item in subjects"
                     :key="item.id"
                     :label="item.nameEn"
                     :value="item.id">
@@ -373,11 +383,62 @@
               
 
               <el-form-item>
-                <el-button class="form-button" type="primary" @click="updateStudentSubject('changeSubject')"
-                  >add</el-button
+                <el-button class="form-button" type="primary" @click="updateTeacherSubject('changeSubject')"
+                  >Assign To Teacher</el-button
                 >
               </el-form-item>
+
+
+             
+
+
             </el-form>
+      </vs-dialog>
+
+
+      <vs-dialog v-model="showAssignedPopup">
+        <template #header>
+            <h5 class="not-margin responsive-heading">
+                <b>Prof: </b> {{currTeacher.username}}
+            </h5>
+        </template>
+
+        <div>
+            <h6> <img style="width:23px" src="@/assets/imgs/group.svg" alt=""> Sections</h6>
+            <NoData width="100px" v-if="currTeacher.sections && currTeacher.sections.length == 0" />
+            <div class="p-2" style="padding-top:0 !important" v-else>
+                <div class="row">
+                    <div v-for="sec in currTeacher.sections" :key="sec.id" class="col-md-4">
+                        <div>
+                            <img style="width: 14px;margin-top: -2px" src="@/assets/imgs/oval.svg" alt="">
+                            {{sec.nameEn}}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <el-divider></el-divider>
+        <div>
+            <h6> <img style="width: 20px;" src="@/assets/imgs/search.svg" alt=""> Subjects</h6>
+
+            <NoData width="100px" v-if="currTeacher.subjects && currTeacher.subjects.length == 0" />
+            <div class="p-2 pt-0" style="padding-top:0 !important" v-else>
+                <div class="row">
+                    <div v-for="sec in currTeacher.subjects" :key="sec.id" class="col-md-4">
+                        <div>
+                            <img style="width: 14px;" src="@/assets/imgs/oval.svg" alt="">
+                            {{sec.nameEn}}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
       </vs-dialog>
   </div>
 </template>
@@ -385,26 +446,29 @@
 <script>
 import StarHeader from '@/components/StarHeader'
 import NoData from '@/components/NoData'
-import Loading from '@/components/Loading'
 export default {
-  middleware:['auth'],
+    middleware:['auth'],
     components:{
         StarHeader,
-        NoData,
-        Loading
+        NoData
     },
     mounted(){
-        this.getStudents();
+        this.getTeachers();
         this.getSystems();
         this.getLevels();
     },
     data(){
         return {
-            currStudent:{},
-            addStudent:{},
+            
+
+            showAssignedPopup: false,
+            subjectVal:'',
+            subjects:[],
+            currTeacher:{},
+            addTeacher:{},
             openChangeSubject: false,
-            allStudents: [],
-            addNewStudentPopup: false,
+            allTeachers: [],
+            addNewTeacherPopup: false,
             page:1 ,
             usernameVal:"",
             emailVal:"",
@@ -432,31 +496,41 @@ export default {
             if(val != ''){
                 this.getClasses(val);
             }
-            this.getStudents();
+            this.getTeachers();
         },
         classVal(val){
             if(val != ''){
                 this.getSections(val);
             }
-            this.getStudents();
+            this.getTeachers();
         },
-        sectionVal(){
-            this.getStudents();
+        sectionVal(val){
+            if(val != ''){
+                this.getSubjects(val);
+            }
+            this.getTeachers();
         },
         systemVal(){
-            this.getStudents()
+            this.getTeachers()
+        },
+        subjectVal(){
+            this.getTeachers()
         },
         page(){
-          this.getStudents()
+            this.getTeachers()
         }
     },
     methods:{
-      handleAddStudent(){
-            this.addNewStudentPopup = true;
+        showAssignedToTeacher(teacher){
+            this.showAssignedPopup = true;
+            this.currTeacher = {...teacher};
+        },
+        handleAddTeacher(){
+            this.addNewTeacherPopup = true;
             this.photo = "";
             this.url = "";
         },
-      handleImage(e){
+        handleImage(e){
             if(e.raw){
                 this.url = URL.createObjectURL(e.raw);
                 this.photo = e.raw;
@@ -466,22 +540,24 @@ export default {
         removeImage(e){
             this.photo = "";
         },
-        handleChangeSubject(stud){
-            this.currStudent = {...stud};
+        handleChangeSubject(teacher){
+            this.currTeacher = {...teacher};
             this.openChangeSubject = true;
         },
-        changeStudentSubject(){
+        changeTeacherSubject(){
             this.openChangeSubject = false;
             const loading = this.$vs.loading();
             
-            this.$axios.patch(`/students/${this.currStudent.id}/path`, {section: this.changeSubject.sectionVal}).then(res => {
+            this.$axios.patch(`/teachers/${this.currTeacher.id}/assign`, {subject: this.changeSubject.subjectVal}).then(res => {
                 this.$notify({
                     title: 'Success!',
-                    message: `Subject Changed Successfully!`,
+                    message: `Subject Assigned To Teacher Successfully!`,
                     type: 'success'
                 });
-                this.getStudents();
-            }).finally(() => loading.close())
+                this.changeSubject = {};
+                this.getTeachers();
+            })
+            .finally(() => loading.close())
         },
         updatePhone(val) {
             this.phoneObj = val;
@@ -489,54 +565,46 @@ export default {
 
 
 
-        updateStudentSubject(formName){
+        updateTeacherSubject(formName){
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    this.changeStudentSubject();
+                    this.changeTeacherSubject();
                 }
             });
         },
 
-    addNewStudent(formName){
-        if(!this.phoneObj || !this.phoneObj.isValid){
-            this.$notify.error({
-                    title: 'Wrong Number',
-                    message: `Please Enter A Valid Number !`
-            });
-            return ;
-        }
+    addNewTeacher(formName){
+        
         this.$refs[formName].validate(valid => {
             if (valid) {
-                this.addStudentInBackend();
+                this.addTeacherInBackend();
             }
       });
     },
-    addStudentInBackend(){
+    addTeacherInBackend(){
         const loading = this.$vs.loading();
 
         let formData = new FormData();
-        formData.append("username", this.addStudent.username);
-        formData.append("email", this.addStudent.email);
+        formData.append("username", this.addTeacher.username);
+        formData.append("email", this.addTeacher.email);
         formData.append("phone", this.phoneObj.formattedNumber);
-        formData.append("section", this.sectionVal);
-        formData.append("password", this.addStudent.password);
-        formData.append("address", this.addStudent.address);
+        formData.append("password", this.addTeacher.password);
         if (this.photo){
           formData.append("photo", this.photo);
         }
-        formData.append("mustChangePassword", this.mustChange ? true : false);
 
-        this.$axios.post(`/students`, formData).then(res => {
-            this.addNewStudentPopup = false;
+        this.$axios.post(`/teachers`, formData).then(res => {
+            this.addNewTeacherPopup = false;
             this.$notify({
                 title: 'Success!',
-                message: `Student Added Successfully!`,
+                message: `Teacher Added Successfully!`,
                 type: 'success'
             });
-            this.addStudent = {};
-            this.phoneObj = {};
-            this.getStudents();
-        }).finally(() => loading.close()).catch((error) => {
+            this.phoneObj = {}
+            this.addTeacher = {};
+            this.getTeachers();
+        }).catch((error) => {
+                console.log(error)
                 if(error.response && error.response.status == 400){
                     this.$notify.error({
                         title: 'Error!',
@@ -549,15 +617,16 @@ export default {
                     });
                 }
             })
+            .finally(() => loading.close());
     },
-        getStudents(){
+        getTeachers(){
 
             const loading = this.$vs.loading();
-            let qrySrting = '/students?';
+            let qrySrting = '/teachers?';
 
-            if(this.systemVal != ''){
-                qrySrting += 'system=' + this.systemVal + '&' ;
-            }
+            // if(this.systemVal != ''){
+            //     qrySrting += 'system=' + this.systemVal + '&' ;
+            // }
 
             if(this.emailVal != ''){
                 qrySrting += 'email=' + this.emailVal + '&' ;
@@ -568,22 +637,26 @@ export default {
             }
 
             if(this.phoneVal != ''){
-                qrySrting += 'username=' + this.phoneVal + '&' ;
+                qrySrting += 'phone=' + this.phoneVal + '&' ;
             }
 
-            if(this.levelVal != ''){
-                qrySrting += 'level=' + this.levelVal + '&';
-            }
+            // if(this.levelVal != ''){
+            //     qrySrting += 'level=' + this.levelVal + '&';
+            // }
 
             if(this.classVal != ''){
-                qrySrting += 'class=' + this.classVal + '&';
+                qrySrting += 'classes=' + this.classVal + '&';
             }
 
             if(this.sectionVal != ''){
-                qrySrting += 'section=' + this.sectionVal + '&';
+                qrySrting += 'sections=' + this.sectionVal + '&';
             }
 
-            if(this.page > 1 ){
+            if(this.subjectVal != ''){
+                qrySrting += 'subjects=' + this.subjectVal + '&';
+            }
+
+            if(this.page > 1){
                 qrySrting += 'page=' + this.page + '&';
             }
 
@@ -597,52 +670,60 @@ export default {
 
             console.log(qrySrting)
 
+            this.isLoading = true;
             this.$axios.get(qrySrting).then(res => {
-                this.allStudents = res.data.docs;
+                this.allTeachers = res.data.docs;
                 this.page = res.data.page;
                 this.totalPages = res.data.totalPages;
             }).finally(() => loading.close());
         },
         getSystems(){
-            const loading = this.$vs.loading();
+            this.isLoading = true;
             this.$axios.get(`/systems?paginate=false`).then(res => {
                 this.systems = res.data;
                 
-            }).finally(() => loading.close());
+            }).finally(() => this.isLoading = false);
         },
         getLevels(){
-            const loading = this.$vs.loading();
+            this.isLoading = true;
             this.$axios.get(`/levels?paginate=false`).then(res => {
                 this.levels = res.data;
                 
-            }).finally(() => loading.close());
+            }).finally(() => this.isLoading = false);
         },
         getClasses(val){
-            const loading = this.$vs.loading();
+            this.isLoading = true;
             this.$axios.get(`/levels/${val}/classes?paginate=false`).then(res => {
                 this.classes = res.data;
                 
-            }).finally(() => loading.close());
+            }).finally(() => this.isLoading = false);
         },
         getSections(val){
-            const loading = this.$vs.loading();
+            this.isLoading = true;
             this.$axios.get(`/classes/${val}/sections?paginate=false${this.systemVal ? '&system='+this.systemVal : ''}`).then(res => {
                 this.sections = res.data;
                 
-            }).finally(() => loading.close());
+            }).finally(() => this.isLoading = false);
+        },
+        getSubjects(val){
+            this.isLoading = true;
+            this.$axios.get(`/sections/${val}/subjects?paginate=false`).then(res => {
+                this.subjects = res.data;
+                
+            }).finally(() => this.isLoading = false);
         }
     }
 }
 </script>
 
 <style lang="scss">
-.students-page{
+.teachers-page{
 
     label{
         color:#2c4484;
     }
     
-    .students{
+    .teachers{
         margin-top: 15px;
         .filters{
         padding: 10px;
@@ -655,7 +736,7 @@ export default {
     }
     }
 
-    .students-section{
+    .teachers-section{
         .stud{
             position: relative;
             padding: 5px;
@@ -683,9 +764,7 @@ export default {
                 background: #2c4484ad;
                 padding: 3px;
                 color: #FFF !important;
-                position: absolute;
-                top: 0;
-                left: 0;
+                
                 font-weight: bold;
             }
 
@@ -713,7 +792,7 @@ export default {
     }
 }
 
-.vs-dialog__content.notFooter{
-  margin-bottom: 0 !important;
+.el-upload__tip{
+        margin-top: 0;
 }
 </style>

@@ -1,0 +1,27 @@
+.responsive-heading{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.el-select-dropdown{
+    z-index: 99999999 !important;
+}
+
+.vs-card__interactions{
+    .btn-chat{
+        padding:0 !important;
+        .vs-button__content{
+            padding:0 !important
+        }
+    }
+    .el-popover__reference-wrapper{
+        display: block;
+        i{
+            font-size: 16px;
+            padding: 9px;
+        }
+    }
+}
+.vs-dialog__content.notFooter{
+    margin-bottom: 0 !important;
+}

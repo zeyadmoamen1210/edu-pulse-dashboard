@@ -19,12 +19,7 @@
                         sortable
                         label="ID">
                     </el-table-column>
-                    <el-table-column
-                        prop="nameAr"
-                        sortable
-                        label="Arabic Name"
-                        >
-                    </el-table-column>
+                    
                     <el-table-column
                         prop="nameEn"
                         sortable
@@ -259,17 +254,12 @@ export default {
             this.$refs[formName].resetFields();
         },
         createNewSystem(){
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
 
             this.$axios.post(`/systems`, this.createSystem).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم إضافة النظام بنجاح`,
+                    title: 'Success!',
+                    message: `System Added Successfully`,
                     type: 'success'
                 });
                 this.createSystem = {};
@@ -277,8 +267,8 @@ export default {
             }).catch(error => {
                 
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong !`
                 });
             }).finally(() => loading.close());
 
@@ -289,23 +279,18 @@ export default {
 
         updateSystem(){
             this.showEditModel = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             this.$axios.put(`/systems/${this.currSystemToEdit.id}`, {nameAr: this.currSystemToEdit.nameAr,nameEn: this.currSystemToEdit.nameEn }).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم تعديل النظام بنجاح`,
+                    title: 'Success!',
+                    message: `System Updated Successfully`,
                     type: 'success'
                 });
                 this.getSystems(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
         },
@@ -322,24 +307,19 @@ export default {
             this.showEditModel = true;
         },
         confirmDelete(index, ele){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             console.log(ele)
             this.$axios.delete(`/systems/${ele.id}`).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم حذف النظام بنجاح`,
+                    title: 'Success!',
+                    message: `System Deleted Successfully !`,
                     type: 'success'
                 });
                 this.getSystems(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
         },
@@ -349,12 +329,7 @@ export default {
             this.getSystems(e)
         },
         getSystems(page){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
 
             this.$axios.get(`/systems?page=${page}`).then(res => {
                 res.data.docs.forEach(ele => {

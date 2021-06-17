@@ -12,13 +12,13 @@
       
 
       <el-menu-item index="4" @click.native="$router.push(`/systems/list`)">
-        <i class="el-icon-setting"></i>
+      <img style="width: 20px" src="@/assets/imgs/data-complexity.svg" alt="">
         <span>Systems</span>
       </el-menu-item>
 
 
       <el-menu-item index="2" @click.native="$router.push(`/levels/list`)">
-        <i class="el-icon-setting"></i>
+      <img style="width: 20px" src="@/assets/imgs/level.svg" alt="">
         <span>Levels</span>
       </el-menu-item>
       
@@ -31,8 +31,13 @@
 
 
       <el-menu-item index="6" @click.native="$router.push(`/students`)">
-        <i class="el-icon-setting"></i>
+      <img style="width: 20px" src="@/assets/imgs/students-black.svg" alt="">
         <span>Students</span>
+      </el-menu-item>
+
+      <el-menu-item index="6" @click.native="$router.push(`/teachers`)">
+        <img style="width: 20px" src="@/assets/imgs/presentation-black.svg" alt="">
+        <span>Teachers</span>
       </el-menu-item>
 
 
@@ -51,8 +56,10 @@ export default {
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       }
-    }
-}
+    },
+
+    
+  }
 </script>
 
 <style>
@@ -70,4 +77,6 @@ export default {
     width: 200px;
     min-height: 400px;
 }
+
+
 </style>

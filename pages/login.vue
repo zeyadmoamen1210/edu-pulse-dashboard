@@ -72,12 +72,7 @@ middleware:['loggedIn'],
   methods: {
     async login(){
 
-        const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+        const loading = this.$vs.loading();
 
         try {
             let response = await this.$auth.loginWith('local', {
@@ -88,8 +83,8 @@ middleware:['loggedIn'],
             this.$auth.setUser(response.data.user);
 
             this.$notify({
-                title: 'مرحبا',
-                message: `مرحبا بك يا ${response.data.user.username}`,
+                title: 'Welcome',
+                message: `Welcome Back ${response.data.user.username}`,
                 type: 'success'
             });
 
@@ -100,8 +95,8 @@ middleware:['loggedIn'],
       } catch (err) {
             loading.close();
              this.$notify.error({
-                title: 'خطأ!',
-                message: `البريد الإلكتروني أو كلمة المرور غير صحيح`
+                title: 'Wrong!',
+                message: `Invalid Email Or Password `
             });
             window.scrollTo({top:0, behavior: 'smooth'});
 

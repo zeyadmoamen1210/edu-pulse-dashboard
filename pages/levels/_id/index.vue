@@ -1,6 +1,6 @@
 <template>
   <div class="classes-lists">
-        <div class="container-fluid">
+        <div class="container-fluid" >
             <div class="star-container">
                 <StarHeader title="Grades List"></StarHeader>
             </div>
@@ -16,12 +16,7 @@
                         sortable
                         label="ID">
                     </el-table-column>
-                    <el-table-column
-                        prop="nameAr"
-                        sortable
-                        label="Arabic Name"
-                        >
-                    </el-table-column>
+                    
                     <el-table-column
                         prop="nameEn"
                         sortable
@@ -233,10 +228,11 @@
 </template>
 
 <script>
+import Loading from '@/components/loading';
 export default {
     middleware:['auth'],
-    created(){
-        // this.getSystems()
+    components:{
+        Loading
     },
     mounted(){
         this.getClasses(1)
@@ -248,6 +244,7 @@ export default {
             allClasses:[],
             page:1,
             totalPages:1,
+            isLoading: false,
 
             showEditModel: false,
             currClassToEdit:{}
@@ -256,12 +253,7 @@ export default {
     methods:{
         
         getClasses(page){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading();
 
             this.$axios.get(`/levels/${this.$route.params.id}/classes?page=${page}`).then(res => {
                 res.data.docs.forEach(ele => {
@@ -280,19 +272,14 @@ export default {
 
         addClass(){
             this.showAddModel = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
 
             this.$axios.post(`/levels/${this.$route.params.id}/classes`, {...this.currClassToAdd}).then(res => {
                 this.currClassToAdd = {};
                 this.getClasses(this.page);
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم إضافة الصف بنجاح`,
+                    title: 'Success!',
+                    message: `Grade Added Successfully !`,
                     type: 'success'
                 });
             }).finally(() => loading.close());
@@ -301,23 +288,18 @@ export default {
     
         updateClass(){
             this.showEditModel = false;
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             this.$axios.patch(`/classes/${this.currClassToEdit.id}`, {nameAr: this.currClassToEdit.nameAr,nameEn: this.currClassToEdit.nameEn }).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم تعديل المرحلة التعليمي بنجاح`,
+                    title: 'Success!',
+                    message: `Grade Updated Successfully!`,
                     type: 'success'
                 });
                 this.getClasses(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong!`
                 });
             }).finally(() => loading.close());
         },
@@ -347,24 +329,19 @@ export default {
             this.showAddModel = true;
         },
         confirmDelete(index, ele){
-            const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-            });
+            const loading = this.$vs.loading()
             console.log(ele)
             this.$axios.delete(`/classes/${ele.id}`).then(res => {
                 this.$notify({
-                    title: 'تم بنجاح!',
-                    message: `لقد تم حذف المرحلة التعليمي بنجاح`,
+                    title: 'Success!',
+                    message: `Grade Deleted Successfully!`,
                     type: 'success'
                 });
                 this.getClasses(this.page);
             }).catch(err => {
                 this.$notify.error({
-                    title: 'خطأ!',
-                    message: `حدث خطأ ما !`
+                    title: 'Wrong!',
+                    message: `There Are Something Wrong !`
                 });
             }).finally(() => loading.close());
         },
