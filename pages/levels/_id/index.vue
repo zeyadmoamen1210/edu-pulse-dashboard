@@ -228,12 +228,9 @@
 </template>
 
 <script>
-import Loading from '@/components/loading';
 export default {
     middleware:['auth'],
-    components:{
-        Loading
-    },
+    
     mounted(){
         this.getClasses(1)
     },

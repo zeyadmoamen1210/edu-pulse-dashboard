@@ -297,12 +297,10 @@
 
 <script>
 import StarHeader from '@/components/StarHeader'
-import Loading from '@/components/Loading'
 export default {
     middleware:['auth'],
     components:{
         StarHeader,
-        Loading
     },
     data(){
         return {

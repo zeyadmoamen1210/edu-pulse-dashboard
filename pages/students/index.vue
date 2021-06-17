@@ -385,13 +385,11 @@
 <script>
 import StarHeader from '@/components/StarHeader'
 import NoData from '@/components/NoData'
-import Loading from '@/components/Loading'
 export default {
   middleware:['auth'],
     components:{
         StarHeader,
-        NoData,
-        Loading
+        NoData
     },
     mounted(){
         this.getStudents();
