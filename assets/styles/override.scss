@@ -195,6 +195,10 @@
     border-radius: 10px;
 }
 
+.el-radio-button--mini .el-radio-button__inner{
+    padding: 7px 7px;
+}
+
 
 // Override Element Pop Confirm
 .el-popconfirm{
@@ -323,6 +327,24 @@ tbody{
   .vs-sidebar-content.reduce .vs-sidebar__item.hasIcon .vs-sidebar__item__text{
       display: none !important;
   }
+
+    .el-message.el-message--error{
+        .el-message__content{
+            text-align: center !important;
+            width: 100%;
+            display: block;
+        }
+        .el-message__icon.el-icon-error{
+            font-size: 18px;
+        }
+    }
+
+    .el-select.multi{
+        direction: ltr !important;
+        .el-input__inner{
+            direction: rtl !important;
+        }
+    }
 
   .el-notification{
       direction: rtl !important;

@@ -519,6 +519,13 @@ export default {
         .then(res => {
           this.deleteSubjectPop = !this.deleteSubjectPop;
           this.getClassSections();
+        }).catch(err => {
+          if(err.response.status == 403){
+            this.$message.error({
+              message: err.response.data.message
+            });
+            return;
+          }
         })
         .finally(() => loading.close());
     },

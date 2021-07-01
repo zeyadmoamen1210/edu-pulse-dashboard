@@ -590,6 +590,13 @@ export default {
             type: "success"
           });
           this.getSectionSubjects();
+        }).catch(err => {
+          if(err.response.status == 403){
+            this.$message.error({
+              message: err.response.data.message
+            });
+            return;
+          }
         })
         .finally(() => loading.close());
     },

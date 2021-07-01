@@ -199,7 +199,9 @@ export default {
             'levels':'Levels',
             'classes':"Classes",
             'sections':'Sections',
-            'searchByName':'Search By Name'
+            'searchByName':'Search By Name',
+            'deactivate':'Deactivate',
+            'activate':'Activate'
           },
 
           Validation:{
@@ -267,7 +269,9 @@ export default {
             'levels':'المراحل',
             'classes':"الصفوف",
             'sections':'الفصول',
-            'searchByName':'بحث بالإسم'
+            'searchByName':'بحث بالإسم',
+            'deactivate':'تعطيل',
+            'activate':'تفعيل'
           },
 
           subjects:{

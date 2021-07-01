@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="add-teacher-container">
         <div class="row">
-          <div class="col-md-3">
+          <!-- <div class="col-md-3">
             <div class="add-new-teachers">
               <div>
                 <h5 class="text-center">
@@ -112,8 +112,8 @@
              
               </el-form>
             </div>
-          </div>
-          <div class="col-md-9">
+          </div> -->
+          <div class="col-md-12">
             <div class="all-teachers">
 
 
@@ -187,7 +187,7 @@
                             }
                             ]"
                         >
-                            <el-select clearable @change="getSubjects(changeSubject.sectionVal)" v-model="changeSubject.sectionVal" placeholder="الفصول">
+                            <el-select clearable @change="getSubjects(changeSubject.sectionVal)" v-model="changeSubject.sectionVal" :placeholder="$t('classes.Sections')">
                                 <el-option
                                 v-for="item in sections"
                                 :key="item.id"
@@ -199,7 +199,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div>
                         <el-form-item
                             prop="subjectVal"
@@ -211,8 +211,23 @@
                             }
                             ]"
                         >
-                            <el-select clearable v-model="changeSubject.subjectVal" :placeholder="$t('classes.Subjects')">
+                            <!-- <el-select clearable v-model="changeSubject.subjectVal" :placeholder="$t('classes.Subjects')">
                                 <el-option
+                                v-for="item in subjects"
+                                :key="item.id"
+                                :label="item.nameEn"
+                                :value="item.id">
+                                </el-option>
+                            </el-select> -->
+
+                             <el-select
+                              v-model="changeSubject.subjectVal"
+                              multiple
+                              class="multi"
+                              collapse-tags
+                              style="margin-left: 20px;"
+                              :placeholder="$t('classes.Subjects')">
+                               <el-option
                                 v-for="item in subjects"
                                 :key="item.id"
                                 :label="item.nameEn"
@@ -223,7 +238,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="d-flex flex-row-reverse">
                         <el-form-item>
                             <el-button class="form-button" type="warning" @click="updateTeacherSubject('changeSubject')"
@@ -447,6 +462,9 @@
                     @click="handleChangeSubject(scope.row)" 
                   ></el-button>
 
+                  
+
+
                   <!-- <el-popconfirm
                     confirm-button-text="حذف"
                     cancel-button-text="إلغاء"
@@ -464,6 +482,18 @@
 
 
                 </template>
+              </el-table-column>
+              <el-table-column label="تفعيل/تعطيل">
+                <template slot-scope="scope">
+                  <!-- <el-radio-group @change="activateOrNot(true)" :value="scope.row.enabled" size="mini">
+                    <el-radio-button :label="true"> activate </el-radio-button>
+                    <el-radio-button :label="false"> deactivate </el-radio-button>
+                </el-radio-group> -->
+
+                <button class="btn btn-success" v-if="!scope.row.enabled"> {{$t('teachers.activate')}} </button>
+                <button class="btn btn-danger" v-else>{{$t('teachers.deactivate')}}</button>
+                </template>
+                
               </el-table-column>
             </el-table>
 
@@ -493,7 +523,7 @@ export default {
     },
     data(){
         return {
-            
+            activate:"",
 
             showAssignedPopup: false,
             subjectVal:'',
@@ -526,6 +556,7 @@ export default {
         }
     },
     watch:{
+      
         levelVal(val){
             if(val != ''){
                 this.getClasses(val);
@@ -555,6 +586,9 @@ export default {
         }
     },
     methods:{
+      activateOrNot(e){
+        console.log(e);
+      },
          addPhoto(e) {
       if (e.target.files.length > 0) {
         this.photo = e.target.files[0];
@@ -588,7 +622,7 @@ export default {
             this.openChangeSubject = false;
             const loading = this.$vs.loading();
             
-            this.$axios.patch(`/teachers/${this.currTeacher.id}/assign`, {subject: this.changeSubject.subjectVal}).then(res => {
+            this.$axios.patch(`/teachers/${this.currTeacher.id}/assign-many`, {subjects: this.changeSubject.subjectVal}).then(res => {
                 this.$message({
                     message: `Subject Assigned To Teacher Successfully!`,
                     type: 'success'

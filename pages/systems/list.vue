@@ -182,12 +182,12 @@
               ></el-button>
 
               <el-popconfirm
-                confirm-button-text="$t('Validation.delete')"
+                :confirm-button-text="$t('Validation.delete')"
                 @confirm="confirmDelete(scope.$index, scope.row)"
-                cancel-button-text="$t('Validation.close')"
+                :cancel-button-text="$t('Validation.close')"
                 icon="el-icon-info"
                 icon-color="red"
-                title="$t('Validation.AreYouSure')"
+                :title="$t('Validation.AreYouSure')"
               >
                 <el-button
                   type="danger"
@@ -316,6 +316,12 @@ export default {
           this.getSystems(this.page);
         })
         .catch(err => {
+          if(err.response.status == 403){
+            this.$message.error({
+              message: err.response.data.message
+            });
+            return;
+          }
           this.$message.error({
             message: `There Are Something Wrong!`
           });
