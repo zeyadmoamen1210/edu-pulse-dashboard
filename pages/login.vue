@@ -150,7 +150,7 @@ middleware:['loggedIn'],
     
     .login-form {
       margin: auto;
-      text-align: center;
+      // text-align: center;
 
       .el-form-item__content {
         width: 100% !important;
