@@ -1,78 +1,169 @@
 <template>
-  <div class="teachers-page">
-      <div class="container-fluid">
-          <div class="star-container mt-3">
-          <StarHeader title="Teachers"></StarHeader>
+  <div class="section-teachers">
+    <div class="container-fluid">
+      <div class="add-teacher-container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="add-new-teachers">
+              <div>
+                <h5 class="text-center">
+                  <img
+                    style="width: 20px"
+                    src="@/assets/imgs/reading-book.svg"
+                    alt=""
+                  />
+                  {{$t('teachers.teachers')}}
+                </h5>
+              </div>
+
+              <div class="attach-photo">
+                <input type="file" @change="addPhoto" />
+                <img v-if="!url" src="@/assets/imgs/photo-camera.svg" alt="" />
+                <img v-else :src="url" alt="" />
+              </div>
+
+              <el-form
+                :model="addTeacher"
+                ref="addTeacher"
+                class="add-teacher-form mt-3"
+              >
+                <el-form-item
+                  prop="username"
+                  :rules="[
+                    {
+                      required: true,
+                      message: $t('Validation.Username'),
+                      trigger: 'blur'
+                    }
+                  ]"
+                >
+                  <el-input
+                    :placeholder="$t('Validation.Username')"
+                    v-model="addTeacher.username"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item
+                  prop="email"
+                  :rules="[
+                    {
+                      required: true,
+                      message: $t('Validation.Email'),
+                      trigger: 'blur'
+                    },
+                    {
+                      type: 'email',
+                      message: $t('Validation.VEmail'),
+                      trigger: ['blur', 'change']
+                    }
+                  ]"
+                >
+                  <el-input
+                    :placeholder="$t('Validation.Email')"
+                    v-model="addTeacher.email"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item
+                  prop="password"
+                  :rules="[
+                    {
+                      required: true,
+                      message: $t('Validation.VPassword'),
+                      trigger: 'blur'
+                    }
+                  ]"
+                >
+                  <el-input
+                    :placeholder="$t('Validation.Password')"
+                    type="password"
+                    v-model="addTeacher.password"
+                  ></el-input>
+                </el-form-item>
+
+            
+
+                <el-form-item
+                  prop="phone"
+                  :rules="[
+                    {
+                      required: true,
+                      message: $t('Validation.VPhone'),
+                      trigger: 'blur'
+                    }
+                  ]"
+                >
+                  <vue-phone-number-input
+                    @update="updatePhone"
+                    v-model="addTeacher.phone"
+                    default-country-code="JO"
+                  />
+                </el-form-item>
+
+
+                <el-form-item class="mb-0">
+                  <el-button
+                    class="form-button"
+                    type="warning"
+                    @click="addNewTeacher('addTeacher')"
+                    >{{$t('Validation.save')}}</el-button
+                  >
+                </el-form-item>
+             
+              </el-form>
+            </div>
           </div>
-          <div class="teachers">
-              <div class="row">
-              <div class="col-md-3">
-                  <div class="filters">
-
-                      <vs-button @click="handleAddTeacher()"> New Teacher </vs-button>
-
-                      <div>
-                          <label for="email">Email</label>
-                           <el-input
-                            id="email"
-                            placeholder="Email"
-                            type="email"
-                            v-model="emailVal"
-                            @keydown.native.enter="getTeachers()"
-                            ></el-input>
-                      </div>
-
-                      <div>
-                          <label for="username">User Name</label>
-                           <el-input
-                           id="username"
-                            placeholder="User Name"
-                            type="text"
-                            v-model="usernameVal"
-                            @keydown.native.enter="getTeachers()"
-                            ></el-input>
-                      </div>
+          <div class="col-md-9">
+            <div class="all-teachers">
 
 
-                      <div>
-                          <label for="phone">Phone</label>
-                           <el-input
-                           id="phone"
-                            placeholder="Phone"
-                            type="text"
-                            v-model="phoneVal"
-                            @keydown.native.enter="getTeachers()"
-                            ></el-input>
-                      </div>
 
-                      <!-- <div>
-                            <label>Systems</label>
-                            <el-select clearable v-model="systemVal" placeholder="Systems">
-                                <el-option
-                                v-for="item in systems"
-                                :key="item.id"
-                                :label="item.nameEn"
-                                :value="item.id">
-                                </el-option>
-                            </el-select>
-                        </div> -->
+            <section class="change-subject mt-2 mb-2 " v-if="openChangeSubject">
 
-                        <div>
-                            <label>Levels</label>
-                            <el-select clearable v-model="levelVal" placeholder="Levels">
-                                <el-option
-                                v-for="item in levels"
-                                :key="item.id"
-                                :label="item.nameEn"
-                                :value="item.id">
-                                </el-option>
-                            </el-select>
-                        </div>
+                
 
 
-                        <div >
-                            <label>Classes</label>
-                            <el-select clearable v-model="classVal" placeholder="Classes">
+            <el-form :model="changeSubject" ref="changeSubject" class="for-add-or-update">
+            <h6> <span style="color: var(--yellow)"> {{$t('teachers.teacher')}}  / </span>  {{currTeacher.username}} </h6>
+
+             <div class="row">
+                 <div class="col-md-2">
+                     <div>
+                           <el-form-item
+                                prop="levelVal"
+                                :rules="[
+                                {
+                                    required: true,
+                                    message: $t('Validation.VLevel'),
+                                    trigger: 'blur'
+                                }
+                                ]"
+                            >
+                                <el-select @change="getClasses(changeSubject.levelVal)" clearable v-model="changeSubject.levelVal" :placeholder="$t('levels.Levels')">
+                                    <el-option
+                                    v-for="item in levels"
+                                    :key="item.id"
+                                    :label="item.nameEn"
+                                    :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                     </div>
+                 </div>
+
+                 <div class="col-md-2">
+                     <div>
+                         <el-form-item
+                            prop="classVal"
+                            :rules="[
+                            {
+                                required: true,
+                                message: $t('Validation.VLevel'),
+                                trigger: 'blur'
+                            }
+                            ]"
+                        >
+                            <el-select @change="getSections(changeSubject.classVal)" clearable v-model="changeSubject.classVal" :placeholder="$t('levels.Classes')">
                                 <el-option
                                 v-for="item in classes"
                                 :key="item.id"
@@ -80,12 +171,23 @@
                                 :value="item.id">
                                 </el-option>
                             </el-select>
-                        </div>
+                        </el-form-item>
+                     </div>
+                 </div>
 
-
-                        <div >
-                            <label>Sections</label>
-                            <el-select clearable v-model="sectionVal" placeholder="Sections">
+                <div class="col-md-2">
+                    <div>
+                        <el-form-item
+                            prop="sectionVal"
+                            :rules="[
+                            {
+                                required: true,
+                                message: 'Please input section',
+                                trigger: 'blur'
+                            }
+                            ]"
+                        >
+                            <el-select clearable @change="getSubjects(changeSubject.sectionVal)" v-model="changeSubject.sectionVal" placeholder="الفصول">
                                 <el-option
                                 v-for="item in sections"
                                 :key="item.id"
@@ -93,12 +195,23 @@
                                 :value="item.id">
                                 </el-option>
                             </el-select>
-                        </div>
+                        </el-form-item>
+                    </div>
+                </div>
 
-
-                        <div >
-                            <label>Subjects</label>
-                            <el-select clearable v-model="subjectVal" placeholder="Subjects">
+                <div class="col-md-2">
+                    <div>
+                        <el-form-item
+                            prop="subjectVal"
+                            :rules="[
+                            {
+                                required: true,
+                                message: $t('Validation.VSubject'),
+                                trigger: 'blur'
+                            }
+                            ]"
+                        >
+                            <el-select clearable v-model="changeSubject.subjectVal" :placeholder="$t('classes.Subjects')">
                                 <el-option
                                 v-for="item in subjects"
                                 :key="item.id"
@@ -106,340 +219,261 @@
                                 :value="item.id">
                                 </el-option>
                             </el-select>
-                        </div>
+                        </el-form-item>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="d-flex flex-row-reverse">
+                        <el-form-item>
+                            <el-button class="form-button" type="warning" @click="updateTeacherSubject('changeSubject')"
+                            > {{$t('subjects.AssignToTeacher')}} </el-button
+                            >
+                        </el-form-item>
+
+                        <el-form-item>
+                            <el-button class="form-button" type="info" @click="openChangeSubject = false"
+                            >{{$t('Validation.close')}}</el-button
+                            >
+                        </el-form-item>
+                    </div>
+                </div>
+             </div>
 
 
-                        
-                  </div>
-              </div>
-
-              <div class="col-md-9">
-                  <NoData v-if="allTeachers.length == 0" />
-                  <div class="teachers-section" v-else>
-                      
-                      <div class="row">
-                          <div class="col-md-4" v-for="teacher in allTeachers" :key="teacher.id">
-                             <div class="stud">
-                                    <div class="text-center">
-                                            <vs-avatar size="70" style="margin:auto;margin-bottom:10px;" >
-                                                <img style="height:100%" :src="teacher.photo" alt="">
-                                            </vs-avatar>
-                                    </div>
-                                    <div class="content">
-                                        <h6> {{teacher.username}} </h6>
-                                        <h6 > {{teacher.email}} </h6>
-                                        <h6 > {{teacher.phone}} </h6>
-                                        <h6> {{teacher.address}} </h6>
-                                        <h6 @click="handleChangeSubject(teacher)" class="btn subject"> Assign To Section </h6>
-                                        <h6 @click="showAssignedToTeacher(teacher)" class="btn subject" style="background: var(--success)"> Assigned </h6>
-                                    </div>
-                             </div>
-                          </div>
-                      </div>
-
-
-                       <div class="center con-pagination">
-                        <vs-pagination progress v-model="page" :length="totalPages" />
-                      </div>
-
-                  </div>
-              </div>
-          </div>
-          </div>
-      </div>
-
-
-
-
-      <vs-dialog v-model="addNewTeacherPopup">
-
-          <template #header>
-            <h4 class="not-margin">
-                Add Teacher
-            </h4>
-            </template>
-
-          <el-form :model="addTeacher" ref="addTeacher" class="add-teacher-form">
-
-
-              <el-form-item
-                prop="username"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input username',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <el-input
-                  placeholder="User Name"
-                  v-model="addTeacher.username"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item
-                prop="email"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input email address',
-                    trigger: 'blur'
-                  },
-                  {
-                    type: 'email',
-                    message: 'Please input correct email address',
-                    trigger: ['blur', 'change']
-                  }
-                ]"
-              >
-                <el-input
-                  placeholder="Email"
-                  v-model="addTeacher.email"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item
-                prop="password"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input password',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <el-input
-                  placeholder="Password"
-                  type="password"
-                  v-model="addTeacher.password"
-                ></el-input>
-              </el-form-item>
-
-
-
-             
-
-              <el-form-item
-               prop="phone"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input phone',
-                    trigger: 'blur'
-                  }
-                ]"
-                >
-                  <vue-phone-number-input
-                    @update="updatePhone"
-                    v-model="addTeacher.phone"
-                    default-country-code="JO"
-                    
-                    />
-              </el-form-item>
-
-
-               <el-form-item
-                    prop="photo"
-                    
-                >
-                    <el-upload
-                    class="upload-demo"
-                    :limit="1"
-                    action="#"
-                    :show-file-list="true"
-                    :auto-upload="false"
-                    :on-change="handleImage"
-                    :on-remove="removeImage"
-                    >
-                    <el-button size="small" type="primary">Click to upload</el-button>
-                    <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
-                    
-
-                    
-                    </el-upload>
-
-                    <vs-avatar v-if="url" size="70">
-                        <img :src="url" alt="">
-                    </vs-avatar>
-
-                </el-form-item>
-
-
-
-
-
-
-              <el-form-item>
-                <el-button class="form-button" type="primary" @click="addNewTeacher('addTeacher')"
-                  >add</el-button
-                >
-              </el-form-item>
-            </el-form>
-      </vs-dialog>
-
-
-
-      <vs-dialog class="change-subject" v-model="openChangeSubject">
-          <template #header>
-            <h5 class="not-margin" v-if="currTeacher">
-                Change {{currTeacher.username}} Subject
-            </h5>
-            </template>
-
-
-            <el-form :model="changeSubject" ref="changeSubject" class="change-teacher-form">
-
-
-              <el-form-item
-                prop="levelVal"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input level',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <label>Levels</label>
-                <el-select @change="getClasses(changeSubject.levelVal)" clearable v-model="changeSubject.levelVal" placeholder="Levels">
-                    <el-option
-                    v-for="item in levels"
-                    :key="item.id"
-                    :label="item.nameEn"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-              </el-form-item>
-
-
-
-              <el-form-item
-                prop="classVal"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input class',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <label>Classes</label>
-                <el-select @change="getSections(changeSubject.classVal)" clearable v-model="changeSubject.classVal" placeholder="Levels">
-                    <el-option
-                    v-for="item in classes"
-                    :key="item.id"
-                    :label="item.nameEn"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-              </el-form-item>
-
-
-
-              <el-form-item
-                prop="sectionVal"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input section',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <label>Sections</label>
-                <el-select clearable @change="getSubjects(changeSubject.sectionVal)" v-model="changeSubject.sectionVal" placeholder="Sections">
-                    <el-option
-                    v-for="item in sections"
-                    :key="item.id"
-                    :label="item.nameEn"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-              </el-form-item>
-
-
-              <el-form-item
-                prop="subjectVal"
-                :rules="[
-                  {
-                    required: true,
-                    message: 'Please input subject',
-                    trigger: 'blur'
-                  }
-                ]"
-              >
-                <label>Subjects</label>
-                <el-select clearable v-model="changeSubject.subjectVal" placeholder="Subjects">
-                    <el-option
-                    v-for="item in subjects"
-                    :key="item.id"
-                    :label="item.nameEn"
-                    :value="item.id">
-                    </el-option>
-                </el-select>
-              </el-form-item>
 
               
 
-              <el-form-item>
-                <el-button class="form-button" type="primary" @click="updateTeacherSubject('changeSubject')"
-                  >Assign To Teacher</el-button
-                >
-              </el-form-item>
+
+
+              
+
+
+              
+
+              
+
+              
 
 
              
 
 
             </el-form>
-      </vs-dialog>
+      </section>
 
 
-      <vs-dialog v-model="showAssignedPopup">
-        <template #header>
-            <h5 class="not-margin responsive-heading">
-                <b>Prof: </b> {{currTeacher.username}}
-            </h5>
-        </template>
-
-        <div>
-            <h6> <img style="width:23px" src="@/assets/imgs/group.svg" alt=""> Sections</h6>
-            <NoData width="100px" v-if="currTeacher.sections && currTeacher.sections.length == 0" />
-            <div class="p-2" style="padding-top:0 !important" v-else>
-                <div class="row">
-                    <div v-for="sec in currTeacher.sections" :key="sec.id" class="col-md-4">
-                        <div>
-                            <img style="width: 14px;margin-top: -2px" src="@/assets/imgs/oval.svg" alt="">
-                            {{sec.nameEn}}
-                        </div>
-                    </div>
-
-
+              <div class="filters mt-2 mb-2">
+                <!-- <div>
+                  <label for="email">Email</label>
+                  <el-input
+                    id="email"
+                    placeholder="Email"
+                    type="email"
+                    v-model="emailVal"
+                    @keydown.native.enter="getStudents()"
+                  ></el-input>
                 </div>
-            </div>
-        </div>
 
-        <el-divider></el-divider>
-        <div>
-            <h6> <img style="width: 20px;" src="@/assets/imgs/search.svg" alt=""> Subjects</h6>
+                <div>
+                  <label for="username">User Name</label>
+                  <el-input
+                    id="username"
+                    placeholder="User Name"
+                    type="text"
+                    v-model="usernameVal"
+                    @keydown.native.enter="getStudents()"
+                  ></el-input>
+                </div> -->
 
-            <NoData width="100px" v-if="currTeacher.subjects && currTeacher.subjects.length == 0" />
-            <div class="p-2 pt-0" style="padding-top:0 !important" v-else>
                 <div class="row">
-                    <div v-for="sec in currTeacher.subjects" :key="sec.id" class="col-md-4">
-                        <div>
-                            <img style="width: 14px;" src="@/assets/imgs/oval.svg" alt="">
-                            {{sec.nameEn}}
-                        </div>
+                  <div class="col-md-2">
+                    <div>
+                      <el-select
+                        clearable
+                        v-model="systemVal"
+                        placeholder="النٌطم"
+                      >
+                        <el-option
+                          v-for="item in systems"
+                          :key="item.id"
+                          :label="item.nameEn"
+                          :value="item.id"
+                        >
+                        </el-option>
+                      </el-select>
                     </div>
+                  </div>
 
+                  <div class="col-md-2">
+                    <div>
+                      <el-select
+                        clearable
+                        v-model="levelVal"
+                        placeholder="المراحل"
+                      >
+                        <el-option
+                          v-for="item in levels"
+                          :key="item.id"
+                          :label="item.nameEn"
+                          :value="item.id"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div>
 
+                  <div class="col-md-2 ">
+                    <div>
+                      <el-select
+                        clearable
+                        v-model="classVal"
+                        placeholder="الصفوف"
+                      >
+                        <el-option
+                          v-for="item in classes"
+                          :key="item.id"
+                          :label="item.nameEn"
+                          :value="item.id"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 ">
+                    <div>
+                      <el-select
+                        clearable
+                        v-model="sectionVal"
+                        placeholder="الفصول"
+                      >
+                        <el-option
+                          v-for="item in sections"
+                          :key="item.id"
+                          :label="item.nameEn"
+                          :value="item.id"
+                        >
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-1"></div>
+
+                  <div class="col-md-3 pt-1" style="padding-top:1px">
+                    <div class="d-flex flex-row-reverse">
+                      <el-input
+                        id="phone"
+                        placeholder="بحث بالإسم"
+                        type="text"
+                        v-model="usernameVal"
+                        @keydown.native.enter="getTeachers()"
+                      ></el-input>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
 
-      </vs-dialog>
+              </div>
+            </div>
+
+            <el-table class="table-teachers" :data="allTeachers" >
+
+
+                <el-table-column type="expand" class="expanded">
+                    <template slot-scope="props">
+                        <div class="outer-frame" v-if="props.row.subjects.length > 0">
+                            <section >
+                               <!-- {{}}  -->
+                                <div class="inner-frame" v-for="(subject, index) in props.row.subjects " :key="index">
+                                    <h6> {{subject.nameAr}} </h6>
+                                 
+                                    <h6 v-if="props.row.classes[index]"> {{props.row.classes[index].nameAr}} </h6>
+                                   <h6 v-if="props.row.sections[index]"> {{props.row.sections[index].nameAr}} </h6>
+                                </div>
+
+                            </section>
+                            
+                        </div>
+                    </template>
+                </el-table-column>
+            
+
+
+              <el-table-column
+                label="الصورة"
+              >
+               <template slot-scope="scope">
+                   <img class="circle-photo" v-if="scope.row.photo" :src="scope.row.photo" alt="">
+               </template>
+              </el-table-column>
+
+              <el-table-column
+                label="الإسم"
+                sortable
+                prop="username"
+              >
+              </el-table-column>
+
+              
+
+              <el-table-column
+                label="البريد الإلكتروني"
+                prop="email"
+              >
+              </el-table-column>
+
+              
+
+              <el-table-column label="تاريخ الإنضمام">
+                  
+                <template slot-scope="scope" >
+                   {{ $moment(scope.row.createdAt).fromNow()}}
+               </template>
+              </el-table-column>
+              <el-table-column label="الهاتف">
+                <template slot-scope="scope" v-if="scope.row.phone">
+                   {{scope.row.phone}}
+               </template>
+               <h6 v-else>-</h6>
+              </el-table-column>
+
+              <el-table-column label="الإجرائات">
+                <template slot-scope="scope">
+                  <el-button
+                    type="primary"
+                    icon="el-icon-edit"
+                    circle
+                    @click="handleChangeSubject(scope.row)" 
+                  ></el-button>
+
+                  <!-- <el-popconfirm
+                    confirm-button-text="حذف"
+                    cancel-button-text="إلغاء"
+                    icon="el-icon-info"
+                    icon-color="red"
+                    title="هل أنت متأكد من انك تريد الحذف ؟"
+                  >
+                    <el-button
+                      type="danger"
+                      icon="el-icon-delete"
+                      slot="reference"
+                      circle
+                    ></el-button>
+                  </el-popconfirm> -->
+
+
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <div class="center con-pagination mt-4" v-if="totalPages > 1">
+            <vs-pagination progress v-model="page" :length="totalPages" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -521,6 +555,12 @@ export default {
         }
     },
     methods:{
+         addPhoto(e) {
+      if (e.target.files.length > 0) {
+        this.photo = e.target.files[0];
+        this.url = URL.createObjectURL(this.photo);
+      }
+    },
         showAssignedToTeacher(teacher){
             this.showAssignedPopup = true;
             this.currTeacher = {...teacher};
@@ -549,8 +589,7 @@ export default {
             const loading = this.$vs.loading();
             
             this.$axios.patch(`/teachers/${this.currTeacher.id}/assign`, {subject: this.changeSubject.subjectVal}).then(res => {
-                this.$notify({
-                    title: 'Success!',
+                this.$message({
                     message: `Subject Assigned To Teacher Successfully!`,
                     type: 'success'
                 });
@@ -577,6 +616,12 @@ export default {
         
         this.$refs[formName].validate(valid => {
             if (valid) {
+                if (!this.phoneObj.isValid) {
+                    this.$message.error({
+                    message: `رقم الهاتف غير صالح !`,
+                    });
+                return;
+            }
                 this.addTeacherInBackend();
             }
       });
@@ -595,8 +640,7 @@ export default {
 
         this.$axios.post(`/teachers`, formData).then(res => {
             this.addNewTeacherPopup = false;
-            this.$notify({
-                title: 'Success!',
+            this.$message({
                 message: `Teacher Added Successfully!`,
                 type: 'success'
             });
@@ -606,13 +650,11 @@ export default {
         }).catch((error) => {
                 console.log(error)
                 if(error.response && error.response.status == 400){
-                    this.$notify.error({
-                        title: 'Error!',
+                    this.$message.error({
                         message: `Email Or Phone Already Exist`,
                     });
                 }else{
-                    this.$notify.error({
-                        title: 'Error!',
+                    this.$message.error({
                         message: `There Are Something Wrong!`,
                     });
                 }
@@ -628,15 +670,15 @@ export default {
             //     qrySrting += 'system=' + this.systemVal + '&' ;
             // }
 
-            if(this.emailVal != ''){
+            if(this.emailVal){
                 qrySrting += 'email=' + this.emailVal + '&' ;
             }
 
-            if(this.usernameVal != ''){
+            if(this.usernameVal){
                 qrySrting += 'username=' + this.usernameVal + '&' ;
             }
 
-            if(this.phoneVal != ''){
+            if(this.phoneVal){
                 qrySrting += 'phone=' + this.phoneVal + '&' ;
             }
 
@@ -644,15 +686,15 @@ export default {
             //     qrySrting += 'level=' + this.levelVal + '&';
             // }
 
-            if(this.classVal != ''){
+            if(this.classVal){
                 qrySrting += 'classes=' + this.classVal + '&';
             }
 
-            if(this.sectionVal != ''){
+            if(this.sectionVal){
                 qrySrting += 'sections=' + this.sectionVal + '&';
             }
 
-            if(this.subjectVal != ''){
+            if(this.subjectVal){
                 qrySrting += 'subjects=' + this.subjectVal + '&';
             }
 
@@ -716,83 +758,109 @@ export default {
 }
 </script>
 
+
 <style lang="scss">
-.teachers-page{
-
-    label{
-        color:#2c4484;
-    }
-    
-    .teachers{
+.section-teachers {
+  padding: 15px;
+  .add-teacher-container {
+    background: #fff;
+    box-shadow: 0 1px 13px -3px #0000000f;
+    border: 1px solid #f3f3f3;
+    .add-new-teachers {
+      padding: 26px 12px 3px;
+      background: #464545;
+      background: #f9f9f9;
+      div {
+        &:first-of-type {
+          h5 {
+            color: var(--blue);
+          }
+        }
+      }
+      .attach-photo {
+        width: 84px;
+        height: 84px;
+        overflow: hidden;
+        position: relative;
+        margin: auto;
+        padding: 11px;
+        border-radius: 50%;
+        border: 5px #ddd;
+        border-style: double;
+        background: #fff;
         margin-top: 15px;
-        .filters{
-        padding: 10px;
-        background: #FFF;
-        
-        .el-select{
-            width: 100%;
-            margin-bottom: 10px;
+        input[type="file"] {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
         }
-    }
-    }
-
-    .teachers-section{
-        .stud{
-            position: relative;
-            padding: 5px;
-            text-align: center;
-            background: #FFF;
-            border: 1px solid #e8e8e8;
-            margin-bottom: 11px;
+        img {
+          width: 100%;
         }
-        .content{
-
-            
-            h6{
-                &:not(:first-of-type){
-                        font-size: 13px;
-                        color: #2c4484;
-                        font-weight: 400;
-                }
-                &:first-of-type{
-                    margin-bottom: 5px;
-                }
-            }
-
-            .subject{
-                display: inline-block;
-                background: #2c4484ad;
-                padding: 3px;
-                color: #FFF !important;
-                
-                font-weight: bold;
-            }
-
-
-        }
+      }
     }
+    .all-teachers {
+      padding: 10px;
+    }
+  }
 
+  
+}
+
+
+
+
+.table-teachers{
+    width: 100%;
+        .outer-frame{
+             margin: 15px 5px;
+             border: 1px solid;
+             border: 1px solid #7c77c7;
+             position: relative;
+             &::after{
+                position: absolute;
+                content: ' ';
+                top: -17px;
+                left: 50%;
+                border-width: 8px;
+                border-style: solid;
+                border-color: transparent transparent #7c77c7 transparent;
+             }
+
+             &::before{
+                position: absolute;
+                content: ' ';
+                top: -16px;
+                left: 50%;
+                border-width: 8px;
+                border-style: solid;
+                border-color: transparent transparent white transparent;
+                z-index: 2;
+             }
+
+             section{
+                 display: flex;
+                 margin: 10px;
+                 justify-content: space-between;
+                 flex-wrap:wrap;
+                 .inner-frame{
+                     padding:5px;
+                     padding: 5px 20px;
+                     border:1px solid #7c77c742;
+                     border-radius: 10px;
+                     h6{
+                         margin-bottom: 3px;
+                            padding-bottom: 2px;
+                         &:not(:last-of-type){
+                             border-bottom: 1px solid #7c77c742;
+                         }
+                     }
+                 }
+             }
+        }
     
-}
-.country-selector__label{
-        top:-9px !important;
-}
-.input-tel__label{
-    top:-8px !important;
-}
-.el-popper[x-placement^=bottom]{
-    z-index: 99999999999999 !important;
-}
-.change-subject{
-    label{
-        margin-bottom: 0;
-    }
-    .el-select{
-        width:100% !important;
-    }
-}
-
-.el-upload__tip{
-        margin-top: 0;
-}
+  }
 </style>

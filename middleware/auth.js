@@ -1,8 +1,9 @@
 export default function({
     app,
-    redirect
+    redirect,
+    $auth
 }) {
-    if (!app.$auth.loggedIn) {
+    if (!$auth.loggedIn) {
         return redirect('/login');
     }
 }

@@ -559,14 +559,7 @@ export default {
         if (valid) {
           if (!this.phoneObj.isValid) {
             this.$message.error({
-              message: `رقم الهاتف غير صالح !`,
-            });
-            return;
-          }
-
-          if (!this.sectionVal) {
-            this.$message.error({
-              message: `يرجي تحديد الفصل أولاً !`,
+              message: `Please Enter A Valid Number !`
             });
             return;
           }
@@ -582,7 +575,7 @@ export default {
       formData.append("username", this.addStudent.username);
       formData.append("email", this.addStudent.email);
       formData.append("phone", this.phoneObj.formattedNumber);
-      formData.append("section", this.sectionVal);
+      formData.append("section", this.$route.params.id);
       formData.append("password", this.addStudent.password);
       formData.append("address", this.addStudent.address);
       if (this.photo) {

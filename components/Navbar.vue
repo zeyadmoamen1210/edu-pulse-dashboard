@@ -1,8 +1,6 @@
 <template>
   <div class="main-navbar">
-      <div class="collapse-img">
-          <img @click="toggleCollapse" src="@/assets/imgs/menu.svg" alt="">
-      </div>
+      
 
       <div class="logout-img">
           <img @click="logout()" src="@/assets/imgs/logout.svg" alt="">
@@ -13,16 +11,9 @@
 <script>
 export default {
    
-    data(){
-        return{
-            isCollapse: true,
-        }
-    },
+    
     methods:{
-        toggleCollapse(){
-            this.isCollapse = !this.isCollapse;
-            this.$emit("isCollapse", this.isCollapse)
-        },
+        
         logout(){
             this.$auth.logout();
             this.$router.push(`/login`)
@@ -56,7 +47,7 @@ export default {
         width: 20px;
         cursor: pointer;
         display: inline-flex;
-        float: right;
+        float: left;
         img{
             width:100%;
         }

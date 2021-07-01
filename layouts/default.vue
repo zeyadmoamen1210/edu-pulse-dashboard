@@ -1,16 +1,18 @@
 <template>
   <div>
     
-    <template v-if="$auth.loggedIn">
-      <Sidebar :collapse="isCollapse" />
-      <Navbar @isCollapse="collapseVal" />
+    <template v-if="$auth && $auth.loggedIn">
+      <Sidebar @collapse="updateCollapse" />
+      <!-- <Navbar @isCollapse="collapseVal" /> -->
     </template>
+
     <Loading v-if="isLoading" />
-    <div class="main-content" v-else>
-      <Nuxt />
+    <div :class="{'main-content': true, 'collapsed-arabic': (!isCollapsed && $auth.loggedIn && $i18n.locale == 'ar') , 'collapsed-english': (!isCollapsed && $auth.loggedIn && $i18n.locale == 'en')}" v-else>
+        <Nuxt :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" />
     </div>
   </div>
 </template>
+
 
 <script>
 import Sidebar from '@/components/Sidebar'
@@ -24,20 +26,56 @@ export default {
   },
   data(){
     return{
-      isCollapse: true,
-      isLoading: true
+      isLoading: true,
+      isCollapsed: '',
     }
   },
+
   created(){
+        
+        
+      
+  },
+  
+  mounted(){
+
+    
+if (document.children) {
+        if (this.$i18n.locale == "ar") {
+          this.$moment.locale('ar');
+          console.log("arabic ");
+          var all = document.getElementsByTagName("*");
+          var i;
+          for (i = 0; i < all.length; i++) {
+            console.log("child ", all[i])
+            all[i].style.direction = "rtl";
+            all[i].style.textAlign = "right";
+          }
+        } else {
+          this.$moment.locale('en');
+          console.log("english ");
+          var all = document.getElementsByTagName("*");
+          var i;
+          for (i = 0; i < all.length; i++) {
+             console.log("child ", all[i])
+            all[i].style.direction = "ltr";
+            all[i].style.textAlign = "left";
+          }
+        }
+      }
+    
+
+
     setTimeout(() => {
-      this.isLoading = false
-    }, 3000)
+      this.isLoading = false;
+    }, 5000)
   },
   methods:{
-    collapseVal(val){
-      this.isCollapse = val;
-      console.log(val);
-    }
+   updateCollapse(e){
+       this.isCollapsed = e;
+       console.log("its exist")
+     
+   }
   }
 }
 </script>
@@ -46,9 +84,38 @@ export default {
 
 @import "../assets/styles/override.scss";
 
+@font-face {
+  font-family: "din";
+  src: url("~assets/fonts/din-next-regular.ttf");
+}
+@font-face {
+  font-family: "din-bold";
+  src: url("~assets/fonts/din-next-bold.ttf");
+}
+
+
+.main-content.isInLogin{
+  margin-right: 0 !important;
+}
+
+.main-content.collapsed-english{
+    margin-left: 50px;
+}
+
+.main-content.collapsed-arabic{
+    margin-right: 50px;
+}
+
+.main-content.not-collapsed{
+    margin-right: 260px;
+}
+
 *{
   padding:0;
   margin:0;
+  // direction: rtl;
+  // text-align: right;
+  font-family: 'din';
 }
 .el-row{
   width:100%;
@@ -73,11 +140,16 @@ padding: 7px 5px 10px;
   padding-bottom: 1px !important;
 }
 .main-content{
-  padding-top: 56px;
-  padding-left: 65px;
-
-  background: #f9f9f9;
-  min-height: 100vh;
+  transition: all 0.25s ease;
+  background: #f9f9f959;
+  min-height: 96vh;
+  .main-frame{
+    margin: 15px;
+    min-height: 96vh;
+    background: #FFF;
+    box-shadow: 0 -1px 10px 0 #0000001a;
+    border-radius: 11px;
+  }
 }
 
 .el-notification {

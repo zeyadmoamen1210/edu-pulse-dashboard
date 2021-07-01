@@ -1,53 +1,62 @@
 <template>
   <div class="login-page">
-    <b-container fluid>
+    <b-container >
       <b-row align-v="center" class="justify-content-center login-row">
-        <b-col md="4" align-h="center">
+        <b-col md="8">
+          <div class="login-img">
+            <img src="@/assets/imgs/login.png" alt="">
+          </div>
+        </b-col>
+        <b-col md="4">
           <div class="login-section">
-            <h6>Login to your Account!</h6>
+            <h5 style="text-align: start !important"> {{$t('auth.Login')}} </h5>
             <el-divider></el-divider>
             <el-form :model="loginData" ref="loginData" class="login-form">
+              <h6 style="text-align: start !important"> {{$t('auth.Email')}} </h6>
               <el-form-item
-                prop="email"
+              prop="email"
                 :rules="[
                   {
                     required: true,
-                    message: 'Please input email address',
+                    message: $t('auth.ValidateEmail'),
                     trigger: 'blur'
                   },
                   {
                     type: 'email',
-                    message: 'Please input correct email address',
+                    message: $t('auth.ValidateEmail'),
                     trigger: ['blur', 'change']
                   }
                 ]"
               >
                 <el-input
-                  placeholder="Email"
+                  :placeholder="$t('auth.EmailPlaceholder')"
                   v-model="loginData.email"
                 ></el-input>
               </el-form-item>
 
+
+              <h6 style="text-align: start !important">{{$t('auth.Password')}}</h6>
+
               <el-form-item
-                prop="password"
+              prop="password"
                 :rules="[
                   {
                     required: true,
-                    message: 'Please input password',
+                    message: $t('auth.ValidatePassword'),
                     trigger: 'blur'
                   }
                 ]"
               >
                 <el-input
-                  placeholder="Password"
+                  :placeholder="$t('auth.PasswordPlaceholder')"
                   type="password"
                   v-model="loginData.password"
                 ></el-input>
               </el-form-item>
 
               <el-form-item>
-                <el-button class="form-button" type="primary" @click="submitForm('loginData')"
-                  >Sign In</el-button
+                <el-button class="form-button first-btn" type="primary" @click="submitForm('loginData')"
+                  >{{$t('auth.Login')}}</el-button
                 >
               </el-form-item>
             </el-form>
@@ -82,8 +91,7 @@ middleware:['loggedIn'],
             
             this.$auth.setUser(response.data.user);
 
-            this.$notify({
-                title: 'Welcome',
+            this.$message({
                 message: `Welcome Back ${response.data.user.username}`,
                 type: 'success'
             });
@@ -94,10 +102,7 @@ middleware:['loggedIn'],
 
       } catch (err) {
             loading.close();
-             this.$notify.error({
-                title: 'Wrong!',
-                message: `Invalid Email Or Password `
-            });
+             this.$message.error(`Invalid Email Or Password `);
             window.scrollTo({top:0, behavior: 'smooth'});
 
       }
@@ -121,14 +126,25 @@ middleware:['loggedIn'],
     .login-row{
         height: 100vh;
     }
+    .login-img{
+      img{
+        max-width: 100%;
+      }
+    }
   .login-section {
-    padding: 15px;
-    background: #f9f9f9;
-    border: 1px solid #DDD;
+    
 
-    >h6{
-        padding: 10px 0 0 0;
-        color:#6d6c6c;
+    h6{
+      color:#636090 !important;
+      font-size: 14px;
+    }
+
+    >h5{
+      font-family: 'din-bold';
+      padding: 0;
+      color: #F28325;
+      font-size: 25px;
+      margin-bottom: 0;
     }
 
     

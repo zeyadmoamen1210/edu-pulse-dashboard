@@ -1,15 +1,108 @@
 <template>
   <div class="sidebar">
-      
+    <vs-sidebar
+      :right="$i18n.locale == 'ar'"
+      open
+      v-model="active"
+      :reduce="isCollapse"
+    >
+      <template #logo>
+        <img src="@/assets/imgs/reading-book-yellow.svg" alt="" />
+      </template>
+      <vs-sidebar-item id="home" :to="`/systems/list`">
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/reading-book.svg"
+            alt=""
+          />
+        </template>
+        {{$t('sidebar.system')}}
+      </vs-sidebar-item>
+      <vs-sidebar-item id="market" :to="`/levels/list`">
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/three-tier-pyramid.svg"
+            alt=""
+          />
+        </template>
+        {{$t('sidebar.levels')}}
+      </vs-sidebar-item>
+      <vs-sidebar-item id="students" :to="`/students`">
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/graduate-student-avatar.svg"
+            alt=""
+          />
+        </template>
+        {{$t('sidebar.students')}}
+      </vs-sidebar-item>
 
-    <el-menu
-      default-active="2"
+      <vs-sidebar-item id="teachers" :to="`/teachers`">
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/teacher-at-the-blackboard.svg"
+            alt=""
+          />
+        </template>
+        {{$t('sidebar.teachers')}}
+      </vs-sidebar-item>
+
+      <template #footer>
+        <vs-row justify="space-between">
+          <vs-avatar @click.native="toggleCollapse">
+            <img
+              style="width:20px;cursor:pointer"
+              src="@/assets/imgs/menu.svg"
+              alt=""
+            />
+          </vs-avatar>
+
+            <vs-avatar @click.native="changeLocale('ar')" v-if="$i18n.locale !== 'ar'">
+            <img
+              src="@/assets/imgs/united-arab-emirates.svg"
+              style="width:25px"
+              alt=""
+            />
+            </vs-avatar>
+
+          <vs-avatar @click.native="changeLocale('en')" v-else-if="$i18n.locale !== 'en'">
+            <img
+              src="@/assets/imgs/united-kingdom.svg"
+              style="width:25px"
+              alt=""
+            />
+          </vs-avatar>
+
+          <vs-avatar
+            badge-color="danger"
+            @click.native="logout()"
+            badge-position="top-right"
+          >
+            <img
+              style="width:26px;cursor:pointer"
+              src="@/assets/imgs/logout.svg"
+              alt=""
+            />
+          </vs-avatar>
+        </vs-row>
+      </template>
+    </vs-sidebar>
+
+    <!-- <el-menu
       class="el-menu-vertical-demo"
       @open="handleOpen"
-      @close="handleClose"
-      :collapse="collapse"
     >
       
+
+      
+
+      <el-menu-item index="3" @click.native="toggleCollapse">
+        <img style="width:20px" @click="toggleCollapse" src="@/assets/imgs/menu.svg" alt="">
+      </el-menu-item>
 
       <el-menu-item index="4" @click.native="$router.push(`/systems/list`)">
       <img style="width: 20px" src="@/assets/imgs/data-complexity.svg" alt="">
@@ -41,42 +134,81 @@
       </el-menu-item>
 
 
-    </el-menu>
+    </el-menu> -->
   </div>
 </template>
 
 <script>
 export default {
-    props:['collapse'],
-    
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    },
+  data() {
+    return {
+      isCollapse: true,
+      active: true
+    };
+  },
 
-    
+  methods: {
+    changeLocale(locale) {
+      this.$i18n.setLocale(locale);
+      console.log("hi");
+
+      if (document.children) {
+        if (this.$i18n.locale == "ar") {
+          this.$moment.locale('ar');
+          console.log("arabic ");
+          var all = document.getElementsByTagName("*");
+          var i;
+          for (i = 0; i < all.length; i++) {
+            console.log("child ", all[i])
+            all[i].style.direction = "rtl";
+            all[i].style.textAlign = "right";
+          }
+        } else {
+          this.$moment.locale('en');
+          console.log("english ");
+          var all = document.getElementsByTagName("*");
+          var i;
+          for (i = 0; i < all.length; i++) {
+             console.log("child ", all[i])
+            all[i].style.direction = "ltr";
+            all[i].style.textAlign = "left";
+          }
+        }
+      }
+
+      location.reload();
+    },
+    logout() {
+      this.$auth.logout();
+      this.$router.push(`/login`);
+    },
+    toggleCollapse() {
+      this.isCollapse = !this.isCollapse;
+      this.$emit("collapse", false);
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    }
   }
+};
 </script>
 
-<style>
-.sidebar{
-    position: fixed;
-    top: 55px;
-    height: 100%;
-    background: #FFF;
-    z-index: 999;
-}
-.el-menu{
-    height: 100%;
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
+<style lang="scss">
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .vs-sidebar-content.reduce {
+    right: -50px !important;
+  }
+  .main-content {
+    margin-right: 0 !important;
+  }
 }
 
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
 
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
 </style>
