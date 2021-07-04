@@ -29,7 +29,7 @@
         </template>
         {{$t('sidebar.levels')}}
       </vs-sidebar-item>
-      <vs-sidebar-item id="students" :to="`/students`">
+      <vs-sidebar-item id="students" :to="`/students`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
         <template #icon>
           <img
             style="width: 20px"
@@ -40,7 +40,7 @@
         {{$t('sidebar.students')}}
       </vs-sidebar-item>
 
-      <vs-sidebar-item id="teachers" :to="`/teachers`">
+      <vs-sidebar-item id="teachers" :to="`/teachers`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
         <template #icon>
           <img
             style="width: 20px"

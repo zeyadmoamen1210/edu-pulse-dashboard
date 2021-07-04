@@ -65,6 +65,16 @@
     height: 35px;
 }
 
+.edu-tabs{
+    button{
+        color: var(--yellow) !important;
+    }
+}
+
+.el-upload-list__item-name{
+    max-width: 200px;
+}
+
 .vs-sidebar__item.active:after{
     right: -6px !important;
     left: auto !important;
@@ -193,10 +203,15 @@
     border-color: #fff !important;
     color: var(--yellow) ;
     border-radius: 10px;
+    border: 1px solid #ffa40061 !important;
 }
 
 .el-radio-button--mini .el-radio-button__inner{
     padding: 7px 7px;
+}
+
+.nice-btn-padding{
+    padding: 2px 7px
 }
 
 

@@ -12,7 +12,7 @@
             {{$t('systems.Systems')}}
           </h5>
         </div>
-        <div>
+        <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
           <vs-button @click="addNewSys" color="#FFA400"
             > {{$t('systems.AddSystem')}} </vs-button
           >
@@ -172,7 +172,7 @@
           <el-table-column prop="createdAt" :label="$t('Validation.createdAt')">
           </el-table-column>
 
-          <el-table-column :label="$t('Validation.Actions')">
+          <el-table-column :label="$t('Validation.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
                 @click="openEditForm(scope.$index, scope.row)"
@@ -305,7 +305,7 @@ export default {
     },
     confirmDelete(index, ele) {
       const loading = this.$vs.loading();
-      console.log(ele);
+      // console.log(ele);
       this.$axios
         .delete(`/systems/${ele.id}`)
         .then(res => {
@@ -313,7 +313,9 @@ export default {
             message: `System Deleted Successfully !`,
             type: "success"
           });
-          this.getSystems(this.page);
+          // this.getSystems(this.page);
+          let index = this.allSystems.findIndex(element => element.id == ele.id);
+          this.allSystems.splice(index, 1);
         })
         .catch(err => {
           if(err.response.status == 403){

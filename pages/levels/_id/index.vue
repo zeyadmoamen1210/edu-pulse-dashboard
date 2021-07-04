@@ -12,7 +12,7 @@
             {{$t('levels.Classes')}}
           </h5>
         </div>
-        <div>
+        <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
           <vs-button @click="openAddForm" color="#FFA400"> {{$t('levels.AddClass')}} </vs-button>
         </div>
       </div>
@@ -204,7 +204,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Actions')">
+          <el-table-column :label="$t('classes.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
                 @click="openEditForm(scope.$index, scope.row)"

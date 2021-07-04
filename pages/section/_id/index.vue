@@ -10,7 +10,7 @@
               alt=""
             />
             
-            <template v-if="$i18n.locale.code == 'ar'">
+            <template v-if="$i18n.locale == 'ar'">
               {{ section.nameAr }} - (المواد الدراسية)
             </template> 
             <template v-else>
@@ -19,7 +19,7 @@
 
           </h5>
         </div>
-        <div>
+        <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
           <vs-button @click="addNewSub" color="#FFA400"> {{$t('subjects.AddSubject')}} </vs-button>
         </div>
       </div>
@@ -84,7 +84,7 @@
                     <el-select
                     clearable
                     v-model="selectedSection"
-                    :placeholder="$t('sections.Section')"
+                    :placeholder="$t('classes.Sections')"
                     @change="getSectionSubjects()"
                 
                     >
@@ -150,29 +150,29 @@
               >
                 <el-input
                   suffix-icon="el-icon-edit"
-                  placeholder="$t('Validation.nameAr')"
+                  :placeholder="$t('Validation.nameAr')"
                   v-model="updateSubject.nameAr"
                 ></el-input>
               </el-form-item>
             </div>
 
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
               <el-form-item
                 prop="nameAr"
                 :rules="[
                   {
                     required: true,
-                    message: $t('Validation.nameAr'),
+                    message: $t('Validation.required'),
                     trigger: 'blur'
                   }
                 ]"
               >
                 <el-autocomplete
                   suffix-icon="el-icon-edit"
-                  v-model="addNewSubject.teacher"
+                  v-model="updateSubject.teacher.username"
                   :fetch-suggestions="querySearchAsync"
-                  :placeholder="$t('section.AssignToTeacher')"
-                  @select="handleSelect"
+                  :placeholder="$t('sections.AssignToTeacher')"
+                  @select="handleSelectUpdate"
                   :trigger-on-focus="false"
                 >
                   <template slot-scope="{ item }">
@@ -180,9 +180,19 @@
                   </template>
                 </el-autocomplete>
               </el-form-item>
+            </div> -->
+
+
+            <div class="col-md-3">
+                <button  class="btn" @click.prevent="toggleVisibilty()" v-if="updateSubject.visibility" >
+                  <img  src="@/assets/imgs/view.svg" style="width:20px" alt=""> 
+                </button>
+                <button  class="btn" v-else @click.prevent="toggleVisibilty()">
+                  <img  src="@/assets/imgs/restriction.svg" style="width:20px" alt=""> 
+                </button>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <el-form-item prop="photo">
                 <el-upload
                   class="upload-demo"
@@ -256,7 +266,7 @@
               >
                 <el-input
                   suffix-icon="el-icon-edit"
-                  placeholder="$t('Validation.nameEn')"
+                  :placeholder="$t('Validation.nameEn')"
                   v-model="addNewSubject.nameEn"
                 ></el-input>
               </el-form-item>
@@ -275,7 +285,7 @@
               >
                 <el-input
                   suffix-icon="el-icon-edit"
-                  placeholder="$t('Validation.nameAr')"
+                  :placeholder="$t('Validation.nameAr')"
                   v-model="addNewSubject.nameAr"
                 ></el-input>
               </el-form-item>
@@ -287,17 +297,17 @@
                 :rules="[
                   {
                     required: true,
-                    message: $t('Validation.nameAr'),
+                    message: $t('Validation.required'),
                     trigger: 'blur'
                   }
                 ]"
               >
                 <el-autocomplete
                   suffix-icon="el-icon-edit"
-                  v-model="addNewSubject.teacher"
+                  v-model="addNewSubject.teacher.username"
                   :fetch-suggestions="querySearchAsync"
-                  placeholder="$t('sections.AssignToTeacher')"
-                  @select="handleSelect"
+                  :placeholder="$t('sections.AssignToTeacher')"
+                  @select="handleSelectAdd"
                   :trigger-on-focus="false"
                 >
                   <template slot-scope="{ item }">
@@ -307,7 +317,21 @@
               </el-form-item>
             </div>
 
-            <div class="col-md-4">
+
+
+            <div class="col-md-1">
+                <button class="btn" @click.prevent="toggleVisibilty()" v-if="addNewSubject.visibility" >
+                  <img  src="@/assets/imgs/view.svg" style="width:20px" alt=""> 
+                </button>
+                <button class="btn" v-else @click.prevent="toggleVisibilty()">
+                  <img  src="@/assets/imgs/restriction.svg" style="width:20px" alt=""> 
+                </button>
+            </div>
+
+
+            
+
+            <div class="col-md-3">
               <el-form-item prop="photo">
                 <el-upload
                   class="upload-demo"
@@ -362,6 +386,7 @@
                   class="col-md-3 "
                   v-for="subject in allSubjects"
                   :key="subject.id"
+                  @click="$router.push(`/subject/${subject.id}`)"
                 >
                   <div class="subject-card d-flex  justify-content-center">
                     <div>
@@ -376,16 +401,27 @@
                       <div>
                         <h3 v-if="$i18n.locale.clode == 'ar'">{{ subject.nameAr }}</h3>
                         <h3 v-else>{{ subject.nameEn }}</h3>
-                        <span v-if="subject.teacher"> أ/ {{ subject.teacher.id }} </span>
+                        <span v-if="subject.teacher"> أ/ {{ subject.teacher.username }} </span>
+
+                       
                       </div>
 
-                      <div>
+                       <div class="text-center" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+                              <!-- <img v-if="subject.visibility"  src="@/assets/imgs/view.svg" style="width:30px;padding:0" alt=""> 
+                              <img v-else src="@/assets/imgs/restriction.svg" style="width:30px;padding:0" alt="">  -->
+
+                              <div v-if="subject.visibility" style="height:10px;width:10px;border-radius:50%;background:var(--success); margin: auto;margin-bottom: 10px;"></div>
+                              <div v-else style="height:10px;width:10px;border-radius:50%;background:var(--danger);    margin: auto;margin-bottom: 10px;"></div>
+                        </div>
+
+
+                      <div style="text-align:center" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
                         <button class="btn-edit" @click="handleUpdate(subject)">
                           <i class="el-icon-edit"></i>
                         </button>
                         <el-popconfirm
-                          :confirm-button-text="$t('Validation.Delete')"
-                          :cancel-button-text="$t('Validation.Close')"
+                          :confirm-button-text="$t('Validation.delete')"
+                          :cancel-button-text="$t('Validation.close')"
                           @confirm="confirmDelete(subject)"
                           icon="el-icon-info"
                           icon-color="red"
@@ -456,14 +492,20 @@ export default {
       addSubjectPopup: false,
       isLoading: true,
       section: {},
-      addNewSubject: {},
+      addNewSubject: {
+        visibility: true,
+        teacher:{}
+      },
       photo: "",
       url: "",
       allSubjects: [],
       page: 1,
       totalPages: 1,
       updateSubjectPopup: false,
-      updateSubject: {},
+      updateSubject: {
+        visibility: true,
+        teacher:{}
+      },
       toggleLockedPopup: false,
       currSection: {},
       allTeachers: [],
@@ -480,6 +522,10 @@ export default {
     };
   },
   methods: {
+    toggleVisibilty(){
+      this.addNewSubject.visibility = !this.addNewSubject.visibility;
+      this.updateSubject.visibility = !this.updateSubject.visibility;
+    },
     getSystems() {
       this.$axios.get(`/systems?paginate=false`).then(res => {
         this.allSystems = res.data;
@@ -527,8 +573,12 @@ export default {
       this.updateSubjectPopup = false;
       this.addSubjectPopup = !this.addSubjectPopup;
     },
-    handleSelect(item) {
-      console.log(item);
+    handleSelectAdd(item) {
+      this.addNewSubject.teacher = item
+    },
+    handleSelectUpdate(item){
+      this.updateSubject.teacher = item
+
     },
 
     querySearchAsync(queryString, cb) {
@@ -616,11 +666,12 @@ export default {
       let formData = new FormData();
       formData.append("nameAr", this.addNewSubject.nameAr);
       formData.append("nameEn", this.addNewSubject.nameEn);
+      formData.append("visibility", this.addNewSubject.visibility);
       if (this.photo) {
         formData.append("photo", this.photo);
       }
       this.$axios
-        .post(`/sections/${this.$route.params.id}/subjects`, formData)
+        .post(`/sections/${this.$route.params.id}/teachers/${this.addNewSubject.teacher.id}/subjects`, formData)
         .then(res => {
           this.$message({
             message: `Subject Added Successfully!`,
@@ -644,6 +695,8 @@ export default {
       let formData = new FormData();
       formData.append("nameAr", this.updateSubject.nameAr);
       formData.append("nameEn", this.updateSubject.nameEn);
+      formData.append("visibility", this.updateSubject.visibility);
+      // formData.append("visibility", this.updateSubject.teacher.id);
       if (this.photo) {
         formData.append("photo", this.photo);
       }
@@ -715,6 +768,7 @@ export default {
     position: relative;
 
     .subject-card {
+      height: 115px;
       padding: 15px;
       border: 1px solid #efefef;
       border-radius: 10px;
@@ -727,6 +781,7 @@ export default {
       h3 {
         text-align: center;
         padding-top: 13px;
+        margin-bottom: 0;
       }
       .content {
         div {
@@ -735,6 +790,7 @@ export default {
               display: inline-block;
               text-align: center;
               width: 100%;
+              margin: 0 7px 0;
             }
           }
         }

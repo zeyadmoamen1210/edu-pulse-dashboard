@@ -3,149 +3,8 @@
     <div class="container-fluid">
       <div class="add-student-container">
         <div class="row">
-          <div class="col-md-3">
-            <div class="add-new-students">
-              <div>
-                <h5 class="text-center">
-                  <img
-                    style="width: 20px"
-                    src="@/assets/imgs/reading-book.svg"
-                    alt=""
-                  />
-                  {{$t('students.Students')}}
-                </h5>
-              </div>
-
-              <div class="attach-photo">
-                <input type="file" @change="addPhoto" />
-                <img v-if="!url" src="@/assets/imgs/photo-camera.svg" alt="" />
-                <img v-else :src="url" alt="" />
-              </div>
-
-              <el-form
-                :model="addStudent"
-                ref="addStudent"
-                class="add-student-form mt-3"
-              >
-                <el-form-item
-                  prop="username"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.required'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Username')"
-                    v-model="addStudent.username"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="email"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.required'),
-                      trigger: 'blur'
-                    },
-                    {
-                      type: 'email',
-                      message: $t('Validation.ValidEmail'),
-                      trigger: ['blur', 'change']
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Email')"
-                    v-model="addStudent.email"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="password"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPassword'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Password')"
-                    type="password"
-                    v-model="addStudent.password"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="address"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VAddress'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Address')"
-                    type="address"
-                    v-model="addStudent.address"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="phone"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPhone'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <vue-phone-number-input
-                    @update="updatePhone"
-                    v-model="addStudent.phone"
-                    default-country-code="JO"
-                  />
-                </el-form-item>
-
-                <el-form-item class="must-change">
-                  <label for=""> {{$t('students.ChangePass')}} </label>
-                  <el-switch
-                    v-model="addStudent.mustChange"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                  >
-                  </el-switch>
-                </el-form-item>
-
-                <el-form-item class="mb-0">
-                  <el-button
-                    class="form-button"
-                    type="warning"
-                    @click="addNewStudent('addStudent')"
-                    > {{$t('Validation.Add')}} </el-button
-                  >
-                </el-form-item>
-                <el-form-item class="mb-0">
-                  <el-button
-                    class="form-button"
-                    type="info"
-                    @click="addNewStudent('addStudent')"
-                    >
-                    {{$t('students.attchFile')}}
-                  </el-button> 
-                </el-form-item>
-              </el-form>
-            </div>
-          </div>
-          <div class="col-md-9">
+          
+          <div class="col-md-12">
             <div class="all-students">
 
 
@@ -349,9 +208,8 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1"></div>
 
-                  <div class="col-md-3 pt-1" style="padding-top:1px">
+                  <div class="col-md-2 pt-1" style="padding-top:1px">
                     <div class="d-flex flex-row-reverse">
                       <el-input
                         id="phone"
@@ -362,6 +220,13 @@
                       ></el-input>
                     </div>
                   </div>
+
+                  <div class="col-md-2">
+                    <div class="d-flex flex-row-reverse">
+                      <vs-button @click="$router.push(`/students/add`)" color="var(--blue)">+</vs-button>
+                    </div>
+                  </div>
+
                 </div>
 
               </div>
@@ -431,6 +296,20 @@
 
                 </template>
               </el-table-column>
+
+              <el-table-column label="تفعيل/تعطيل">
+                <template slot-scope="scope">
+                  <!-- <el-radio-group @change="activateOrNot(true)" :value="scope.row.enabled" size="mini">
+                    <el-radio-button :label="true"> activate </el-radio-button>
+                    <el-radio-button :label="false"> deactivate </el-radio-button>
+                </el-radio-group> -->
+
+                <button class="btn btn-success nice-btn-padding" @click="enabledOrDesabled(true, scope.row)" v-if="!scope.row.enabled"> {{$t('teachers.activate')}} </button>
+                <button class="btn btn-danger nice-btn-padding" @click="enabledOrDesabled(false, scope.row)" v-else>{{$t('teachers.deactivate')}}</button>
+                </template>
+                
+              </el-table-column>
+
             </el-table>
 
             <div class="center con-pagination mt-4" v-if="totalPages > 1">
@@ -506,6 +385,24 @@ export default {
   methods: {
 
 
+    enabledOrDesabled(e, user){
+        const loading = this.$vs.loading();
+
+        this.$axios.patch(`/activate/${user.id}`, {enabled: e}).then(res => {
+          this.$message({
+              message: e ? `User Activate Successfully` : `User Deactivate Successfully`,
+              type: 'success'
+          });
+          this.getStudents();
+        }).catch(err => {
+          this.$message.error({
+              message: `There Are Something Wrong`,
+          });
+        }).finally(() => loading.close());
+
+      },
+
+
       changeStudentSubject(){
             this.openChangeSubject = false;
             const loading = this.$vs.loading();
@@ -557,16 +454,16 @@ export default {
     addNewStudent(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.phoneObj.isValid) {
+          if (this.phoneObj.formattedNumber && !this.phoneObj.isValid) {
             this.$message.error({
-              message: `رقم الهاتف غير صالح !`,
+              message: this.$i18n.locale == 'ar' ? `رقم الهاتف غير صالح !` : 'Phone Number Not Valid !',
             });
             return;
           }
 
           if (!this.sectionVal) {
             this.$message.error({
-              message: `يرجي تحديد الفصل أولاً !`,
+              message: this.$i18n.locale == 'ar' ?  `يرجي تحديد الفصل أولاً !` : 'Must Select Class First !',
             });
             return;
           }
@@ -581,7 +478,9 @@ export default {
       let formData = new FormData();
       formData.append("username", this.addStudent.username);
       formData.append("email", this.addStudent.email);
-      formData.append("phone", this.phoneObj.formattedNumber);
+      if(this.phoneObj.formattedNumber){
+        formData.append("phone", this.phoneObj.formattedNumber);
+      }
       formData.append("section", this.sectionVal);
       formData.append("password", this.addStudent.password);
       formData.append("address", this.addStudent.address);

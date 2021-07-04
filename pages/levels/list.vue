@@ -12,7 +12,7 @@
             {{$t('levels.Levels')}}
           </h5>
         </div>
-        <div>
+        <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
           <vs-button @click="addNewLevel" color="#FFA400"
             >{{$t('levels.AddLevel')}}</vs-button
           >
@@ -192,7 +192,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('Validation.Actions')">
+          <el-table-column :label="$t('Validation.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
                 @click="openEditForm(scope.$index, scope.row)"
@@ -322,7 +322,7 @@ export default {
       });
     },
     openEditForm(index, ele) {
-      this.currLevelToEdit = { ...ele };
+      this.currLevelToEdit = { ...ele} ;
       this.addLevelPopup = false;
       this.showEditModel = !this.showEditModel;
     },

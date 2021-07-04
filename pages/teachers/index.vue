@@ -3,116 +3,7 @@
     <div class="container-fluid">
       <div class="add-teacher-container">
         <div class="row">
-          <!-- <div class="col-md-3">
-            <div class="add-new-teachers">
-              <div>
-                <h5 class="text-center">
-                  <img
-                    style="width: 20px"
-                    src="@/assets/imgs/reading-book.svg"
-                    alt=""
-                  />
-                  {{$t('teachers.teachers')}}
-                </h5>
-              </div>
-
-              <div class="attach-photo">
-                <input type="file" @change="addPhoto" />
-                <img v-if="!url" src="@/assets/imgs/photo-camera.svg" alt="" />
-                <img v-else :src="url" alt="" />
-              </div>
-
-              <el-form
-                :model="addTeacher"
-                ref="addTeacher"
-                class="add-teacher-form mt-3"
-              >
-                <el-form-item
-                  prop="username"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.Username'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Username')"
-                    v-model="addTeacher.username"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="email"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.Email'),
-                      trigger: 'blur'
-                    },
-                    {
-                      type: 'email',
-                      message: $t('Validation.VEmail'),
-                      trigger: ['blur', 'change']
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Email')"
-                    v-model="addTeacher.email"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="password"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPassword'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Password')"
-                    type="password"
-                    v-model="addTeacher.password"
-                  ></el-input>
-                </el-form-item>
-
-            
-
-                <el-form-item
-                  prop="phone"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPhone'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <vue-phone-number-input
-                    @update="updatePhone"
-                    v-model="addTeacher.phone"
-                    default-country-code="JO"
-                  />
-                </el-form-item>
-
-
-                <el-form-item class="mb-0">
-                  <el-button
-                    class="form-button"
-                    type="warning"
-                    @click="addNewTeacher('addTeacher')"
-                    >{{$t('Validation.save')}}</el-button
-                  >
-                </el-form-item>
-             
-              </el-form>
-            </div>
-          </div> -->
+          
           <div class="col-md-12">
             <div class="all-teachers">
 
@@ -374,9 +265,8 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1"></div>
 
-                  <div class="col-md-3 pt-1" style="padding-top:1px">
+                  <div class="col-md-2 pt-1" style="padding-top:1px">
                     <div class="d-flex flex-row-reverse">
                       <el-input
                         id="phone"
@@ -385,6 +275,12 @@
                         v-model="usernameVal"
                         @keydown.native.enter="getTeachers()"
                       ></el-input>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="d-flex flex-row-reverse">
+                      <vs-button @click="$router.push(`/teachers/add`)" color="var(--blue)">+</vs-button>
                     </div>
                   </div>
                 </div>
@@ -401,10 +297,14 @@
                             <section >
                                <!-- {{}}  -->
                                 <div class="inner-frame" v-for="(subject, index) in props.row.subjects " :key="index">
-                                    <h6> {{subject.nameAr}} </h6>
+                                    <h6 v-if="$i18n.locale == 'ar'"> {{subject.nameAr}} </h6>
+                                    <h6 v-else> {{subject.nameEn}} </h6>
                                  
-                                    <h6 v-if="props.row.classes[index]"> {{props.row.classes[index].nameAr}} </h6>
-                                   <h6 v-if="props.row.sections[index]"> {{props.row.sections[index].nameAr}} </h6>
+                                    <h6 v-if="props.row.classes[index] && $i18n.locale == 'ar'"> {{props.row.classes[index].nameAr}} </h6>
+                                    <h6 v-if="props.row.classes[index] && $i18n.locale == 'en'"> {{props.row.classes[index].nameEn}} </h6>
+
+                                   <h6 v-if="props.row.sections[index] && $i18n.locale == 'ar'"> {{props.row.sections[index].nameAr}} </h6>
+                                   <h6 v-if="props.row.sections[index] && $i18n.locale == 'en'"> {{props.row.sections[index].nameEn}} </h6>
                                 </div>
 
                             </section>
@@ -490,8 +390,8 @@
                     <el-radio-button :label="false"> deactivate </el-radio-button>
                 </el-radio-group> -->
 
-                <button class="btn btn-success" v-if="!scope.row.enabled"> {{$t('teachers.activate')}} </button>
-                <button class="btn btn-danger" v-else>{{$t('teachers.deactivate')}}</button>
+                <button class="btn btn-success nice-btn-padding" @click="enabledOrDesabled(true, scope.row)" v-if="!scope.row.enabled"> {{$t('teachers.activate')}} </button>
+                <button class="btn btn-danger nice-btn-padding" @click="enabledOrDesabled(false, scope.row)" v-else>{{$t('teachers.deactivate')}}</button>
                 </template>
                 
               </el-table-column>
@@ -586,15 +486,23 @@ export default {
         }
     },
     methods:{
-      activateOrNot(e){
-        console.log(e);
+      enabledOrDesabled(e, user){
+        const loading = this.$vs.loading();
+
+        this.$axios.patch(`/activate/${user.id}`, {enabled: e}).then(res => {
+          this.$message({
+              message: e ? `User Activate Successfully` : `User Deactivate Successfully`,
+              type: 'success'
+          });
+          this.getTeachers();
+        }).catch(err => {
+          this.$message.error({
+              message: `There Are Something Wrong`,
+          });
+        }).finally(() => loading.close());
+
       },
-         addPhoto(e) {
-      if (e.target.files.length > 0) {
-        this.photo = e.target.files[0];
-        this.url = URL.createObjectURL(this.photo);
-      }
-    },
+         
         showAssignedToTeacher(teacher){
             this.showAssignedPopup = true;
             this.currTeacher = {...teacher};
@@ -796,50 +704,7 @@ export default {
 <style lang="scss">
 .section-teachers {
   padding: 15px;
-  .add-teacher-container {
-    background: #fff;
-    box-shadow: 0 1px 13px -3px #0000000f;
-    border: 1px solid #f3f3f3;
-    .add-new-teachers {
-      padding: 26px 12px 3px;
-      background: #464545;
-      background: #f9f9f9;
-      div {
-        &:first-of-type {
-          h5 {
-            color: var(--blue);
-          }
-        }
-      }
-      .attach-photo {
-        width: 84px;
-        height: 84px;
-        overflow: hidden;
-        position: relative;
-        margin: auto;
-        padding: 11px;
-        border-radius: 50%;
-        border: 5px #ddd;
-        border-style: double;
-        background: #fff;
-        margin-top: 15px;
-        input[type="file"] {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          opacity: 0;
-        }
-        img {
-          width: 100%;
-        }
-      }
-    }
-    .all-teachers {
-      padding: 10px;
-    }
-  }
+  
 
   
 }
@@ -852,7 +717,7 @@ export default {
         .outer-frame{
              margin: 15px 5px;
              border: 1px solid;
-             border: 1px solid #7c77c7;
+             border: 1px solid #7c77c76e;
              position: relative;
              &::after{
                 position: absolute;
@@ -878,13 +743,13 @@ export default {
              section{
                  display: flex;
                  margin: 10px;
-                 justify-content: space-between;
                  flex-wrap:wrap;
                  .inner-frame{
-                     padding:5px;
                      padding: 5px 20px;
-                     border:1px solid #7c77c742;
-                     border-radius: 10px;
+                      border: 1px solid rgba(124,119,199,0.25882);
+                      border-radius: 10px;
+                      margin: 0 11px;
+                      text-align: start !important;
                      h6{
                          margin-bottom: 3px;
                             padding-bottom: 2px;

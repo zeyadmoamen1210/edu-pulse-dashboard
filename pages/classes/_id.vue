@@ -12,7 +12,7 @@
             {{ secName }}
           </h5>
         </div>
-        <div>
+        <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
           <vs-button color="#FFA400" @click="openAddNewClass"
             >{{$t('classes.AddClass')}}</vs-button
           >
@@ -320,10 +320,10 @@
           <!-- <el-table-column prop="nameEn" label="الإسم بالإنجليزية">
           </el-table-column> -->
 
-          <el-table-column prop="students.length" :label="$t('classes.NumberOfStud')">
+          <el-table-column prop="numberOfStudents" :label="$t('classes.NumberOfStud')">
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Students')">
+          <el-table-column :label="$t('classes.Students')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
                 @click="$router.push(`/section/${scope.row.id}/students`)"
@@ -347,7 +347,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Actions')">
+          <el-table-column :label="$t('classes.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
                 @click="hanleUpdateSection(scope.row)"
@@ -570,7 +570,7 @@ export default {
         )
         .then(res => {
           this.sections = res.data.docs;
-          this.secName = this.sections[0].class.nameAr;
+          this.secName = this.$i18n.locale == 'ar' ? this.sections[0].class.nameAr : this.sections[0].class.nameEn;
         })
         .finally(() => loading.close());
     }

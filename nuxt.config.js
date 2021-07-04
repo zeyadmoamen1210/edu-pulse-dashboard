@@ -184,7 +184,8 @@ export default {
             'Systems':'Systems',
             'Class':'Class',
             'Levels':'Levels',
-            'Sections':"Sections"
+            'Sections':"Sections",
+            'addStudents':'Add Students'
           },
 
           systems:{
@@ -201,7 +202,20 @@ export default {
             'sections':'Sections',
             'searchByName':'Search By Name',
             'deactivate':'Deactivate',
-            'activate':'Activate'
+            'activate':'Activate',
+            'addTeachers':'Add Teacher'
+          },
+
+          sections:{
+            "AttachImg":"Attach Image",
+            "AssignToTeacher":"Assign To Teacher",
+          },
+
+          lesson:{
+            "AttachFile":"Attach File",
+            "FileTitle":"Lesson Title",
+            "AttachVideo":"Attach Video",
+            "link":"Enter Link Video"
           },
 
           Validation:{
@@ -229,7 +243,10 @@ export default {
             "VLevel":"Enter Level",
             "VClass":"Enter Class",
             'Add':'Add',
-            'VSubject':'Enter a Subject'
+            'VSubject':'Enter a Subject',
+            "FileTitle":"File Title Is Required",
+            "FileImage":"File Is Required",
+            
           }
         },
         ar: {
@@ -262,6 +279,11 @@ export default {
             "ShowLevels":"عرض المراحل"
           },
 
+          sections:{
+            "AttachImg":"إرفاق صورة",
+            "AssignToTeacher":"الإسناد إلي مُدرس",
+          },
+
           teachers:{
             "teachers":"المُدرسين",
             "teacher":"المُدرس",
@@ -271,7 +293,8 @@ export default {
             'sections':'الفصول',
             'searchByName':'بحث بالإسم',
             'deactivate':'تعطيل',
-            'activate':'تفعيل'
+            'activate':'تفعيل',
+            'addTeachers':'إضافة مُدرس'
           },
 
           subjects:{
@@ -288,13 +311,22 @@ export default {
           students:{
             "Students":"الطُلاب",
             "username":"اسم الطالب",
+            'Systems':'الأنظمة',
             "ChangePass":"شرط تغيير كلمة المرور",
             'add':"إضافة",
             'attchFile':'إرفاق ملف',
             'systems':'النُظم',
             'Class':'الفصل',
             'Levels':'المراحل',
-            'Sections':'الفصول'
+            'Sections':'الفصول',
+            'addStudents':'إضافة طالب'
+          },
+
+          lesson:{
+            "AttachFile":"إرفاق ملف",
+            "FileTitle":"ادخل عنوان الدرس",
+            "AttachVideo":"إرفاق فيديو",
+            "link":"ادخل رابط للفيديو"
           },
 
           systems:{
@@ -344,7 +376,9 @@ export default {
             "Username":"الإسم",
             "Img":"الصورة",
             'Add':'إضافة',
-            'VSubject':'ادخل مادة'
+            'VSubject':'ادخل مادة',
+            "FileTitle":" عنوان الملف",
+            "FileImage":"ادخل الملف"
           }
         },
       }
