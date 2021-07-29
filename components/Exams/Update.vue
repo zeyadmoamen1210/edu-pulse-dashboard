@@ -1,0 +1,245 @@
+<template>
+  <section>
+    <el-form :model="exam" ref="updateExam" class="for-add-or-update">
+        <div :style="{'left': $i18n.locale == 'ar' ? '31px' : 'auto', 'right': $i18n.locale != 'ar' ? '31px' : 'auto'}" class="after">
+
+        </div>
+      <div class="inputs-grid row">
+        <div class="col-md-2">
+          <el-form-item
+            prop="title"
+            :rules="[
+              {
+                required: true,
+                message: 'عنوان الامتحان',
+                trigger: 'blur',
+              },
+            ]"
+          >
+            <el-input
+              suffix-icon="el-icon-edit"
+              :placeholder="'عنوان الامتحان'"
+              v-model="exam.title"
+            ></el-input>
+          </el-form-item>
+        </div>
+
+      
+
+         <div class="col-md-2">
+          <el-form-item
+            prop="passing_percentage"
+            :rules="[
+              {
+                required: true,
+                message: 'نسبة النجاح مطلوبة',
+                trigger: 'blur',
+              },
+               { type: 'number', message: 'age must be a number'}
+            ]"
+          >
+            <el-input
+              suffix-icon="el-icon-edit"
+              placeholder="نسبة النجاح"
+              v-model.number="exam.passing_percentage"
+            ></el-input>
+          </el-form-item>
+        </div>
+
+
+        <div class="col-md-2">
+          <el-form-item
+            prop="numberOfAllowedTimesToSolve"
+            :rules="[
+              {
+                required: true,
+                message: 'عدد مرات الحل',
+                trigger: 'blur',
+              },
+               { type: 'number', message: 'age must be a number'}
+            ]"
+          >
+            <el-input
+              suffix-icon="el-icon-edit"
+              placeholder="عدد مرات الحل"
+              v-model.number="exam.numberOfAllowedTimesToSolve"
+            ></el-input>
+          </el-form-item>
+        </div>
+
+
+
+        <div class="col-md-2" v-if="exam.isDuration">
+              
+
+                <el-form-item
+                    prop="duration"
+                    :rules="[
+                    {
+                        required: true,
+                        message: 'الوقت',
+                        trigger: 'blur',
+                    },
+                    ]"
+                >
+                    <el-input
+                        v-model="exam.duration"
+                        suffix-icon="el-icon-edit"
+                        placeholder="الوقت"
+                    ></el-input>
+              
+                </el-form-item>
+        </div>
+
+
+        
+
+
+        <div class="col-md-1 switcher">
+              
+
+                <el-form-item
+                    label="متاح "
+                    prop="availability"
+                  
+                >
+                    <el-switch
+                        v-model="exam.availability"
+                        active-color="var(--yellow)"
+                        inactive-color="#C4C4C4"
+                    >
+                    </el-switch>
+              
+                </el-form-item>
+        </div>
+
+
+        <div class="col-md-1 switcher">
+              
+
+                <el-form-item
+                    label="الوقت "
+
+                    prop="isDuration"
+                   
+                >
+                    <el-switch
+                        v-model="exam.isDuration"
+                        active-color="var(--yellow)"
+                        inactive-color="#C4C4C4"
+                    >
+                    </el-switch>
+              
+                </el-form-item>
+        </div>
+
+
+        <div :class="{'col-md-2': true, 'col-md-4': exam.isDuration == false}">
+          <div class="d-flex flex-row-reverse mt-1">
+            <el-form-item>
+              <el-button
+                icon="el-icon-edit"
+                type="warning"
+                @click="validateUpdateExam('updateExam')"
+                >{{ $t("Validation.save") }}</el-button
+              >
+              <el-button
+                icon="el-icon-circle-close"
+                type="info"
+                @click.native="closeExamModel"
+                >{{ $t("Validation.close") }}</el-button
+              >
+            </el-form-item>
+          </div>
+        </div>
+      </div>
+    </el-form>
+  </section>
+</template>
+
+<script>
+export default {
+    props:['exam', 'objectType'],
+    mounted(){
+        
+    },
+    methods:{
+        closeExamModel(){
+            this.$emit("ifModelClosed")
+        },
+        validateUpdateExam(formName){
+            this.$refs[formName].validate(valid => {
+                if(valid){
+                    this.updateExam();
+                }
+            })
+        },
+        updateExam(){
+            const loading = this.$vs.loading();
+            let exam = {
+                id: this.exam.id,
+                title: this.exam.title,
+                numberOfAllowedTimesToSolve: Number(this.exam.numberOfAllowedTimesToSolve),
+                passing_percentage: Number(this.exam.passing_percentage),
+       
+            }
+
+            if(this.exam.isDuration){
+                exam.duration = Number(this.exam.duration)
+            }else{
+                exam.duration = 0
+            }
+
+            if(this.exam.availability){
+                exam.availability = true
+            }else{
+                exam.availability = false
+            }
+
+            this.$axios.patch(`/exams/${exam.id}`, exam).then(res => {
+                this.$message({
+                    message:this.$i18n.locale == 'ar' ? "تم تعديل الامتحان بنجاح" : "Exam Updated Successfully" ,
+                    type: "success"
+                });
+                this.$emit("examUpdatedSuccessfully");
+            }).finally(() => loading.close())
+        }
+    }
+};
+</script>
+
+<style lang="scss">
+.switcher{
+    .el-form-item__label{
+        float: none !important;
+            color: var(--yellow);
+            font-size: 19px;
+    }
+    .el-form-item{
+        display: flex;
+    }
+    .el-form-item__content{
+        display: flex;
+    margin-bottom: 0;
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+}
+
+.for-add-or-update{
+    margin-top: 31px;
+    border-radius: 9px;
+    padding: 15px;
+    position: relative;
+
+    .after{
+        position: absolute;
+        top: -24px;
+        border-width: 12px;
+        border-style: solid;
+        border-color: transparent transparent #f9f9f9 transparent;
+    }
+}
+
+</style>

@@ -3,255 +3,133 @@
     <div class="container-fluid">
       <div class="add-student-container">
         <div class="row">
-          <div class="col-md-3">
-            <div class="add-new-students">
-              <div>
-                <h5 class="text-center">
-                  <img
-                    style="width: 20px"
-                    src="@/assets/imgs/reading-book.svg"
-                    alt=""
-                  />
-                  {{$t('students.Students')}}
-                </h5>
-              </div>
-
-              <div class="attach-photo">
-                <input type="file" @change="addPhoto" />
-                <img v-if="!url" src="@/assets/imgs/photo-camera.svg" alt="" />
-                <img v-else :src="url" alt="" />
-              </div>
-
-              <el-form
-                :model="addStudent"
-                ref="addStudent"
-                class="add-student-form mt-3"
-              >
-                <el-form-item
-                  prop="username"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.required'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Username')"
-                    v-model="addStudent.username"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="email"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.required'),
-                      trigger: 'blur'
-                    },
-                    {
-                      type: 'email',
-                      message: $t('Validation.ValidEmail'),
-                      trigger: ['blur', 'change']
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Email')"
-                    v-model="addStudent.email"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="password"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPassword'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Password')"
-                    type="password"
-                    v-model="addStudent.password"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="address"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VAddress'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <el-input
-                    :placeholder="$t('Validation.Address')"
-                    type="address"
-                    v-model="addStudent.address"
-                  ></el-input>
-                </el-form-item>
-
-                <el-form-item
-                  prop="phone"
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('Validation.VPhone'),
-                      trigger: 'blur'
-                    }
-                  ]"
-                >
-                  <vue-phone-number-input
-                    @update="updatePhone"
-                    v-model="addStudent.phone"
-                    default-country-code="JO"
-                  />
-                </el-form-item>
-
-                <el-form-item class="must-change">
-                  <label for=""> {{$t('students.ChangePass')}} </label>
-                  <el-switch
-                    v-model="addStudent.mustChange"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                  >
-                  </el-switch>
-                </el-form-item>
-
-                <el-form-item class="mb-0">
-                  <el-button
-                    class="form-button"
-                    type="warning"
-                    @click="addNewStudent('addStudent')"
-                    > {{$t('Validation.Add')}} </el-button
-                  >
-                </el-form-item>
-                <el-form-item class="mb-0">
-                  <el-button
-                    class="form-button"
-                    type="info"
-                    @click="addNewStudent('addStudent')"
-                    >
-                    {{$t('students.attchFile')}}
-                  </el-button> 
-                </el-form-item>
-              </el-form>
-            </div>
-          </div>
-          <div class="col-md-9">
+          <div class="col-md-12">
             <div class="all-students">
-
-
-
-            <section class="change-subject" v-if="openChangeSubject">
-
-                
-
-
-            <el-form :model="changeSubject" ref="changeSubject" class="for-add-or-update">
-
-                <h6 class="not-margin" v-if="currStudent">
-                    <span style="color:var(--yellow)"> {{$t('Student.student')}} / </span>
-                     {{currStudent.username}} 
-                </h6>
-              <div class="row">
-                  <div class="col-md-3 ">
+              <section class="change-subject" v-if="openChangeSubject">
+                <el-form
+                  :model="changeSubject"
+                  ref="changeSubject"
+                  class="for-add-or-update"
+                >
+                  <h6 class="not-margin" v-if="currStudent">
+                    <span style="color:var(--yellow)">
+                      {{ $t("Student.student") }} /
+                    </span>
+                    {{ currStudent.username }}
+                  </h6>
+                  <div class="row">
+                    <div class="col-md-3 ">
                       <div>
                         <el-form-item
-                            prop="levelVal"
-                            :rules="[
+                          prop="levelVal"
+                          :rules="[
                             {
-                                required: true,
-                                message: $t('Validation.VLevel'),
-                                trigger: 'blur'
+                              required: true,
+                              message: $t('Validation.VLevel'),
+                              trigger: 'blur'
                             }
-                            ]"
+                          ]"
                         >
-                            <el-select @change="getClasses(changeSubject.levelVal)" clearable v-model="changeSubject.levelVal" :placeholder="$t('students.Systems')">
-                                <el-option
-                                v-for="item in levels"
-                                :key="item.id"
-                                :label="item.nameEn"
-                                :value="item.id">
-                                </el-option>
-                            </el-select>
+                          <el-select
+                            @change="getClasses(changeSubject.levelVal)"
+                            clearable
+                            v-model="changeSubject.levelVal"
+                            :placeholder="$t('students.Systems')"
+                          >
+                            <el-option
+                              v-for="item in levels"
+                              :key="item.id"
+                              :label="item.nameEn"
+                              :value="item.id"
+                            >
+                            </el-option>
+                          </el-select>
                         </el-form-item>
                       </div>
-                  </div>
+                    </div>
 
-                  <div class="col-md-3">
+                    <div class="col-md-3">
                       <div>
-                          <el-form-item
-                                prop="classVal"
-                                :rules="[
-                                {
-                                    required: true,
-                                    message: $t('Validation.required'),
-                                    trigger: 'blur'
-                                }
-                                ]"
+                        <el-form-item
+                          prop="classVal"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur'
+                            }
+                          ]"
+                        >
+                          <el-select
+                            @change="getSections(changeSubject.classVal)"
+                            clearable
+                            v-model="changeSubject.classVal"
+                            :placeholder="$t('students.Levels')"
+                          >
+                            <el-option
+                              v-for="item in classes"
+                              :key="item.id"
+                              :label="item.nameEn"
+                              :value="item.id"
                             >
-                                <el-select @change="getSections(changeSubject.classVal)" clearable v-model="changeSubject.classVal" :placeholder="$t('students.Levels')">
-                                    <el-option
-                                    v-for="item in classes"
-                                    :key="item.id"
-                                    :label="item.nameEn"
-                                    :value="item.id">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
                       </div>
-                  </div>
+                    </div>
 
-                  <div class="col-md-3">
+                    <div class="col-md-3">
                       <div>
-                           <el-form-item
-                                prop="sectionVal"
-                                :rules="[
-                                {
-                                    required: true,
-                                    message: $t('Validation.required'),
-                                    trigger: 'blur'
-                                }
-                                ]"
+                        <el-form-item
+                          prop="sectionVal"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur'
+                            }
+                          ]"
+                        >
+                          <el-select
+                            clearable
+                            v-model="changeSubject.sectionVal"
+                            :placeholder="$t('students.Sections')"
+                          >
+                            <el-option
+                              v-for="item in sections"
+                              :key="item.id"
+                              :label="item.nameEn"
+                              :value="item.id"
                             >
-                                <el-select clearable v-model="changeSubject.sectionVal" :placeholder="$t('students.Sections')">
-                                    <el-option
-                                    v-for="item in sections"
-                                    :key="item.id"
-                                    :label="item.nameEn"
-                                    :value="item.id">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
                       </div>
+                    </div>
+
+                    <div class="col-md-3 ">
+                      <el-form-item style="margin-top: 7px;">
+                        <div class="d-flex flex-row-reverse">
+                          <el-button
+                            class="form-button"
+                            style="width: auto;"
+                            type="warning"
+                            @click="updateStudentSubject('changeSubject')"
+                            >{{ $t("Validation.save") }}</el-button
+                          >
+                          <el-button
+                            class="form-button"
+                            style="width: auto;"
+                            type="info"
+                            @click="openChangeSubject = false"
+                            >{{ $t("Validation.close") }}</el-button
+                          >
+                        </div>
+                      </el-form-item>
+                    </div>
                   </div>
-
-                  <div class="col-md-3 ">
-                            <el-form-item style="margin-top: 7px;">
-                      <div class="d-flex flex-row-reverse">
-                                <el-button class="form-button" style="width: auto;" type="warning" @click="updateStudentSubject('changeSubject')"
-                                >{{$t('Validation.save')}}</el-button
-                                >
-                                <el-button class="form-button" style="width: auto;" type="info" @click="openChangeSubject = false"
-                                >{{$t('Validation.close')}}</el-button
-                                >
-                      </div>
-                            </el-form-item>
-                  </div>
-              </div>
-
-
-            </el-form>
-      </section>
-
+                </el-form>
+              </section>
 
               <div class="filters mt-2">
                 <!-- <div>
@@ -276,8 +154,8 @@
                   ></el-input>
                 </div> -->
 
-                <div class="row">
-                  <div class="col-md-2">
+                <div class="d-flex">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -295,7 +173,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -313,7 +191,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2 ">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -331,7 +209,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2 ">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -349,9 +227,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1"></div>
-
-                  <div class="col-md-3 pt-1" style="padding-top:1px">
+                  <div class="mr-1 ml-1">
                     <div class="d-flex flex-row-reverse">
                       <el-input
                         id="phone"
@@ -362,21 +238,29 @@
                       ></el-input>
                     </div>
                   </div>
-                </div>
 
+                  <vs-button
+                    @click="
+                      $router.push(
+                        `/students/add?level=${$route.query.level}&class=${$route.query.class}&section=${$route.params.id}`
+                      )
+                    "
+                    >+</vs-button
+                  >
+                </div>
               </div>
             </div>
 
             <el-table :data="allStudents" style="width: 100%">
-            
-
-
-              <el-table-column
-                :label="$t('Validation.Img')"
-              >
-               <template slot-scope="scope">
-                   <img class="circle-photo" v-if="scope.row.photo" :src="scope.row.photo" alt="">
-               </template>
+              <el-table-column :label="$t('Validation.Img')">
+                <template slot-scope="scope">
+                  <img
+                    class="circle-photo"
+                    v-if="scope.row.photo"
+                    :src="scope.row.photo"
+                    alt=""
+                  />
+                </template>
               </el-table-column>
 
               <el-table-column
@@ -386,22 +270,18 @@
               >
               </el-table-column>
 
-              
-
-              <el-table-column
-                :label="$t('Validation.Email')"
-                prop="email"
-              >
+              <el-table-column :label="$t('Validation.Email')" prop="email">
               </el-table-column>
 
-              
-
-              <el-table-column :label="$t('Validation.Address')" prop="address"></el-table-column>
+              <el-table-column
+                :label="$t('Validation.Address')"
+                prop="address"
+              ></el-table-column>
               <el-table-column :label="$t('Validation.Phone')">
                 <template slot-scope="scope" v-if="scope.row.phone">
-                   {{scope.row.phone}}
-               </template>
-               <h6 v-else>-</h6>
+                  {{ scope.row.phone }}
+                </template>
+                <h6 v-else>-</h6>
               </el-table-column>
 
               <el-table-column :label="$t('Validation.Actions')">
@@ -410,7 +290,7 @@
                     type="primary"
                     icon="el-icon-edit"
                     circle
-                    @click="handleChangeSubject(scope.row)" 
+                    @click="handleChangeSubject(scope.row)"
                   ></el-button>
 
                   <!-- <el-popconfirm
@@ -427,14 +307,12 @@
                       circle
                     ></el-button>
                   </el-popconfirm> -->
-
-
                 </template>
               </el-table-column>
             </el-table>
 
             <div class="center con-pagination mt-4" v-if="totalPages > 1">
-            <vs-pagination progress v-model="page" :length="totalPages" />
+              <vs-pagination progress v-model="page" :length="totalPages" />
             </div>
           </div>
         </div>
@@ -484,12 +362,18 @@ export default {
     levelVal(val) {
       if (val != "") {
         this.getClasses(val);
+      }else{
+        this.classVal = this.sectionVal = "";
+        this.classes = this.sections = []
       }
       this.getStudents();
     },
     classVal(val) {
       if (val != "") {
         this.getSections(val);
+      }else{
+        this.sectionVal = "";
+        this.sections = []
       }
       this.getStudents();
     },
@@ -504,46 +388,48 @@ export default {
     }
   },
   methods: {
+    changeStudentSubject() {
+      this.openChangeSubject = false;
+      const loading = this.$vs.loading();
 
+      this.$axios
+        .patch(`/students/${this.currStudent.id}/path`, {
+          section: this.changeSubject.sectionVal
+        })
+        .then(res => {
+          this.$message({
+            message: `Subject Changed Successfully!`,
+            type: "success"
+          });
+          this.getStudents();
+        })
+        .finally(() => loading.close());
+    },
 
-      changeStudentSubject(){
-            this.openChangeSubject = false;
-            const loading = this.$vs.loading();
-            
-            this.$axios.patch(`/students/${this.currStudent.id}/path`, {section: this.changeSubject.sectionVal}).then(res => {
-                this.$message({
-                    message: `Subject Changed Successfully!`,
-                    type: 'success'
-                });
-                this.getStudents();
-            }).finally(() => loading.close())
-        },
+    updateStudentSubject(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.changeStudentSubject();
+        }
+      });
+    },
 
-
-        updateStudentSubject(formName){
-            this.$refs[formName].validate(valid => {
-                if (valid) {
-                    this.changeStudentSubject();
-                }
-            });
-        },
-
-    handleChangeSubject(stud){
-            this.currStudent = {...stud};
-            console.log(this.currStudent)
-            if(this.classes.length == 0 || this.sections.length == 0 ){
-                this.$message({
-                    message: 'حدد الصف الدراسي و الفصل لتتمكن من تغير الفصل',
-                    type: 'warning'
-                });
-                return;
-            }
-            this.changeSubject = {
-                levelVal: this.currStudent.level ? this.currStudent.level.id : '',
-                classVal: this.currStudent.class ? this.currStudent.class.id : '',
-                sectionVal: this.currStudent.section ? this.currStudent.section.id : ''
-            };
-            this.openChangeSubject = true;
+    handleChangeSubject(stud) {
+      this.currStudent = { ...stud };
+      console.log(this.currStudent);
+      if (this.classes.length == 0 || this.sections.length == 0) {
+        this.$message({
+          message: "حدد الصف الدراسي و الفصل لتتمكن من تغير الفصل",
+          type: "warning"
+        });
+        return;
+      }
+      this.changeSubject = {
+        levelVal: this.currStudent.level ? this.currStudent.level.id : "",
+        classVal: this.currStudent.class ? this.currStudent.class.id : "",
+        sectionVal: this.currStudent.section ? this.currStudent.section.id : ""
+      };
+      this.openChangeSubject = true;
     },
     addPhoto(e) {
       if (e.target.files.length > 0) {
@@ -641,8 +527,9 @@ export default {
       }
 
       if (this.sectionVal || this.$route.params.id) {
-        qrySrting += "section=" + (this.sectionVal || this.$route.params.id) + "&";
-        console.log('sec ',this.sectionVal || this.$route.params.id)
+        qrySrting +=
+          "section=" + (this.sectionVal || this.$route.params.id) + "&";
+        console.log("sec ", this.sectionVal || this.$route.params.id);
       }
 
       if (this.page > 1) {

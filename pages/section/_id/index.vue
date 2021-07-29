@@ -26,8 +26,8 @@
 
 
 
-      <div class="row mb-3">
-          <div class="col-md-2">
+      <div class="d-flex mb-3">
+          <div class="mr-1 ml-1">
                 <div>
                     <el-select clearable v-model="selectedSystem" :placeholder="$t('subjects.Systems')">
                     <el-option
@@ -40,7 +40,7 @@
                     </el-select>
                 </div>
           </div>
-          <div class="col-md-2">
+          <div class="mr-1 ml-1">
               <div>
                     <el-select
                         clearable
@@ -59,7 +59,7 @@
                 </div>
           </div>
 
-          <div class="col-md-2">
+          <div class="mr-1 ml-1">
                 <div>
                     <el-select
                     clearable
@@ -79,7 +79,7 @@
           </div>
 
 
-          <div class="col-md-2">
+          <div class="mr-1 ml-1">
               <div>
                     <el-select
                     clearable
@@ -183,7 +183,29 @@
             </div> -->
 
 
-            <div class="col-md-3">
+
+
+             <div class="col-md-2">
+              <el-form-item
+                prop="description"
+                :rules="[
+                  {
+                    required: true,
+                    message: $t('Validation.description'),
+                    trigger: 'blur'
+                  }
+                ]"
+              >
+                <el-input
+                  suffix-icon="el-icon-edit"
+                  :placeholder="$t('Validation.description')"
+                  v-model="updateSubject.description"
+                ></el-input>
+              </el-form-item>
+            </div>
+
+
+            <div class="col-md-1">
                 <button  class="btn" @click.prevent="toggleVisibilty()" v-if="updateSubject.visibility" >
                   <img  src="@/assets/imgs/view.svg" style="width:20px" alt=""> 
                 </button>
@@ -192,7 +214,7 @@
                 </button>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
               <el-form-item prop="photo">
                 <el-upload
                   class="upload-demo"
@@ -217,14 +239,13 @@
                           alt=""
                         />
                       </el-button>
-                      {{$t('sections.AttachImg')}}
                     </div>
                   </div>
                 </el-upload>
               </el-form-item>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
@@ -291,6 +312,26 @@
               </el-form-item>
             </div>
 
+
+            <div class="col-md-2">
+              <el-form-item
+                prop="description"
+                :rules="[
+                  {
+                    required: true,
+                    message: $t('Validation.description'),
+                    trigger: 'blur'
+                  }
+                ]"
+              >
+                <el-input
+                  suffix-icon="el-icon-edit"
+                  :placeholder="$t('Validation.description')"
+                  v-model="addNewSubject.description"
+                ></el-input>
+              </el-form-item>
+            </div>
+
             <div class="col-md-2">
               <el-form-item
                 prop="nameAr"
@@ -331,7 +372,7 @@
 
             
 
-            <div class="col-md-3">
+            <div class="col-md-1">
               <el-form-item prop="photo">
                 <el-upload
                   class="upload-demo"
@@ -349,7 +390,6 @@
                       alt=""
                     />
                   </el-button>
-                  {{$t('sections.AttachImg')}}
                 </el-upload>
               </el-form-item>
             </div>
@@ -386,9 +426,9 @@
                   class="col-md-3 "
                   v-for="subject in allSubjects"
                   :key="subject.id"
-                  @click="$router.push(`/subject/${subject.id}`)"
+                  
                 >
-                  <div class="subject-card d-flex  justify-content-center">
+                  <div @click="$router.push(`/subject/${subject.id}?level=${$route.query.level}&class=${$route.query.class}&section=${$route.params.id}`)" class="subject-card d-flex  justify-content-center">
                     <div>
                       <img v-if="subject.photo" :src="subject.photo" alt="" />
                       <img
@@ -399,7 +439,7 @@
                     </div>
                     <div class="content">
                       <div>
-                        <h3 v-if="$i18n.locale.clode == 'ar'">{{ subject.nameAr }}</h3>
+                        <h3 v-if="$i18n.locale.code == 'ar'">{{ subject.nameAr }}</h3>
                         <h3 v-else>{{ subject.nameEn }}</h3>
                         <span v-if="subject.teacher"> أ/ {{ subject.teacher.username }} </span>
 
@@ -416,7 +456,7 @@
 
 
                       <div style="text-align:center" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
-                        <button class="btn-edit" @click="handleUpdate(subject)">
+                        <button class="btn-edit" @click.stop="handleUpdate(subject)">
                           <i class="el-icon-edit"></i>
                         </button>
                         <el-popconfirm
@@ -427,7 +467,7 @@
                           icon-color="red"
                           :title="$t('Validation.AreYouSure')"
                         >
-                          <button class="btn-delete" slot="reference">
+                          <button @click.stop="" class="btn-delete" slot="reference">
                             <i class="el-icon-delete-solid"></i>
                           </button>
                         </el-popconfirm>
@@ -486,6 +526,7 @@ export default {
     this.getLevels();
     this.getSystems();
   },
+
   data() {
     return {
       state: "",
@@ -521,6 +562,20 @@ export default {
       selectedSystem: ""
     };
   },
+  watch:{
+    selectedSystem(val){
+      this.selectedSection = this.selectedLevel = this.selectedClass = "";
+      this.allSections = this.allClasses = []
+    },
+    selectedLevel(va){
+      this.selectedClass = this.selectedSection = "";
+      this.allClasses = this.allSections = [];
+    },
+    selectedClass(va){
+      this.selectedSection = "";
+      this.allSections = [];
+    },
+  },
   methods: {
     toggleVisibilty(){
       this.addNewSubject.visibility = !this.addNewSubject.visibility;
@@ -543,6 +598,11 @@ export default {
         .finally(() => loading.close());
     },
     getClasses(page) {
+      if(!this.selectedLevel){
+        this.selectedClass = this.selectedSection = "";
+        this.allClasses = this.allSections = [];
+        return;
+      }
       const loading = this.$vs.loading();
 
       this.$axios
@@ -558,14 +618,18 @@ export default {
 
       this.$axios
         .get(
-          `/classes/${this.selectedClass}/sections${
-            this.selectedSystem > 0 ? "?system=" + this.selectedSystem : ""
+          `/classes/${this.selectedClass}/sections?paginate=false${
+            this.selectedSystem > 0 ? "&system=" + this.selectedSystem : ""
           }`
         )
         .then(res => {
           this.allSections = res.data;
         })
         .finally(() => loading.close());
+      }else{
+          this.selectedSection = "";
+          this.allSections = [];
+        
       }
     },
 
@@ -631,6 +695,7 @@ export default {
       this.url = subject.photo;
     },
     confirmDelete(sub) {
+      this.updateSubjectPopup = false;
       const loading = this.$vs.loading();
       this.$axios
         .delete(`subjects/${sub.id}`)
@@ -661,17 +726,28 @@ export default {
       this.photo = "";
     },
     addNewSubjectInBackend() {
-      this.addSubjectPopup = false;
-      const loading = this.$vs.loading();
+      
+      
       let formData = new FormData();
       formData.append("nameAr", this.addNewSubject.nameAr);
       formData.append("nameEn", this.addNewSubject.nameEn);
       formData.append("visibility", this.addNewSubject.visibility);
+      formData.append("description", this.addNewSubject.description);
       if (this.photo) {
         formData.append("photo", this.photo);
       }
+
+      if(!this.addNewSubject.teacher.id){
+        this.$message.error({
+            message: `This Teacher not Exist`,
+        });
+
+        return;
+      }
+
+      const loading = this.$vs.loading();
       this.$axios
-        .post(`/sections/${this.$route.params.id}/teachers/${this.addNewSubject.teacher.id}/subjects`, formData)
+        .post(`/sections/${this.selectedSection ? this.selectedSection : this.$route.params.id}/teachers/${this.addNewSubject.teacher.id}/subjects`, formData)
         .then(res => {
           this.$message({
             message: `Subject Added Successfully!`,
@@ -695,7 +771,10 @@ export default {
       let formData = new FormData();
       formData.append("nameAr", this.updateSubject.nameAr);
       formData.append("nameEn", this.updateSubject.nameEn);
+      formData.append("description", this.updateSubject.description);
       formData.append("visibility", this.updateSubject.visibility);
+
+      
       // formData.append("visibility", this.updateSubject.teacher.id);
       if (this.photo) {
         formData.append("photo", this.photo);
@@ -738,7 +817,7 @@ export default {
     getSectionSubjects() {
       const loading = this.$vs.loading();
       this.$axios
-        .get(`/sections/${this.$route.params.id}/subjects`)
+        .get(`/sections/${this.selectedSection ? this.selectedSection : this.$route.params.id}/subjects`)
         .then(res => {
           this.allSubjects = res.data.docs;
           this.page = res.data.page;
@@ -749,7 +828,7 @@ export default {
     getSection() {
       const loading = this.$vs.loading();
       this.$axios
-        .get(`/sections/${this.$route.params.id}`)
+        .get(`/sections/${this.selectedSection ? this.selectedSection : this.$route.params.id}`)
         .then(res => {
           this.section = { ...res.data };
         })
@@ -768,7 +847,7 @@ export default {
     position: relative;
 
     .subject-card {
-      height: 115px;
+      min-height: 115px;
       padding: 15px;
       border: 1px solid #efefef;
       border-radius: 10px;
@@ -782,6 +861,10 @@ export default {
         text-align: center;
         padding-top: 13px;
         margin-bottom: 0;
+
+       
+    margin: 0 15px;
+
       }
       .content {
         div {

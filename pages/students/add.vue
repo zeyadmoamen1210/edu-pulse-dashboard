@@ -54,7 +54,7 @@
                     </div>
                   </div> -->
 
-                  <div class="col-md-4">
+                  <div class="col-md-4" v-if="!$route.query.level || !$route.query.class || !$route.query.section">
                     <div class="filters">
                       <el-select
                         clearable
@@ -72,7 +72,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4 ">
+                  <div class="col-md-4 " v-if="!$route.query.level || !$route.query.class || !$route.query.section">
                     <div class="filters">
                       <el-select
                         clearable
@@ -91,7 +91,7 @@
                   </div>
 
 
-                  <div class="col-md-4 ">
+                  <div class="col-md-4 " v-if="!$route.query.level || !$route.query.class || !$route.query.section">
                     <div class="filters">
                       <el-select
                         clearable
@@ -369,7 +369,7 @@ export default {
             return;
           }
 
-          if (!this.sectionVal) {
+          if (!this.sectionVal && !this.$route.query.section) {
             this.$message.error({
               message: this.$i18n.locale == 'ar' ?  `يرجي تحديد الفصل أولاً !` : 'Must Select Class First !',
             });
@@ -389,7 +389,7 @@ export default {
       if(this.phoneObj.formattedNumber){
         formData.append("phone", this.phoneObj.formattedNumber);
       }
-      formData.append("section", this.sectionVal);
+      formData.append("section", this.sectionVal || this.$route.query.section);
       formData.append("password", this.addStudent.password);
       formData.append("address", this.addStudent.address);
       if (this.photo) {

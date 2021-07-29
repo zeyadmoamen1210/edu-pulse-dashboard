@@ -19,10 +19,9 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
+  
           <div class="d-flex justify-content-start ">
-            <div>
+            <div class="mr-1 ml-1">
               <el-select
                 clearable
                 v-model="filterSystem"
@@ -37,13 +36,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div></div>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="d-flex justify-content-end">
-            <div>
+            <div class="mr-1 ml-1">
               <el-select
                 clearable
                 v-model="selectedLevel"
@@ -60,7 +53,7 @@
               </el-select>
             </div>
 
-            <div>
+            <div class="mr-1 ml-1">
               <el-select
                 clearable
                 v-model="selectedClass"
@@ -77,8 +70,8 @@
               </el-select>
             </div>
           </div>
-        </div>
-      </div>
+
+      
 
       <section v-if="addClassPopOver">
         <el-form :model="addSection" ref="addSection" class="for-add-or-update">
@@ -326,7 +319,7 @@
           <el-table-column :label="$t('classes.Students')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
             <template slot-scope="scope">
               <el-button
-                @click="$router.push(`/section/${scope.row.id}/students`)"
+                @click="$router.push(`/section/${scope.row.id}/students?class=${$route.params.id}&level=${$route.query.level}`)"
                 type="next-level"
                 icon="el-icon-back"
               >
@@ -338,7 +331,7 @@
           <el-table-column :label="$t('classes.Subjects')">
             <template slot-scope="scope">
               <el-button
-                @click="$router.push(`/section/${scope.row.id}`)"
+                @click="$router.push(`/section/${scope.row.id}?level=${$route.query.level}&class=${$route.params.id}`)"
                 type="next-level"
                 icon="el-icon-back"
               >
@@ -453,6 +446,12 @@ export default {
   watch: {
     filterSystem(val) {
       this.getClassSections(val);
+    },
+    selectedLevel(val){
+      if(!val){
+        this.selectedClass = "";
+        this.allClasses = []
+      }
     }
   },
   mounted() {
@@ -471,7 +470,11 @@ export default {
         })
         .finally(() => loading.close());
     },
-    getClasses(page) {
+    getClasses() {
+
+      if(!this.selectedLevel){
+        return;
+      }
       const loading = this.$vs.loading();
     
       this.$axios

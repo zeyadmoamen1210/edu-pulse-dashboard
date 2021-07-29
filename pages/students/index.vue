@@ -135,8 +135,8 @@
                   ></el-input>
                 </div> -->
 
-                <div class="row">
-                  <div class="col-md-2">
+                <div class="d-flex">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -154,7 +154,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -172,7 +172,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2 ">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -190,7 +190,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2 ">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -209,7 +209,7 @@
                   </div>
 
 
-                  <div class="col-md-2 pt-1" style="padding-top:1px">
+                  <div class="mr-1 ml-1" style="padding-top:1px">
                     <div class="d-flex flex-row-reverse">
                       <el-input
                         id="phone"
@@ -221,10 +221,30 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div class="d-flex flex-row-reverse">
-                      <vs-button @click="$router.push(`/students/add`)" color="var(--blue)">+</vs-button>
+                      <el-button @click="$router.push(`/students/add`)" color="var(--blue)">+</el-button>
                     </div>
+                  </div>
+
+                  <div class="mr-1 ml-1" v-if="sectionVal">
+
+                    <el-upload
+                      class="avatar-uploader"
+                      action="#"
+                      :show-file-list="true"
+                      :auto-upload="false"
+                      :on-change="handleAddExcel"
+                      :limit="1"
+                      list-type="text"
+                      :on-remove="handleRemove"
+                      :file-list="fileList"
+                      ref="excelUploader">
+                     <el-button  color="var(--blue)">إضافة إكسيل شيت طلاب</el-button>
+                    </el-upload>
+
+
+                    
                   </div>
 
                 </div>
@@ -323,6 +343,7 @@
 </template>
 
 <script>
+import { Form } from 'element-ui';
 export default {
   middleware: ["auth"],
   mounted() {
@@ -356,7 +377,10 @@ export default {
       phoneObj: {},
       changeSubject: {},
       photo: "",
-      url: ""
+      url: "",
+      fileList:[],
+      excelSheet:{}
+      
     };
   },
   watch: {
@@ -383,6 +407,59 @@ export default {
     }
   },
   methods: {
+
+    handleAddExcel(e){
+      if (
+        e.raw &&
+        (e.raw.name.endsWith("xlsx") ||
+          e.raw.name.endsWith("xlsm") ||
+          e.raw.name.endsWith("xlsb") ||
+          e.raw.name.endsWith("xltx") ||
+          e.raw.name.endsWith("xltm") ||
+          e.raw.name.endsWith("xls") ||
+          e.raw.name.endsWith("xlt") ||
+          e.raw.name.endsWith("xla") ||
+          e.raw.name.endsWith("xlw") ||
+          e.raw.name.endsWith("xlsx"))
+      ) {
+
+        console.log("excel")
+
+        const loading = this.$vs.loading();
+        this.excelSheet = e.raw;
+        let formData = new FormData();
+        formData.append("sheet", this.excelSheet);
+        formData.append("section", this.sectionVal);
+        this.$axios.post(`/students-upload`, formData).then(res => {
+            this.$message({
+                message: "Excel Sheet Uploaded Successfully",
+                type: 'success'
+            });
+        }).catch(err => {
+          if(err.response.status === 400){
+            this.$message.error({
+                message: "This Excel Sheet InValid !",
+            });
+            return;
+          }
+
+          this.$message.error({
+                message: "حدث خطأ ما !",
+          });
+        })
+        .finally(() => loading.close())
+       
+      } else {
+        this.$refs.excelUploader.clearFiles();
+        this.$message.error({
+          message: "This File Not Allowed..Please Attach Excel!"
+        });
+      }
+    },
+
+    handleRemove(){
+      this.excelSheet = {};
+    },
 
 
     enabledOrDesabled(e, user){

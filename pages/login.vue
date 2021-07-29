@@ -59,7 +59,9 @@
                   >{{$t('auth.Login')}}</el-button
                 >
               </el-form-item>
+
             </el-form>
+            <nuxt-link to="/reset-password"> هل نسيت كلمة المرور ؟ </nuxt-link>
           </div>
         </b-col>
       </b-row>
@@ -88,7 +90,7 @@ middleware:['loggedIn'],
             data: this.loginData,
             })
             loading.close();
-            
+            localStorage.setItem("eduPulseDashboardUser" , JSON.stringify(response.data.user))
             this.$auth.setUser(response.data.user);
 
             this.$message({
@@ -96,7 +98,13 @@ middleware:['loggedIn'],
                 type: 'success'
             });
 
-            this.$router.push(`/`);
+
+            if(response.data.user.role === 'teacher'){
+              this.$router.push(`/teacher-subjects`);
+            }else{
+              this.$router.push(`/`);
+            }
+
 
             window.scrollTo({top:0, behavior: 'smooth'});
 

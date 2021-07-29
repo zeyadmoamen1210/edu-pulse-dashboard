@@ -1,0 +1,195 @@
+<template v-if="question.type == 'choose'">
+                      <Choose
+                        @openUpdateEvent="openUpdateQuestionModel(question)"
+                        @afterUpdateOrDelete="getQuestions()"
+                        :question="question"
+                        :index="Number(allQuestionsCount) + index"
+                      >
+                        <template slot="updateDelete">
+                          <button
+                            v-if="openUpdateQuestionModel"
+                            @click="openUpdateQuestionModel(question)"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+                          <button
+                            v-else
+                            @click="closeUpdateQuestionModel()"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+
+                          <el-popconfirm
+                            :confirm-button-text="$t('Validation.delete')"
+                            :cancel-button-text="$t('Validation.close')"
+                            @confirm="deleteQuestion(question)"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            :title="$t('Validation.AreYouSure')"
+                          >
+                            <button slot="reference" class="btn">
+                              <img
+                                src="@/assets/imgs/Icon-material-delete.svg"
+                                alt=""
+                              />
+                            </button>
+                          </el-popconfirm>
+                        </template>
+                      </Choose>
+                    </template>
+                    <template v-if="question.type == 'truefalse'">
+                      <TrueFalse
+                        @afterUpdateOrDelete="getQuestions()"
+                        :question="question"
+                        :index="Number(allQuestionsCount) + index"
+                      >
+                        <template slot="updateDelete">
+                          <button
+                            v-if="openUpdateQuestionModel"
+                            @click="openUpdateQuestionModel(question)"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+                          <button
+                            v-else
+                            @click="closeUpdateQuestionModel()"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+
+                          <el-popconfirm
+                            :confirm-button-text="$t('Validation.delete')"
+                            :cancel-button-text="$t('Validation.close')"
+                            @confirm="deleteQuestion(question)"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            :title="$t('Validation.AreYouSure')"
+                          >
+                            <button slot="reference" class="btn">
+                              <img
+                                src="@/assets/imgs/Icon-material-delete.svg"
+                                alt=""
+                              />
+                            </button>
+                          </el-popconfirm>
+                        </template>
+                      </TrueFalse>
+                    </template>
+                    <template v-if="question.type == 'complete'">
+                      <Complete
+                        @afterUpdateOrDelete="getQuestions()"
+                        :question="question"
+                        :index="Number(allQuestionsCount) + index"
+                      >
+                        <template slot="updateDelete">
+                          <button
+                            v-if="openUpdateQuestionModel"
+                            @click="openUpdateQuestionModel(question)"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+                          <button
+                            v-else
+                            @click="closeUpdateQuestionModel()"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+
+                          <el-popconfirm
+                            :confirm-button-text="$t('Validation.delete')"
+                            :cancel-button-text="$t('Validation.close')"
+                            @confirm="deleteQuestion(question)"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            :title="$t('Validation.AreYouSure')"
+                          >
+                            <button slot="reference" class="btn">
+                              <img
+                                src="@/assets/imgs/Icon-material-delete.svg"
+                                alt=""
+                              />
+                            </button>
+                          </el-popconfirm>
+                        </template>
+                      </Complete>
+                    </template>
+                    <template v-if="question.type == 'paragraph'">
+                      <Paragraph
+                        @afterUpdateOrDelete="getQuestions()"
+                        :question="question"
+                        :index="Number(allQuestionsCount) + index"
+                      >
+                        <template slot="updateDelete">
+                          <button
+                            v-if="openUpdateQuestionModel"
+                            @click="openUpdateQuestionModel(question)"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+                          <button
+                            v-else
+                            @click="closeUpdateQuestionModel()"
+                            class="btn"
+                          >
+                            <img
+                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              alt=""
+                            />
+                          </button>
+
+                          <el-popconfirm
+                            :confirm-button-text="$t('Validation.delete')"
+                            :cancel-button-text="$t('Validation.close')"
+                            @confirm="deleteQuestion(question)"
+                            icon="el-icon-info"
+                            icon-color="red"
+                            :title="$t('Validation.AreYouSure')"
+                          >
+                            <button slot="reference" class="btn">
+                              <img
+                                src="@/assets/imgs/Icon-material-delete.svg"
+                                alt=""
+                              />
+                            </button>
+                          </el-popconfirm>
+                        </template>
+                      </Paragraph>
+                    </template>
+
+                    <!-- <template v-if="question.type == 'group'">
+
+                            <Paragraph :question="question" :index="Number(allQuestionsCount)  + index" />
+                    </template>
+
+
+                    <template v-if="question.type == 'voice'">
+                            <Paragraph :question="question" :index="Number(allQuestionsCount)  + index" />
+                    </template> -->

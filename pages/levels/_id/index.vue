@@ -394,7 +394,7 @@ export default {
       this.getClasses(e);
     },
     getClassSections(grade) {
-      this.$router.push(`/classes/${grade.id}`);
+      this.$router.push(`/classes/${grade.id}?level=${this.$route.params.id}`);
     }
   }
 };

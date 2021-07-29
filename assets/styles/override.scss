@@ -6,6 +6,10 @@
     --danger: #F56C6C;
 }
 
+.img-full-width{
+    max-width: 100%;
+}
+
 .responsive-heading{
     white-space: nowrap;
     overflow: hidden;
@@ -65,11 +69,6 @@
     height: 35px;
 }
 
-.edu-tabs{
-    button{
-        color: var(--yellow) !important;
-    }
-}
 
 .el-upload-list__item-name{
     max-width: 200px;
@@ -206,6 +205,28 @@
     border: 1px solid #ffa40061 !important;
 }
 
+
+
+.icon-with{
+    width: 24px;
+    border: 1px solid #000000;
+    margin: 0 6px;
+    border-radius: pa;
+    padding: 3px;
+    border-radius: 0;
+}
+
+.el-button--danger{
+    background: #fff !important;
+    border-color: #fff !important;
+    color: var(--danger) ;
+    border-radius: 10px;
+    border: 1px solid var(--danger) !important;
+    &:hover{
+        color: var(--danger) !important;
+    }
+}
+
 .el-radio-button--mini .el-radio-button__inner{
     padding: 7px 7px;
 }
@@ -322,7 +343,7 @@ tbody{
 
 
 
-.systems-lists, .levels-lists , .classes-lists , .grades , .section-page{
+.systems-lists, .levels-lists , .classes-lists , .grades , .section-page, .parents-page, .add-parent-page{
     padding-top: 15px;
     .header {
       display: flex;
@@ -368,3 +389,29 @@ tbody{
     right: auto !important;
     left: 10px !important;
   }
+
+
+  // Edu Tab Style
+
+  .edu-tabs{
+    margin-bottom: 15px;
+      .active{
+            border-bottom: 3px solid var(--yellow) !important;
+            border-radius: 0;
+          
+      }
+
+      .btn {
+        outline: none !important;
+        box-shadow: none !important;
+        color: var(--blue) !important;
+        font-size: 19px;
+      }
+
+  }
+
+.el-select{
+    .el-input--suffix .el-input__inner {
+        border: 1px solid #0000004f !important;
+    }
+}
