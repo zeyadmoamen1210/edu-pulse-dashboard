@@ -5,16 +5,16 @@
         <!-- Start Of Questions Filters -->
         <div class="col-md-3" v-if="!allQueryParamsExist">
           <div class="questions-filters">
-            <h3 class="mb-5 mt-4">بنك الأسئلة</h3>
+            <h3 class="mb-5">{{ $t("sidebar.questionsBank") }}</h3>
 
-            <div class="question-filter mb-2" >
-              <label for=""> إختر الصف </label>
+            <div class="question-filter mb-2 mt-3">
+              <label for=""> {{ $t("subjects.ChooseLevel") }} </label>
               <el-select
                 v-model="levelVal"
                 filterable
                 clearable
                 @change="getClasses(levelVal)"
-                placeholder="إختر الصف"
+                :placeholder="$t('subjects.ChooseLevel')"
               >
                 <el-option
                   v-for="level in levels"
@@ -27,10 +27,10 @@
               </el-select>
             </div>
 
-            <div class="question-filter mb-2" >
-              <label for=""> إختر الفصل </label>
+            <div class="question-filter mb-2">
+              <label for=""> {{ $t("subjects.ChooseGrade") }} </label>
               <el-select
-                placeholder="إختر الفصل"
+                :placeholder="$t('subjects.ChooseGrade')"
                 v-model="classVal"
                 filterable
                 clearable
@@ -48,9 +48,9 @@
             </div>
 
             <div class="question-filter mb-2">
-              <label for=""> إختر الفصل </label>
+              <label for=""> {{ $t("subjects.ChooseSection") }} </label>
               <el-select
-                placeholder="إختر الفصل"
+                :placeholder="$t('subjects.ChooseSection')"
                 v-model="sectionVal"
                 filterable
                 clearable
@@ -69,10 +69,10 @@
               </el-select>
             </div>
 
-            <div class="question-filter mb-2" >
-              <label for=""> إختر المادة </label>
+            <div class="question-filter mb-2">
+              <label for=""> {{ $t("subjects.ChooseSubject") }}</label>
               <el-select
-                placeholder="إختر المادة"
+                :placeholder="$t('subjects.ChooseSubject')"
                 v-model="subjectVal"
                 filterable
                 clearable
@@ -91,14 +91,14 @@
               </el-select>
             </div>
 
-            <div class="question-filter mb-2" >
-              <label for=""> إختر الوحدة </label>
+            <div class="question-filter mb-2">
+              <label for=""> {{ $t("subjects.ChooseUnit") }} </label>
               <el-select
                 v-model="unitVal"
                 filterable
                 clearable
                 @change="getLessons(unitVal)"
-                placeholder="إختر الوحدة"
+                :placeholder="$t('subjects.ChooseUnit')"
               >
                 <el-option
                   v-for="unit in units"
@@ -111,12 +111,12 @@
               </el-select>
             </div>
 
-            <div class="question-filter mb-2" >
-              <label for=""> إختر الدرس </label>
+            <div class="question-filter mb-2">
+              <label for=""> {{ $t("subjects.ChooseLesson") }} </label>
               <el-select
                 v-model="lessonVal"
                 filterable
-                placeholder="إختر الدرس"
+                :placeholder="$t('subjects.ChooseLesson')"
                 clearable
                 @change="getQuestions()"
               >
@@ -131,12 +131,12 @@
               </el-select>
             </div>
 
-            <div class="question-filter mb-2" v-if="activeTab == 1 ">
-              <label for=""> إختر نوع السؤال </label>
+            <div class="question-filter mb-2" v-if="activeTab == 1">
+              <label for=""> {{ $t("subjects.Typeofquestion") }} </label>
               <el-select
                 v-model="questionType"
                 filterable
-                placeholder="إختر نوع السؤال"
+                :placeholder="$t('subjects.Typeofquestion')"
                 clearable
               >
                 <el-option
@@ -152,7 +152,12 @@
         </div>
         <!-- End Of Questions Filters -->
         <!-- Start Of Questions Content -->
-        <div :class="{'col-md-12': allQueryParamsExist,'col-md-9': !allQueryParamsExist}">
+        <div
+          :class="{
+            'col-md-12': allQueryParamsExist,
+            'col-md-9': !allQueryParamsExist,
+          }"
+        >
           <div class="questions-content">
             <section
               v-if="
@@ -170,14 +175,14 @@
             </section>
 
             <b-tabs v-model="activeTab" content-class="questions-tabs mt-3">
-              <b-tab title="الأسئلة">
+              <b-tab :title="$t('subjects.Questions')">
                 <div class="d-flex mt-4 mb-5 justify-content-between">
                   <div>
-                    <label> نوع الأسئلة </label>
+                    <label> {{ $t("subjects.Questiontype") }} </label>
                     <el-select
                       v-model="filterType"
                       filterable
-                      placeholder="فلتر  بنوع السؤال"
+                      :placeholder="$t('subjects.filter')"
                       clearable
                     >
                       <el-option
@@ -192,18 +197,23 @@
                     </el-select>
                   </div>
                   <div class="searchInQuestions">
-                    <label> بحث </label>
+                    <label> {{ $t("subjects.Search") }} </label>
                     <el-input
                       v-model="searchInQuestions"
-                      placeholder="بحث في الأسئلة"
+                      :placeholder="$t('subjects.SearchInExam')"
                     ></el-input>
                   </div>
                 </div>
 
                 <div class="questions" v-if="allQuestions.length > 0">
-                  
-                    <ShowQuestions @deleteQuestion="deleteQuestion" @closeUpdateQuestionModel="closeUpdateQuestionModel" @openUpdateQuesModel="openUpdateQuestionModel" :allQuestions="allQuestions" :toExam="false" :allQuestionsCount="allQuestionsCount" />
-
+                  <ShowQuestions
+                    @deleteQuestion="deleteQuestion"
+                    @closeUpdateQuestionModel="closeUpdateQuestionModel"
+                    @openUpdateQuesModel="openUpdateQuestionModel"
+                    :allQuestions="allQuestions"
+                    :toExam="false"
+                    :allQuestionsCount="allQuestionsCount"
+                  />
                 </div>
                 <div v-else class="no-questions-available" style="">
                   <div class="no-questions-container">
@@ -217,28 +227,27 @@
                   </div>
                 </div>
               </b-tab>
-              <b-tab title=" إضافة سؤال بصورة">
-
-
-
-                 <div class="question-filter mb-2" v-if="activeTab == 1 && allQueryParamsExist">
-                    <label for=""> إختر نوع السؤال </label>
-                    <el-select
-                      v-model="questionType"
-                      filterable
-                      placeholder="إختر نوع السؤال"
-                      clearable
+              <b-tab :title="$t('subjects.AddQuestionsImage')">
+                <div
+                  class="question-filter mb-2"
+                  v-if="activeTab == 1 && allQueryParamsExist"
+                >
+                  <label for=""> إختر نوع السؤال </label>
+                  <el-select
+                    v-model="questionType"
+                    filterable
+                    placeholder="إختر نوع السؤال"
+                    clearable
+                  >
+                    <el-option
+                      v-for="type in questionTypes"
+                      :key="type.val"
+                      :label="$i18n.locale == 'ar' ? type.nameAr : type.nameEn"
+                      :value="type.val"
                     >
-                      <el-option
-                        v-for="type in questionTypes"
-                        :key="type.val"
-                        :label="$i18n.locale == 'ar' ? type.nameAr : type.nameEn"
-                        :value="type.val"
-                      >
-                      </el-option>
-                    </el-select>
-                  </div>
-
+                    </el-option>
+                  </el-select>
+                </div>
 
                 <div v-if="lessonVal">
                   <AddSingleQuestion
@@ -261,10 +270,9 @@
                 </div>
               </b-tab>
 
-              <b-tab title="إضافة أسئلة">
+              <b-tab :title="$t('subjects.AddQuestions')">
                 <div v-if="lessonVal">
                   <AddManyQuestion
-                    
                     :lesson="lessonVal"
                     @questionSavedSuccessfully="onAddManyQuestions"
                   />
@@ -281,7 +289,7 @@
                 </div>
               </b-tab>
 
-              <b-tab title="إضافة سؤال جروب">
+              <b-tab :title="$t('subjects.AddQuestionsGruop')">
                 <div v-if="lessonVal">
                   <AddGroupQuestion
                     :lesson="lessonVal"
@@ -302,8 +310,8 @@
             </b-tabs>
 
             <div class="row">
-              <div class="col-md-8"></div>
-              <div class="col-md-4">
+              <div class="col-md-4"></div>
+              <div class="col-md-8">
                 <div
                   class="center con-pagination"
                   v-if="totalPages > 1 && activeTab == 0"
@@ -335,7 +343,7 @@ import AddSingleQuestion from "~/components/QuestionsBank/Add/Question.vue";
 import AddManyQuestion from "~/components/QuestionsBank/Add/ManyQuestions.vue";
 import AddGroupQuestion from "~/components/QuestionsBank/Add/Group.vue";
 import UpdateQuestion from "~/components/QuestionsBank/Update/UpdateQuestion.vue";
-import ShowQuestions from '~/components/QuestionsBank/ShowQuestions.vue'
+import ShowQuestions from "~/components/QuestionsBank/ShowQuestions.vue";
 
 export default {
   middleware: ["auth"],
@@ -350,9 +358,16 @@ export default {
     AddManyQuestion,
     AddGroupQuestion,
   },
-  computed:{
-    allQueryParamsExist(){
-      return (this.$route.query.level && this.$route.query.class && this.$route.query.section && this.$route.query.subject && this.$route.query.unit && this.$route.query.lesson)
+  computed: {
+    allQueryParamsExist() {
+      return (
+        this.$route.query.level &&
+        this.$route.query.class &&
+        this.$route.query.section &&
+        this.$route.query.subject &&
+        this.$route.query.unit &&
+        this.$route.query.lesson
+      );
     },
   },
   data: () => ({
@@ -388,56 +403,51 @@ export default {
     currQuestion: {},
     openUpdateModel: false,
   }),
-   async created() {
+  async created() {
+    this.getLevels();
 
-     this.getLevels();
-
-    
-    if(this.$route.query.level){
+    if (this.$route.query.level) {
       this.levelVal = Number(this.$route.query.level);
-      await this.getClasses(this.levelVal)
+      await this.getClasses(this.levelVal);
     }
 
-    if(this.$route.query.class){
+    if (this.$route.query.class) {
       this.classVal = Number(this.$route.query.class);
-      await this.getSections(this.classVal)
+      await this.getSections(this.classVal);
     }
 
-    if(this.$route.query.section){
+    if (this.$route.query.section) {
       this.sectionVal = Number(this.$route.query.section);
-      await this.getSubjects(this.sectionVal)
-
+      await this.getSubjects(this.sectionVal);
     }
 
-    if(this.$route.query.subject){
+    if (this.$route.query.subject) {
       this.subjectVal = Number(this.$route.query.subject);
       await this.getUnits(this.subjectVal);
     }
 
-    if(this.$route.query.unit){
+    if (this.$route.query.unit) {
       this.unitVal = Number(this.$route.query.unit);
       await this.getLessons(this.unitVal);
-
     }
 
-    if(this.$route.query.lesson){
+    if (this.$route.query.lesson) {
       this.lessonVal = Number(this.$route.query.lesson);
     }
 
     this.getQuestions();
-
   },
   watch: {
     // levelVal(val) {
-      
+
     // },
     // classVal(val) {
-      
+
     // },
     // sectionVal(val) {
-      
+
     // },
-    
+
     // newVal = 2
     // oldVal = 7
     page(newVal, oldVal) {
@@ -459,7 +469,6 @@ export default {
     },
   },
   methods: {
-    
     deleteQuestion(question) {
       const loading = this.$vs.loading();
       this.$axios
@@ -491,8 +500,7 @@ export default {
     },
 
     getQuestions() {
-
-      if(!this.subjectVal){
+      if (!this.subjectVal) {
         return;
       }
 
@@ -566,7 +574,6 @@ export default {
     },
 
     getClasses(levelVal) {
-
       this.classes =
         this.sections =
         this.subjects =
@@ -580,14 +587,9 @@ export default {
         this.lessonVal =
           "";
 
-
       if (!levelVal) {
         return;
       }
-
-
-      
-
 
       this.$axios
         .get(`/levels/${levelVal}/classes?paginate=false`)
@@ -597,16 +599,12 @@ export default {
     },
 
     getSections(classVal) {
-
       this.sections = this.subjects = this.units = this.lessons = [];
       this.sectionVal = this.subjectVal = this.unitVal = this.lessonVal = "";
-
 
       if (!classVal) {
         return;
       }
-
-      
 
       this.$axios
         .get(`/classes/${classVal}/sections?paginate=false`)
@@ -638,14 +636,13 @@ export default {
         return;
       }
 
-
       this.$axios
         .get(`/subjects/${subjectVal}/units?paginate=false`)
         .then((res) => {
           this.units = res.data;
         });
 
-        this.getQuestions();
+      this.getQuestions();
     },
 
     getLessons(unitVal) {
@@ -655,14 +652,13 @@ export default {
         return;
       }
 
-
       this.$axios
         .get(`/units/${unitVal}/lessons?paginate=false`)
         .then((res) => {
           this.lessons = res.data;
         });
 
-        this.getQuestions();
+      this.getQuestions();
     },
   },
 };
@@ -670,4 +666,59 @@ export default {
 
 <style lang="scss">
 @import "../assets/styles/bank-questions.scss";
+</style>
+<style lang="scss">
+.mt-3 {
+  margin-top: 3rem !important;
+}
+.first {
+  .nav-link {
+    width: 90px;
+  }
+}
+.tabs {
+  margin: 0.5rem 2rem;
+
+  @media screen and (max-width: 500px) {
+    margin: 0.5rem 0;
+  }
+
+  .nav-tabs {
+    border: none;
+  }
+  .nav-item {
+    &:first-child {
+      .nav-link {
+        width: 95px;
+      }
+    }
+  }
+
+  .nav-link {
+    background: transparent !important;
+    width: 180px;
+    margin: 0 0.1rem;
+    font-size: 14px !important;
+    font-weight: normal;
+    color: #534dba !important;
+    border: none;
+    text-align: center !important;
+
+    @media screen and (max-width: 385px) {
+      font-size: 16px !important;
+      width: 73px !important;
+      margin: 0 !important;
+    }
+
+    @media screen and (max-width: 312px) {
+      font-size: 12px !important;
+      width: 60px !important;
+      margin: 0 !important;
+    }
+
+    &.active {
+      border-bottom: 2px solid #ffa400;
+    }
+  }
+}
 </style>

@@ -4,18 +4,16 @@
       <div class="header">
         <div>
           <h5>
-            <img
-              style="width: 20px"
-              src="@/assets/imgs/reading-book-yellow.svg"
-              alt=""
-            />
-            {{$t('levels.Levels')}}
+            <span><i class="fas fa-book-reader"></i></span>
+            {{ $t("levels.Levels") }}
           </h5>
         </div>
         <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
-          <vs-button @click="addNewLevel" color="#FFA400"
-            >{{$t('levels.AddLevel')}}</vs-button
-          >
+          <vs-button @click="addNewLevel" color="#FFA400">
+            <span v-if="$i18n.locale === 'ar'"><i class="fas fa-plus"></i></span
+            >{{ $t("levels.AddLevel") }}
+            <span v-if="$i18n.locale === 'en'"><i class="fas fa-plus"></i></span
+          ></vs-button>
         </div>
       </div>
 
@@ -28,67 +26,62 @@
           <div class="row">
             <div class="col-md-8">
               <div class="inputs-grid row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <el-form-item
                     prop="nameEn"
                     :rules="[
                       {
                         required: true,
                         message: $t('Validation.nameEn'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameEn')"
                       v-model="currLevelToEdit.nameEn"
                     ></el-input>
                   </el-form-item>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <el-form-item
                     prop="nameAr"
                     :rules="[
                       {
                         required: true,
                         message: $t('Validation.nameAr'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameAr')"
                       v-model="currLevelToEdit.nameAr"
                     ></el-input>
                   </el-form-item>
                 </div>
               </div>
-
-             
             </div>
 
-             <div class="col-md-4">
-                <div class="d-flex flex-row-reverse">
-                  <el-form-item>
-                    <el-button
-                      icon="el-icon-edit"
-                      type="warning"
-                      @click="submitUpdateForm('currLevelToEdit')"
-                      >{{$t('Validation.save')}}</el-button
-                    >
-                    <el-button
-                      icon="el-icon-circle-close"
-                      type="info"
-                      @click="showEditModel = false"
-                      >{{$t('Validation.close')}}</el-button
-                    >
-                  </el-form-item>
-                </div>
+            <div class="col-md-4">
+              <div class="d-flex flex-row-reverse">
+                <el-form-item>
+                  <el-button
+                    type="warning"
+                    class="btn btn-org"
+                    @click="submitUpdateForm('currLevelToEdit')"
+                    >{{ $t("Validation.save") }}</el-button
+                  >
+                  <el-button
+                    type="info"
+                    class="btn btn-white"
+                    @click="showEditModel = false"
+                    >{{ $t("Validation.close") }}</el-button
+                  >
+                </el-form-item>
               </div>
-
+            </div>
           </div>
         </el-form>
       </section>
@@ -110,12 +103,11 @@
                         {
                           required: true,
                           message: $t('Validation.nameEn'),
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
-                        suffix-icon="el-icon-edit"
                         :placeholder="$t('Validation.nameEn')"
                         v-model="createLevels.nameEn"
                       ></el-input>
@@ -123,19 +115,17 @@
                   </div>
 
                   <div class="col-md-4">
-                      
-                        <el-form-item
+                    <el-form-item
                       prop="nameAr"
                       :rules="[
                         {
                           required: true,
                           message: $t('Validation.nameAr'),
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
-                        suffix-icon="el-icon-edit"
                         :placeholder="$t('Validation.nameAr')"
                         v-model="createLevels.nameAr"
                       ></el-input>
@@ -149,11 +139,15 @@
                   <el-form-item>
                     <el-button
                       type="warning"
+                      class="btn btn-org"
                       @click="submitForm('createLevels')"
-                      >{{$t('Validation.Save')}}</el-button
+                      >{{ $t("Validation.save") }}</el-button
                     >
-                    <el-button type="info" @click="addLevelPopup = false"
-                      >{{$t('Validation.Close')}}</el-button
+                    <el-button
+                      type="info"
+                      class="btn btn-white"
+                      @click="addLevelPopup = false"
+                      >{{ $t("Validation.close") }}</el-button
                     >
                   </el-form-item>
                 </div>
@@ -165,9 +159,14 @@
 
       <div class="table-container">
         <el-table :data="allLevels" style="width: 100%">
-          <el-table-column prop="id" sortable :label="$t('Validation.Id')"> </el-table-column>
+          <el-table-column prop="id" sortable :label="$t('Validation.Id')">
+          </el-table-column>
 
-          <el-table-column :label="$t('Validation.nameAr')" sortable prop="nameAr">
+          <el-table-column
+            :label="$t('Validation.nameAr')"
+            sortable
+            prop="nameAr"
+          >
           </el-table-column>
 
           <el-table-column
@@ -177,44 +176,51 @@
           >
           </el-table-column>
 
-          <el-table-column :label="$t('Validation.createdAt')" sortable prop="createdAt">
+          <el-table-column
+            :label="$t('Validation.createdAt')"
+            sortable
+            prop="createdAt"
+          >
           </el-table-column>
 
           <el-table-column :label="$t('levels.Levels')">
             <template slot-scope="scope">
               <el-button
+                class="goTo"
                 @click.native="showClasses(scope.row)"
                 type="next-level"
-                icon="el-icon-back"
               >
-                {{$t('levels.ShowLevels')}}
+                <span v-if="$i18n.locale === 'ar'"
+                  ><i class="fas fa-arrow-left"></i
+                ></span>
+
+                {{ $t("levels.ShowLevels") }}
+                <span v-if="$i18n.locale === 'en'"
+                  ><i class="fas fa-arrow-right"></i
+                ></span>
               </el-button>
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('Validation.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+          <el-table-column
+            :label="$t('Validation.Actions')"
+            v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+          >
             <template slot-scope="scope">
-              <el-button
-                @click="openEditForm(scope.$index, scope.row)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <span class="edit" @click="openEditForm(scope.$index, scope.row)">
+                <i class="fas fa-edit"></i
+              ></span>
 
               <el-popconfirm
-                confirm-button-text="$t('Validation.Delete')"
+                :confirm-button-text="$t('Validation.delete')"
                 @confirm="confirmDelete(scope.$index, scope.row)"
-                cancel-button-text="$t('Validation.Close')"
-                icon="el-icon-info"
+                :cancel-button-text="$t('Validation.close')"
                 icon-color="red"
-                title="$t('Validation.AreYouSure')"
+                :title="$t('Validation.AreYouSure')"
               >
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  slot="reference"
-                  circle
-                ></el-button>
+                <span class="delete" slot="reference"
+                  ><i class="fas fa-trash"></i>
+                </span>
               </el-popconfirm>
             </template>
           </el-table-column>
@@ -247,8 +253,8 @@ export default {
       currLevelToEdit: {},
       createLevels: {
         nameAr: "",
-        nameEn: ""
-      }
+        nameEn: "",
+      },
     };
   },
   methods: {
@@ -258,7 +264,7 @@ export default {
     },
 
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.createNewLevel();
           this.addLevelPopup = false;
@@ -273,16 +279,16 @@ export default {
 
       this.$axios
         .post(`/levels`, this.createLevels)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `System Added Successfully!`,
-            type: "success"
+            type: "success",
           });
           this.getLevels();
         })
-        .catch(error => {
+        .catch((error) => {
           this.$message.error({
-            message: `There Are Something Wrong!`
+            message: `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());
@@ -297,24 +303,24 @@ export default {
       this.$axios
         .put(`/levels/${this.currLevelToEdit.id}`, {
           nameAr: this.currLevelToEdit.nameAr,
-          nameEn: this.currLevelToEdit.nameEn
+          nameEn: this.currLevelToEdit.nameEn,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `Level Updated Successfully!`,
-            type: "success"
+            type: "success",
           });
           this.getLevels(this.page);
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error({
-            message: `There Are Something Wrong!`
+            message: `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());
     },
     submitUpdateForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.updateLevel();
@@ -322,7 +328,7 @@ export default {
       });
     },
     openEditForm(index, ele) {
-      this.currLevelToEdit = { ...ele} ;
+      this.currLevelToEdit = { ...ele };
       this.addLevelPopup = false;
       this.showEditModel = !this.showEditModel;
     },
@@ -331,22 +337,22 @@ export default {
       console.log(ele);
       this.$axios
         .delete(`/levels/${ele.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `Level Deleted Successfully!`,
-            type: "success"
+            type: "success",
           });
           this.getLevels(this.page);
         })
-        .catch(err => {
-          if(err.response.status == 403){
+        .catch((err) => {
+          if (err.response.status == 403) {
             this.$message.error({
-              message: err.response.data.message
+              message: err.response.data.message,
             });
             return;
           }
           this.$message.error({
-            message: `There Are Something Wrong!`
+            message: `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());
@@ -361,8 +367,8 @@ export default {
 
       this.$axios
         .get(`/levels?page=${page}`)
-        .then(res => {
-          res.data.docs.forEach(ele => {
+        .then((res) => {
+          res.data.docs.forEach((ele) => {
             ele.createdAt = this.$moment(ele.createdAt).fromNow();
             ele.updatedAt = this.$moment(ele.updatedAt).fromNow();
           });
@@ -371,11 +377,11 @@ export default {
           this.totalPages = res.data.totalPages;
         })
         .finally(() => loading.close());
-    }
+    },
   },
   mounted() {
     this.getLevels(1);
-  }
+  },
 };
 </script>
 

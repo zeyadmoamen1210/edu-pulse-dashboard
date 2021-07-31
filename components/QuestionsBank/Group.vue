@@ -1,11 +1,11 @@
 <template>
   <div class="read-question">
-    <div class="question-structure d-flex ">
+    <div class="question-structure d-flex">
       <div
         :class="{
           index: true,
           'question-border-left': $i18n.locale == 'ar',
-          'question-border-right': $i18n.locale == 'en'
+          'question-border-right': $i18n.locale == 'en',
         }"
       >
         <h6>{{ index }}</h6>
@@ -15,7 +15,7 @@
           <div class="row">
             <div class="col-md-7">
               <div class="mt-4">
-                <h6 class="question-type">سؤال مركب</h6>
+                <h6 class="question-type">{{ $t("subjects.Group") }}</h6>
                 <h6>{{ question.head }}</h6>
               </div>
             </div>
@@ -32,16 +32,14 @@
             </div>
             <div class="col-md-2" v-if="toExam && question.points">
               <div class="points">
-                <h6>الدرجة : {{ question.points }}</h6>
+                <h6>{{ $t("subjects.Degree") }} : {{ question.points }}</h6>
               </div>
             </div>
           </div>
         </div>
 
         <div v-if="showSolution" class="solution">
-          <h6 class="header">
-            الأسئلة :
-          </h6>
+          <h6 class="header">{{ $t("subjects.Questions") }} :</h6>
           <!-- Start Of Group Childs Questions -->
 
           <div
@@ -88,12 +86,16 @@
               </template>
             </div>
 
-
             <div v-else>
               <template v-if="childQuestion.child.type == 'choose'">
                 <Choose
-                  @openUpdateEvent="openUpdateQuestionModel(childQuestion.child)"
-                  :question="{...childQuestion.child, questionPoint: childQuestion.point}"
+                  @openUpdateEvent="
+                    openUpdateQuestionModel(childQuestion.child)
+                  "
+                  :question="{
+                    ...childQuestion.child,
+                    questionPoint: childQuestion.point,
+                  }"
                   :index="Number(allQuestionsCount) + index"
                   :toExam="false"
                 >
@@ -102,7 +104,10 @@
               <template v-if="childQuestion.child.type == 'truefalse'">
                 <TrueFalse
                   @afterUpdateOrDelete="getQuestions()"
-                  :question="{...childQuestion.child, questionPoint: childQuestion.point}"
+                  :question="{
+                    ...childQuestion.child,
+                    questionPoint: childQuestion.point,
+                  }"
                   :index="Number(allQuestionsCount) + index"
                   :toExam="false"
                 >
@@ -112,7 +117,10 @@
                 <Complete
                   :toExam="false"
                   @afterUpdateOrDelete="getQuestions()"
-                  :question="{...childQuestion.child, questionPoint: childQuestion.point}"
+                  :question="{
+                    ...childQuestion.child,
+                    questionPoint: childQuestion.point,
+                  }"
                   :index="Number(allQuestionsCount) + index"
                 >
                 </Complete>
@@ -121,14 +129,15 @@
                 <Paragraph
                   :toExam="false"
                   @afterUpdateOrDelete="getQuestions()"
-                  :question="{...childQuestion.child, questionPoint: childQuestion.point}"
+                  :question="{
+                    ...childQuestion.child,
+                    questionPoint: childQuestion.point,
+                  }"
                   :index="Number(allQuestionsCount) + index"
                 >
                 </Paragraph>
               </template>
             </div>
-
-
           </div>
 
           <!-- End Of Group Childs Questions -->
@@ -139,8 +148,18 @@
           <slot name="updateDelete"> </slot>
         </div>
         <div class="showSolution d-flex justify-content-end">
-                  <el-button type="text" v-if="showSolution == false" @click="showSolution = !showSolution" > عرض الأسئلة <i class="el-icon-arrow-right el-icon-right"></i> </el-button>
-                  <el-button type="text" v-else  @click="showSolution = !showSolution" > إخفاء الأسئلة <i class="el-icon-arrow-left el-icon-left"></i> </el-button>
+          <el-button
+            type="text"
+            v-if="showSolution == false"
+            @click="showSolution = !showSolution"
+          >
+            {{ $t("subjects.ShowAnswer") }}
+            <i class="el-icon-arrow-right el-icon-right"></i>
+          </el-button>
+          <el-button type="text" v-else @click="showSolution = !showSolution">
+            {{ $t("subjects.HideContent") }}
+            <i class="el-icon-arrow-left el-icon-left"></i>
+          </el-button>
         </div>
       </div>
     </div>
@@ -160,7 +179,7 @@ export default {
   props: ["question", "index", "toExam"],
   data: () => ({
     allQuestionsCount: 1,
-    showSolution: false
+    showSolution: false,
   }),
   methods: {
     updateDeleteChange() {
@@ -168,8 +187,8 @@ export default {
     },
     emitUpdateEvent() {
       this.$emit("openUpdateEvent");
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -12,13 +12,13 @@
                   class="for-add-or-update"
                 >
                   <h6 class="not-margin" v-if="currStudent">
-                    <span style="color:var(--yellow)">
-                      {{ $t("Student.student") }} /
+                    <span style="color: var(--yellow)">
+                      {{ $t("students.Student") }} /
                     </span>
                     {{ currStudent.username }}
                   </h6>
                   <div class="row">
-                    <div class="col-md-3 ">
+                    <div class="col-md-3">
                       <div>
                         <el-form-item
                           prop="levelVal"
@@ -26,8 +26,8 @@
                             {
                               required: true,
                               message: $t('Validation.VLevel'),
-                              trigger: 'blur'
-                            }
+                              trigger: 'blur',
+                            },
                           ]"
                         >
                           <el-select
@@ -56,8 +56,8 @@
                             {
                               required: true,
                               message: $t('Validation.required'),
-                              trigger: 'blur'
-                            }
+                              trigger: 'blur',
+                            },
                           ]"
                         >
                           <el-select
@@ -86,8 +86,8 @@
                             {
                               required: true,
                               message: $t('Validation.required'),
-                              trigger: 'blur'
-                            }
+                              trigger: 'blur',
+                            },
                           ]"
                         >
                           <el-select
@@ -107,19 +107,19 @@
                       </div>
                     </div>
 
-                    <div class="col-md-3 ">
-                      <el-form-item style="margin-top: 7px;">
+                    <div class="col-md-3">
+                      <el-form-item style="margin-top: 7px">
                         <div class="d-flex flex-row-reverse">
                           <el-button
-                            class="form-button"
-                            style="width: auto;"
+                            class="btn btn-org"
+                            style="width: auto"
                             type="warning"
                             @click="updateStudentSubject('changeSubject')"
                             >{{ $t("Validation.save") }}</el-button
                           >
                           <el-button
-                            class="form-button"
-                            style="width: auto;"
+                            class="btn btn-white"
+                            style="width: auto"
                             type="info"
                             @click="openChangeSubject = false"
                             >{{ $t("Validation.close") }}</el-button
@@ -132,28 +132,6 @@
               </section>
 
               <div class="filters mt-2">
-                <!-- <div>
-                  <label for="email">Email</label>
-                  <el-input
-                    id="email"
-                    placeholder="Email"
-                    type="email"
-                    v-model="emailVal"
-                    @keydown.native.enter="getStudents()"
-                  ></el-input>
-                </div>
-
-                <div>
-                  <label for="username">User Name</label>
-                  <el-input
-                    id="username"
-                    placeholder="User Name"
-                    type="text"
-                    v-model="usernameVal"
-                    @keydown.native.enter="getStudents()"
-                  ></el-input>
-                </div> -->
-
                 <div class="d-flex">
                   <div class="mr-1 ml-1">
                     <div>
@@ -240,6 +218,7 @@
                   </div>
 
                   <vs-button
+                    class="btnsecond-org"
                     @click="
                       $router.push(
                         `/students/add?level=${$route.query.level}&class=${$route.query.class}&section=${$route.params.id}`
@@ -252,7 +231,7 @@
             </div>
 
             <el-table :data="allStudents" style="width: 100%">
-              <el-table-column :label="$t('Validation.Img')">
+              <el-table-column :label="$t('Validation.Img')" width="80">
                 <template slot-scope="scope">
                   <img
                     class="circle-photo"
@@ -265,17 +244,23 @@
 
               <el-table-column
                 :label="$t('Validation.Username')"
+                width="220"
                 sortable
                 prop="username"
               >
               </el-table-column>
 
-              <el-table-column :label="$t('Validation.Email')" prop="email">
+              <el-table-column
+                :label="$t('Validation.Email')"
+                prop="email"
+                width="250"
+              >
               </el-table-column>
 
               <el-table-column
                 :label="$t('Validation.Address')"
                 prop="address"
+                width="220"
               ></el-table-column>
               <el-table-column :label="$t('Validation.Phone')">
                 <template slot-scope="scope" v-if="scope.row.phone">
@@ -288,9 +273,10 @@
                 <template slot-scope="scope">
                   <el-button
                     type="primary"
-                    icon="el-icon-edit"
                     circle
                     @click="handleChangeSubject(scope.row)"
+                  >
+                    <span class="edit"><i class="fas fa-edit"></i></span
                   ></el-button>
 
                   <!-- <el-popconfirm
@@ -355,25 +341,25 @@ export default {
       phoneObj: {},
       changeSubject: {},
       photo: "",
-      url: ""
+      url: "",
     };
   },
   watch: {
     levelVal(val) {
       if (val != "") {
         this.getClasses(val);
-      }else{
+      } else {
         this.classVal = this.sectionVal = "";
-        this.classes = this.sections = []
+        this.classes = this.sections = [];
       }
       this.getStudents();
     },
     classVal(val) {
       if (val != "") {
         this.getSections(val);
-      }else{
+      } else {
         this.sectionVal = "";
-        this.sections = []
+        this.sections = [];
       }
       this.getStudents();
     },
@@ -385,7 +371,7 @@ export default {
     },
     page() {
       this.getStudents();
-    }
+    },
   },
   methods: {
     changeStudentSubject() {
@@ -394,20 +380,29 @@ export default {
 
       this.$axios
         .patch(`/students/${this.currStudent.id}/path`, {
-          section: this.changeSubject.sectionVal
+          section: this.changeSubject.sectionVal,
         })
-        .then(res => {
-          this.$message({
-            message: `Subject Changed Successfully!`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم تغيير الموضوع بنجاح!`
+                : `Subject Changed Successfully!`,
           });
+          // this.$message({
+          //   message: `Subject Changed Successfully!`,
+          //   type: "success",
+          // });
           this.getStudents();
         })
         .finally(() => loading.close());
     },
 
     updateStudentSubject(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.changeStudentSubject();
         }
@@ -418,16 +413,25 @@ export default {
       this.currStudent = { ...stud };
       console.log(this.currStudent);
       if (this.classes.length == 0 || this.sections.length == 0) {
-        this.$message({
-          message: "حدد الصف الدراسي و الفصل لتتمكن من تغير الفصل",
-          type: "warning"
+        this.$vs.notification({
+          color: "#FA5B5A",
+          position: "top-center",
+
+          text:
+            this.$i18n.locale == "en"
+              ? `Select the class and class to be able to change the class`
+              : `حدد الصف الدراسي و الفصل لتتمكن من تغير الفصل!`,
         });
+        // this.$message({
+        //   message: "حدد الصف الدراسي و الفصل لتتمكن من تغير الفصل",
+        //   type: "warning",
+        // });
         return;
       }
       this.changeSubject = {
         levelVal: this.currStudent.level ? this.currStudent.level.id : "",
         classVal: this.currStudent.class ? this.currStudent.class.id : "",
-        sectionVal: this.currStudent.section ? this.currStudent.section.id : ""
+        sectionVal: this.currStudent.section ? this.currStudent.section.id : "",
       };
       this.openChangeSubject = true;
     },
@@ -441,11 +445,11 @@ export default {
       this.phoneObj = val;
     },
     addNewStudent(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.phoneObj.isValid) {
             this.$message.error({
-              message: `Please Enter A Valid Number !`
+              message: `Please Enter A Valid Number !`,
             });
             return;
           }
@@ -474,26 +478,35 @@ export default {
 
       this.$axios
         .post(`/students`, formData)
-        .then(res => {
+        .then((res) => {
           this.addNewStudentPopup = false;
-          this.$message({
-            message: `Student Added Successfully!`,
-            type: "success"
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم أضافه الموضوع بنجاح!`
+                : `Subject Added Successfully!`,
           });
+          // this.$message({
+          //   message: `Student Added Successfully!`,
+          //   type: "success",
+          // });
           this.addStudent = {};
           this.phoneObj = {};
           this.photo = this.url = "";
           this.getStudents();
         })
         .finally(() => loading.close())
-        .catch(error => {
+        .catch((error) => {
           if (error.response && error.response.status == 400) {
             this.$message.error({
-              message: `Email Or Phone Already Exist`
+              message: `Email Or Phone Already Exist`,
             });
           } else {
             this.$message.error({
-              message: `There Are Something Wrong!`
+              message: `There Are Something Wrong!`,
             });
           }
         });
@@ -548,7 +561,7 @@ export default {
 
       this.$axios
         .get(qrySrting)
-        .then(res => {
+        .then((res) => {
           this.allStudents = res.data.docs;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
@@ -560,7 +573,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/systems?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.systems = res.data;
         })
         .finally(() => loading.close());
@@ -569,7 +582,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/levels?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.levels = res.data;
         })
         .finally(() => loading.close());
@@ -578,7 +591,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/levels/${val}/classes?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.classes = res.data;
         })
         .finally(() => loading.close());
@@ -591,12 +604,12 @@ export default {
             this.systemVal ? "&system=" + this.systemVal : ""
           }`
         )
-        .then(res => {
+        .then((res) => {
           this.sections = res.data;
         })
         .finally(() => loading.close());
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -648,4 +661,8 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="scss">
+@import "@/assets/styles/students.scss";
 </style>

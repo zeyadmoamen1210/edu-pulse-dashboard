@@ -4,37 +4,33 @@
       <div class="header">
         <div>
           <h5>
-            <img
-              style="width: 20px"
-              src="@/assets/imgs/reading-book-yellow.svg"
-              alt=""
-            />
-            {{$t('levels.Classes')}}
+            <span><i class="fas fa-book-reader"></i></span>
+            {{ $t("levels.Classes") }}
           </h5>
         </div>
         <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
-          <vs-button @click="openAddForm" color="#FFA400"> {{$t('levels.AddClass')}} </vs-button>
+          <vs-button @click="openAddForm" color="#FFA400">
+            {{ $t("levels.AddClass") }}
+          </vs-button>
         </div>
       </div>
 
-
-        <div>
-            <el-select
-                clearable
-                v-model="selectedLevel"
-                :placeholder="$t('levels.Levels')"
-                @change="getClasses(1)"
-                >
-                <el-option
-                    v-for="item in allLevels"
-                    :key="item.id"
-                    :label="item.nameEn"
-                    :value="item.id"
-                >
-                </el-option>
-            </el-select>
-        </div>
-
+      <div>
+        <el-select
+          clearable
+          v-model="selectedLevel"
+          :placeholder="$t('levels.Levels')"
+          @change="getClasses(1)"
+        >
+          <el-option
+            v-for="item in allLevels"
+            :key="item.id"
+            :label="item.nameEn"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </div>
 
       <section v-if="showEditModel">
         <el-form
@@ -52,12 +48,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameEn'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameEn')"
                       v-model="currClassToEdit.nameEn"
                     ></el-input>
@@ -71,12 +66,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameAr'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameAr')"
                       v-model="currClassToEdit.nameAr"
                     ></el-input>
@@ -89,16 +83,16 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitUpdateForm('currClassToEdit')"
-                    >{{$t('Validation.save')}}</el-button
+                    >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="showEditModel = false"
-                    >{{$t('Validation.close')}}</el-button
+                    >{{ $t("Validation.close") }}</el-button
                   >
                 </el-form-item>
               </div>
@@ -123,12 +117,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameEn'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameEn')"
                       v-model="currClassToAdd.nameEn"
                     ></el-input>
@@ -142,12 +135,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameAr'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameAr')"
                       v-model="currClassToAdd.nameAr"
                     ></el-input>
@@ -160,16 +152,16 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitAddForm('currClassToAdd')"
-                    >{{$t('Validation.save')}}</el-button
+                    >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="showAddModel = false"
-                    >{{$t('Validation.close')}}</el-button
+                    >{{ $t("Validation.close") }}</el-button
                   >
                 </el-form-item>
               </div>
@@ -180,54 +172,67 @@
 
       <div class="table-container">
         <el-table :data="allClasses" style="width: 100%">
-          <el-table-column prop="id" sortable :label="$t('Validation.Id')"> </el-table-column>
-
-          <el-table-column prop="nameAr" sortable :label="$t('Validation.nameAr')">
+          <el-table-column prop="id" sortable :label="$t('Validation.Id')">
           </el-table-column>
 
-          <el-table-column prop="nameEn" sortable :label="$t('Validation.nameEn')">
+          <el-table-column
+            prop="nameAr"
+            sortable
+            :label="$t('Validation.nameAr')"
+          >
           </el-table-column>
-          <el-table-column prop="createdAt" sortable :label="$t('Validation.createdAt')">
-          </el-table-column>
-       
 
+          <el-table-column
+            prop="nameEn"
+            sortable
+            :label="$t('Validation.nameEn')"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="createdAt"
+            sortable
+            :label="$t('Validation.createdAt')"
+          >
+          </el-table-column>
 
           <el-table-column :label="$t('levels.Classes')">
             <template slot-scope="scope">
               <el-button
+                class="goTo"
                 @click="getClassSections(scope.row)"
                 type="next-level"
-                icon="el-icon-back"
               >
-                {{$t('levels.ShowClasses')}}
+                <span v-if="$i18n.locale === 'ar'"
+                  ><i class="fas fa-arrow-left"></i
+                ></span>
+
+                {{ $t("levels.ShowClasses") }}
+                <span v-if="$i18n.locale === 'en'"
+                  ><i class="fas fa-arrow-right"></i
+                ></span>
               </el-button>
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+          <el-table-column
+            :label="$t('classes.Actions')"
+            v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+          >
             <template slot-scope="scope">
-              <el-button
-                @click="openEditForm(scope.$index, scope.row)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
-           
+              <span class="edit" @click="openEditForm(scope.$index, scope.row)">
+                <i class="fas fa-edit"></i
+              ></span>
 
               <el-popconfirm
                 :confirm-button-text="$t('Validation.delete')"
                 @confirm="confirmDelete(scope.$index, scope.row)"
                 :cancel-button-text="$t('Validation.close')"
-                icon="el-icon-info"
                 icon-color="red"
                 :title="$t('Validation.AreYouSure')"
               >
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  slot="reference"
-                  circle
-                ></el-button>
+                <span class="delete" slot="reference"
+                  ><i class="fas fa-trash"></i>
+                </span>
               </el-popconfirm>
             </template>
           </el-table-column>
@@ -265,32 +270,33 @@ export default {
 
       showEditModel: false,
       currClassToEdit: {},
-      allLevels:[],
-      selectedLevel:""
+      allLevels: [],
+      selectedLevel: "",
     };
   },
   methods: {
-      getLevels() {
+    getLevels() {
       const loading = this.$vs.loading();
 
       this.$axios
         .get(`/levels?paginate=false`)
-        .then(res => {
-          
+        .then((res) => {
           this.allLevels = res.data;
-   
         })
         .finally(() => loading.close());
     },
     getClasses(page) {
       const loading = this.$vs.loading();
-        if(this.selectedLevel){
-            
-        }
+      if (this.selectedLevel) {
+      }
       this.$axios
-        .get(`/levels/${this.selectedLevel ? this.selectedLevel : this.$route.params.id}/classes?page=${page}`)
-        .then(res => {
-          res.data.docs.forEach(ele => {
+        .get(
+          `/levels/${
+            this.selectedLevel ? this.selectedLevel : this.$route.params.id
+          }/classes?page=${page}`
+        )
+        .then((res) => {
+          res.data.docs.forEach((ele) => {
             ele.createdAt = this.$moment(ele.createdAt).fromNow();
             ele.updatedAt = this.$moment(ele.updatedAt).fromNow();
           });
@@ -307,15 +313,24 @@ export default {
 
       this.$axios
         .post(`/levels/${this.$route.params.id}/classes`, {
-          ...this.currClassToAdd
+          ...this.currClassToAdd,
         })
-        .then(res => {
+        .then((res) => {
           this.currClassToAdd = {};
           this.getClasses(this.page);
-          this.$message({
-            message: `Grade Added Successfully !`,
-            type: "success"
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة الدرجة بنجاح!`
+                : `Grade Added Successfully !`,
           });
+          // this.$message({
+          //   message: `Grade Added Successfully !`,
+          //   type: "success",
+          // });
         })
         .finally(() => loading.close());
     },
@@ -326,24 +341,42 @@ export default {
       this.$axios
         .patch(`/classes/${this.currClassToEdit.id}`, {
           nameAr: this.currClassToEdit.nameAr,
-          nameEn: this.currClassToEdit.nameEn
+          nameEn: this.currClassToEdit.nameEn,
         })
-        .then(res => {
-          this.$message({
-            message: `Grade Updated Successfully!`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت تعديل الدرجة بنجاح!`
+                : `Grade Updated Successfully !`,
           });
+          // this.$message({
+          //   message: `Grade Updated Successfully!`,
+          //   type: "success",
+          // });
           this.getClasses(this.page);
         })
-        .catch(err => {
-          this.$message.error({
-            message: `There Are Something Wrong!`
+        .catch((err) => {
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "en"
+                ? `There Are Something Wrong !`
+                : `هناك شيء خاطئ!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong!`
+          // });
         })
         .finally(() => loading.close());
     },
     submitUpdateForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.updateClass();
@@ -352,7 +385,7 @@ export default {
     },
 
     submitAddForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.addClass();
@@ -374,17 +407,35 @@ export default {
       console.log(ele);
       this.$axios
         .delete(`/classes/${ele.id}`)
-        .then(res => {
-          this.$message({
-            message: `Grade Deleted Successfully!`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت مسح الدرجة بنجاح!`
+                : `Grade Deleted Successfully !`,
           });
+          // this.$message({
+          //   message: `Grade Deleted Successfully!`,
+          //   type: "success",
+          // });
           this.getClasses(this.page);
         })
-        .catch(err => {
-          this.$message.error({
-            message: `There Are Something Wrong !`
+        .catch((err) => {
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "en"
+                ? `There Are Something Wrong !`
+                : `هناك شيء خاطئ!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong !`
+          // });
         })
         .finally(() => loading.close());
     },
@@ -395,11 +446,10 @@ export default {
     },
     getClassSections(grade) {
       this.$router.push(`/classes/${grade.id}?level=${this.$route.params.id}`);
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style>
-
+<style lang="scss">
+@import "@/assets/styles/list.scss";
 </style>

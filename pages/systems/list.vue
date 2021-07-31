@@ -4,18 +4,20 @@
       <div class="header">
         <div>
           <h5>
-            <img
-              style="width: 20px"
-              src="@/assets/imgs/reading-book-yellow.svg"
-              alt=""
-            />
-            {{$t('systems.Systems')}}
+            <span><i class="fas fa-book-reader"></i></span>
+            {{ $t("systems.Systems") }}
           </h5>
         </div>
         <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
-          <vs-button @click="addNewSys" color="#FFA400"
-            > {{$t('systems.AddSystem')}} </vs-button
-          >
+          <vs-button @click="addNewSys" color="#FFA400">
+            <span v-if="$i18n.locale === 'ar'"
+              ><i class="fas fa-plus"></i
+            ></span>
+            {{ $t("systems.AddSystem") }}
+            <span v-if="$i18n.locale === 'en'"
+              ><i class="fas fa-plus"></i
+            ></span>
+          </vs-button>
         </div>
       </div>
 
@@ -35,13 +37,12 @@
                       :rules="[
                         {
                           required: true,
-                          message:$t('Validation.nameAr'),
-                          trigger: 'blur'
-                        }
+                          message: $t('Validation.nameAr'),
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
-                        suffix-icon="el-icon-edit"
                         :placeholder="$t('Validation.nameAr')"
                         v-model="createSystem.nameAr"
                       ></el-input>
@@ -55,12 +56,11 @@
                         {
                           required: true,
                           message: $t('Validation.nameEn'),
-                          trigger: 'blur'
-                        }
+                          trigger: 'blur',
+                        },
                       ]"
                     >
                       <el-input
-                        suffix-icon="el-icon-edit"
                         :placeholder="$t('Validation.nameEn')"
                         v-model="createSystem.nameEn"
                       ></el-input>
@@ -74,12 +74,15 @@
                   <el-form-item>
                     <el-button
                       type="warning"
-                      icon="el-icon-edit"
+                      class="btn btn-org"
                       @click="submitForm('createSystem')"
-                      >{{$t('Validation.save')}}</el-button
+                      >{{ $t("Validation.save") }}</el-button
                     >
-                    <el-button type="info" icon="el-icon-circle-close" @click="addSystemPopup = false"
-                      >{{$t('Validation.close')}}</el-button
+                    <el-button
+                      class="btn btn-white"
+                      type="info"
+                      @click="addSystemPopup = false"
+                      >{{ $t("Validation.close") }}</el-button
                     >
                   </el-form-item>
                 </div>
@@ -105,12 +108,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameAr'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameAr')"
                       v-model="currSystemToEdit.nameAr"
                     ></el-input>
@@ -124,12 +126,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameEn'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameEn')"
                       v-model="currSystemToEdit.nameEn"
                     ></el-input>
@@ -142,16 +143,16 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitUpdateForm('currSystemToEdit')"
-                    >{{$t('Validation.save')}}</el-button
+                    >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="showEditModel = false"
-                    >{{$t('Validation.close')}}</el-button
+                    >{{ $t("Validation.close") }}</el-button
                   >
                 </el-form-item>
               </div>
@@ -162,7 +163,8 @@
 
       <div class="table-container">
         <el-table :data="allSystems" style="width: 100%">
-          <el-table-column prop="id" sortable :label="$t('Validation.Id')"> </el-table-column>
+          <el-table-column prop="id" sortable :label="$t('Validation.Id')">
+          </el-table-column>
 
           <el-table-column prop="nameAr" :label="$t('Validation.nameAr')">
           </el-table-column>
@@ -172,14 +174,14 @@
           <el-table-column prop="createdAt" :label="$t('Validation.createdAt')">
           </el-table-column>
 
-          <el-table-column :label="$t('Validation.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+          <el-table-column
+            :label="$t('Validation.Actions')"
+            v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+          >
             <template slot-scope="scope">
-              <el-button
-                @click="openEditForm(scope.$index, scope.row)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <span class="edit" @click="openEditForm(scope.$index, scope.row)">
+                <i class="fas fa-edit"></i
+              ></span>
 
               <el-popconfirm
                 :confirm-button-text="$t('Validation.delete')"
@@ -189,12 +191,9 @@
                 icon-color="red"
                 :title="$t('Validation.AreYouSure')"
               >
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  slot="reference"
-                  circle
-                ></el-button>
+                <span class="delete" slot="reference"
+                  ><i class="fas fa-trash"></i>
+                </span>
               </el-popconfirm>
             </template>
           </el-table-column>
@@ -220,7 +219,7 @@ export default {
     return {
       createSystem: {
         nameAr: "",
-        nameEn: ""
+        nameEn: "",
       },
       addSystemPopup: false,
       allSystems: [],
@@ -228,16 +227,16 @@ export default {
       totalPages: 1,
 
       showEditModel: false,
-      currSystemToEdit: {}
+      currSystemToEdit: {},
     };
   },
   methods: {
-    addNewSys(){
-        this.showEditModel = false;
-        this.addSystemPopup = !this.addSystemPopup; 
+    addNewSys() {
+      this.showEditModel = false;
+      this.addSystemPopup = !this.addSystemPopup;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.createNewSystem();
           this.addSystemPopup = false;
@@ -252,18 +251,36 @@ export default {
 
       this.$axios
         .post(`/systems`, this.createSystem)
-        .then(res => {
-          this.$message({
-            message: `System Added Successfully`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة النظام بنجاح`
+                : `System Added Successfully`,
           });
+          // this.$message({
+          //   message: `System Added Successfully`,
+          //   type: "success",
+          // });
           this.createSystem = {};
           this.getSystems();
         })
-        .catch(error => {
-          this.$message.error({
-            message: `There Are Something Wrong !`
+        .catch((error) => {
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "en"
+                ? `There Are Something Wrong !`
+                : `هناك شيء خاطئ!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong !`,
+          // });
         })
         .finally(() => loading.close());
     },
@@ -274,24 +291,42 @@ export default {
       this.$axios
         .put(`/systems/${this.currSystemToEdit.id}`, {
           nameAr: this.currSystemToEdit.nameAr,
-          nameEn: this.currSystemToEdit.nameEn
+          nameEn: this.currSystemToEdit.nameEn,
         })
-        .then(res => {
-          this.$message({
-            message: `System Updated Successfully`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت تعديل النظام بنجاح`
+                : `System Updated Successfully`,
           });
+          // this.$message({
+          //   message: `System Updated Successfully`,
+          //   type: "success",
+          // });
           this.getSystems(this.page);
         })
-        .catch(err => {
-          this.$message.error({
-            message: `There Are Something Wrong!`
+        .catch((err) => {
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "en"
+                ? `There Are Something Wrong !`
+                : `هناك شيء خاطئ!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong!`,
+          // });
         })
         .finally(() => loading.close());
     },
     submitUpdateForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.updateSystem();
@@ -299,7 +334,7 @@ export default {
       });
     },
     openEditForm(index, ele) {
-        this.addSystemPopup = false;
+      this.addSystemPopup = false;
       this.currSystemToEdit = { ...ele };
       this.showEditModel = !this.showEditModel;
     },
@@ -308,25 +343,51 @@ export default {
       // console.log(ele);
       this.$axios
         .delete(`/systems/${ele.id}`)
-        .then(res => {
-          this.$message({
-            message: `System Deleted Successfully !`,
-            type: "success"
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت مسح النظام بنجاح`
+                : `System Deleted Successfully`,
           });
+          // this.$message({
+          //   message: `System Deleted Successfully !`,
+          //   type: "success",
+          // });
           // this.getSystems(this.page);
-          let index = this.allSystems.findIndex(element => element.id == ele.id);
+          let index = this.allSystems.findIndex(
+            (element) => element.id == ele.id
+          );
           this.allSystems.splice(index, 1);
         })
-        .catch(err => {
-          if(err.response.status == 403){
-            this.$message.error({
-              message: err.response.data.message
+        .catch((err) => {
+          if (err.response.status == 403) {
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text: err.response.data.message,
             });
+            // this.$message.error({
+            //   message: err.response.data.message,
+            // });
             return;
           }
-          this.$message.error({
-            message: `There Are Something Wrong!`
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "en"
+                ? `There Are Something Wrong !`
+                : `هناك شيء خاطئ!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong!`,
+          // });
         })
         .finally(() => loading.close());
     },
@@ -340,8 +401,8 @@ export default {
 
       this.$axios
         .get(`/systems?page=${page}`)
-        .then(res => {
-          res.data.docs.forEach(ele => {
+        .then((res) => {
+          res.data.docs.forEach((ele) => {
             ele.createdAt = this.$moment(ele.createdAt).fromNow();
             ele.updatedAt = this.$moment(ele.updatedAt).fromNow();
           });
@@ -350,14 +411,14 @@ export default {
           this.totalPages = res.data.totalPages;
         })
         .finally(() => loading.close());
-    }
+    },
   },
   mounted() {
     this.getSystems(1);
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-
+@import "@/assets/styles/list.scss";
 </style>

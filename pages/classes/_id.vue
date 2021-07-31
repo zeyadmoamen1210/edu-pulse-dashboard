@@ -4,74 +4,67 @@
       <div class="header">
         <div>
           <h5>
-            <img
-              style="width: 20px"
-              src="@/assets/imgs/reading-book-yellow.svg"
-              alt=""
-            />
+            <span><i class="fas fa-book-reader"></i></span>
             {{ secName }}
           </h5>
         </div>
         <div v-if="$auth.loggedIn && $auth.user.role == 'admin'">
-          <vs-button color="#FFA400" @click="openAddNewClass"
-            >{{$t('classes.AddClass')}}</vs-button
-          >
+          <vs-button color="#FFA400" @click="openAddNewClass">{{
+            $t("classes.AddClass")
+          }}</vs-button>
         </div>
       </div>
 
-  
-          <div class="d-flex justify-content-start ">
-            <div class="mr-1 ml-1">
-              <el-select
-                clearable
-                v-model="filterSystem"
-                :placeholder="$t('classes.System')"
-              >
-                <el-option
-                  v-for="sys in systemsOpt"
-                  :key="sys.id"
-                  :label="sys.nameEn"
-                  :value="sys.id"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="mr-1 ml-1">
-              <el-select
-                clearable
-                v-model="selectedLevel"
-                :placeholder="$t('classes.Levels')"
-                @change="getClasses()"
-              >
-                <el-option
-                  v-for="item in allLevels"
-                  :key="item.id"
-                  :label="item.nameEn"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </div>
+      <div class="d-flex justify-content-start">
+        <div class="mr-1 ml-1">
+          <el-select
+            clearable
+            v-model="filterSystem"
+            :placeholder="$t('classes.System')"
+          >
+            <el-option
+              v-for="sys in systemsOpt"
+              :key="sys.id"
+              :label="sys.nameEn"
+              :value="sys.id"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="mr-1 ml-1">
+          <el-select
+            clearable
+            v-model="selectedLevel"
+            :placeholder="$t('classes.Levels')"
+            @change="getClasses()"
+          >
+            <el-option
+              v-for="item in allLevels"
+              :key="item.id"
+              :label="item.nameEn"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </div>
 
-            <div class="mr-1 ml-1">
-              <el-select
-                clearable
-                v-model="selectedClass"
-                :placeholder="$t('classes.Sections')"
-                @change="getClassSections()"
-              >
-                <el-option
-                  v-for="item in allClasses"
-                  :key="item.id"
-                  :label="item.nameEn"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-
-      
+        <div class="mr-1 ml-1">
+          <el-select
+            clearable
+            v-model="selectedClass"
+            :placeholder="$t('classes.Sections')"
+            @change="getClassSections()"
+          >
+            <el-option
+              v-for="item in allClasses"
+              :key="item.id"
+              :label="item.nameEn"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </div>
+      </div>
 
       <section v-if="addClassPopOver">
         <el-form :model="addSection" ref="addSection" class="for-add-or-update">
@@ -84,12 +77,11 @@
                     {
                       required: true,
                       message: $t('Validation.nameEn'),
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-input
-                    suffix-icon="el-icon-edit"
                     :placeholder="$t('Validation.nameEn')"
                     v-model="addSection.nameEn"
                   ></el-input>
@@ -104,12 +96,11 @@
                     {
                       required: true,
                       message: $t('Validation.nameEn'),
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-input
-                    suffix-icon="el-icon-edit"
                     :placeholder="$t('Validation.nameEn')"
                     v-model="addSection.nameAr"
                   ></el-input>
@@ -124,13 +115,12 @@
                     {
                       required: true,
                       message: $t('classes.Capacity'),
-                      trigger: 'blur'
+                      trigger: 'blur',
                     },
-                    { type: 'number', message: $t('Validation.number') }
+                    { type: 'number', message: $t('Validation.number') },
                   ]"
                 >
                   <el-input
-                    suffix-icon="el-icon-edit"
                     :placeholder="$t('classes.Capacity')"
                     v-model.number="addSection.capacity"
                   ></el-input>
@@ -145,8 +135,8 @@
                     {
                       required: true,
                       message: $t('Validation.required'),
-                      trigger: 'blur'
-                    }
+                      trigger: 'blur',
+                    },
                   ]"
                 >
                   <el-select
@@ -168,11 +158,19 @@
             <div class="col-md-4">
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
-                  <el-button @click="submitForm('addSection')" type="warning">
-                    {{$t('Validation.save')}}
+                  <el-button
+                    class="btn btn-org"
+                    @click="submitForm('addSection')"
+                    type="warning"
+                  >
+                    {{ $t("Validation.save") }}
                   </el-button>
-                  <el-button @click="addClassPopOver = false" type="info">
-                    {{$t('Validation.close')}}
+                  <el-button
+                    class="btn btn-white"
+                    @click="addClassPopOver = false"
+                    type="info"
+                  >
+                    {{ $t("Validation.close") }}
                   </el-button>
                 </el-form-item>
               </div>
@@ -197,12 +195,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameEn'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameEn')"
                       v-model="updateSection.nameEn"
                     ></el-input>
@@ -218,12 +215,11 @@
                       {
                         required: true,
                         message: $t('Validation.nameAr'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-input
-                      suffix-icon="el-icon-edit"
                       :placeholder="$t('Validation.nameAr')"
                       v-model="updateSection.nameAr"
                     ></el-input>
@@ -239,14 +235,13 @@
                       {
                         required: true,
                         message: $t('classes.Capacity'),
-                        trigger: 'blur'
+                        trigger: 'blur',
                       },
-                      { type: 'number', message: $t('Validation.number') }
+                      { type: 'number', message: $t('Validation.number') },
                     ]"
                   >
                     <el-input
                       type="number"
-                      suffix-icon="el-icon-edit"
                       placeholder="Name In Arabic"
                       v-model.number="updateSection.capacity"
                     ></el-input>
@@ -262,8 +257,8 @@
                       {
                         required: true,
                         message: $t('Validation.required'),
-                        trigger: 'blur'
-                      }
+                        trigger: 'blur',
+                      },
                     ]"
                   >
                     <el-select
@@ -288,11 +283,15 @@
                   <el-form-item>
                     <el-button
                       type="warning"
+                      class="btn btn-org"
                       @click="submitUpdateForm('updateSection')"
-                      >{{$t('Validation.save')}}</el-button
+                      >{{ $t("Validation.save") }}</el-button
                     >
-                    <el-button type="info" @click="updateSectionPop = false"
-                      >{{$t('Validation.close')}}</el-button
+                    <el-button
+                      type="info"
+                      class="btn btn-white"
+                      @click="updateSectionPop = false"
+                      >{{ $t("Validation.close") }}</el-button
                     >
                   </el-form-item>
                 </div>
@@ -304,7 +303,11 @@
 
       <div class="table-container">
         <el-table :data="sections" style="width: 100%">
-          <el-table-column prop="capacity" sortable :label="$t('classes.Capacity')">
+          <el-table-column
+            prop="capacity"
+            sortable
+            :label="$t('classes.Capacity')"
+          >
           </el-table-column>
 
           <el-table-column prop="nameAr" :label="$t('Validation.nameAr')">
@@ -313,17 +316,34 @@
           <!-- <el-table-column prop="nameEn" label="الإسم بالإنجليزية">
           </el-table-column> -->
 
-          <el-table-column prop="numberOfStudents" :label="$t('classes.NumberOfStud')">
+          <el-table-column
+            prop="numberOfStudents"
+            :label="$t('classes.NumberOfStud')"
+          >
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Students')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+          <el-table-column
+            :label="$t('classes.Students')"
+            v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+          >
             <template slot-scope="scope">
               <el-button
-                @click="$router.push(`/section/${scope.row.id}/students?class=${$route.params.id}&level=${$route.query.level}`)"
+                class="goTo"
+                @click="
+                  $router.push(
+                    `/section/${scope.row.id}/students?class=${$route.params.id}&level=${$route.query.level}`
+                  )
+                "
                 type="next-level"
-                icon="el-icon-back"
               >
-                {{$t('classes.ShowStudents')}}
+                <span v-if="$i18n.locale === 'ar'"
+                  ><i class="fas fa-arrow-left"></i
+                ></span>
+
+                {{ $t("classes.ShowStudents") }}
+                <span v-if="$i18n.locale === 'en'"
+                  ><i class="fas fa-arrow-right"></i
+                ></span>
               </el-button>
             </template>
           </el-table-column>
@@ -331,23 +351,34 @@
           <el-table-column :label="$t('classes.Subjects')">
             <template slot-scope="scope">
               <el-button
-                @click="$router.push(`/section/${scope.row.id}?level=${$route.query.level}&class=${$route.params.id}`)"
+                class="goTo"
+                @click="
+                  $router.push(
+                    `/section/${scope.row.id}?level=${$route.query.level}&class=${$route.params.id}`
+                  )
+                "
                 type="next-level"
-                icon="el-icon-back"
               >
-                {{$t('classes.ShowSubjects')}}
+                <span v-if="$i18n.locale === 'ar'"
+                  ><i class="fas fa-arrow-left"></i
+                ></span>
+
+                {{ $t("classes.ShowSubjects") }}
+                <span v-if="$i18n.locale === 'en'"
+                  ><i class="fas fa-arrow-right"></i
+                ></span>
               </el-button>
             </template>
           </el-table-column>
 
-          <el-table-column :label="$t('classes.Actions')" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+          <el-table-column
+            :label="$t('classes.Actions')"
+            v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+          >
             <template slot-scope="scope">
-              <el-button
-                @click="hanleUpdateSection(scope.row)"
-                type="primary"
-                icon="el-icon-edit"
-                circle
-              ></el-button>
+              <span class="edit" @click="hanleUpdateSection(scope.row)">
+                <i class="fas fa-edit"></i
+              ></span>
 
               <el-popconfirm
                 :confirm-button-text="$t('Validation.delete')"
@@ -357,12 +388,9 @@
                 icon-color="red"
                 :title="$t('Validation.AreYouSure')"
               >
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  slot="reference"
-                  circle
-                ></el-button>
+                <span class="delete" slot="reference"
+                  ><i class="fas fa-trash"></i>
+                </span>
               </el-popconfirm>
             </template>
           </el-table-column>
@@ -395,7 +423,7 @@
                     <el-divider></el-divider>
 
                     <div class="mt-3 mr-2 ml-2 ">
-                        
+
                         <el-button @click="hanleUpdateSection(sec)" slot="reference" type="primary" icon="el-icon-edit" circle>  </el-button>
                         <el-button @click="$router.push(`/section/${sec.id}`)" type="success" icon="el-icon-more" circle></el-button>
 
@@ -410,7 +438,7 @@
                             >
                             <el-button type="danger" icon="el-icon-delete" slot="reference" circle></el-button>
                             </el-popconfirm>
-                        
+
                     </div>
                 </div>
             </div> -->
@@ -423,7 +451,7 @@ import StarHeader from "@/components/StarHeader";
 export default {
   middleware: ["auth"],
   components: {
-    StarHeader
+    StarHeader,
   },
   data() {
     return {
@@ -440,19 +468,19 @@ export default {
       allLevels: [],
       allClasses: [],
       selectedClass: "",
-      selectedLevel: ""
+      selectedLevel: "",
     };
   },
   watch: {
     filterSystem(val) {
       this.getClassSections(val);
     },
-    selectedLevel(val){
-      if(!val){
+    selectedLevel(val) {
+      if (!val) {
         this.selectedClass = "";
-        this.allClasses = []
+        this.allClasses = [];
       }
-    }
+    },
   },
   mounted() {
     this.getClassSections();
@@ -465,21 +493,20 @@ export default {
 
       this.$axios
         .get(`/levels?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.allLevels = res.data;
         })
         .finally(() => loading.close());
     },
     getClasses() {
-
-      if(!this.selectedLevel){
+      if (!this.selectedLevel) {
         return;
       }
       const loading = this.$vs.loading();
-    
+
       this.$axios
         .get(`/levels/${this.selectedLevel}/classes?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.allClasses = res.data;
         })
         .finally(() => loading.close());
@@ -498,7 +525,7 @@ export default {
       console.log(updateSection);
       console.log(this.$refs[updateSection]);
 
-      this.$refs[updateSection].validate(valid => {
+      this.$refs[updateSection].validate((valid) => {
         if (valid) {
           this.updateSecInBackend();
           this.updateSectionPop = false;
@@ -510,7 +537,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .patch(`/sections/${this.updateSection.id}`, this.updateSection)
-        .then(res => {
+        .then((res) => {
           this.getClassSections();
         })
         .finally(() => loading.close());
@@ -519,13 +546,14 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/sections/${sec.id}`)
-        .then(res => {
+        .then((res) => {
           this.deleteSubjectPop = !this.deleteSubjectPop;
           this.getClassSections();
-        }).catch(err => {
-          if(err.response.status == 403){
+        })
+        .catch((err) => {
+          if (err.response.status == 403) {
             this.$message.error({
-              message: err.response.data.message
+              message: err.response.data.message,
             });
             return;
           }
@@ -533,7 +561,7 @@ export default {
         .finally(() => loading.close());
     },
     submitForm(addSection) {
-      this.$refs[addSection].validate(valid => {
+      this.$refs[addSection].validate((valid) => {
         if (valid) {
           this.createNewSection();
         }
@@ -546,7 +574,7 @@ export default {
           `/classes/${this.$route.params.id}/systems/${this.addSection.system}/sections`,
           this.addSection
         )
-        .then(res => {
+        .then((res) => {
           this.addClassPopOver = !this.addClassPopOver;
           this.addSection = {};
           this.getClassSections();
@@ -557,7 +585,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/systems?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.systemsOpt = res.data;
         })
         .finally(() => loading.close());
@@ -571,13 +599,16 @@ export default {
             this.selectedClass ? this.selectedClass : this.$route.params.id
           }/sections${system > 0 ? "?system=" + system : ""}`
         )
-        .then(res => {
+        .then((res) => {
           this.sections = res.data.docs;
-          this.secName = this.$i18n.locale == 'ar' ? this.sections[0].class.nameAr : this.sections[0].class.nameEn;
+          this.secName =
+            this.$i18n.locale == "ar"
+              ? this.sections[0].class.nameAr
+              : this.sections[0].class.nameEn;
         })
         .finally(() => loading.close());
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -5,14 +5,24 @@ export default {
     htmlAttrs: {
       lang: 'en'
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: ''
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -32,14 +42,14 @@ export default {
     '@/plugins/nuxt-i18n.js',
     '@/plugins/vue-phone.js',
     '@/plugins/bootstrap-layout.js',
+    '@/plugins/fontawesome',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -56,8 +66,7 @@ export default {
       strategy: 'no_prefix',
 
 
-      locales: [
-        {
+      locales: [{
           code: 'en',
           name: 'English',
           dir: 'ltr'
@@ -108,7 +117,7 @@ export default {
     plugins: [{
       src: '~plugins/auth.js',
       ssr: false,
-    },],
+    }, ],
   },
 
 
@@ -140,6 +149,15 @@ export default {
             "ValidatePassword": "Please Input Password ",
             "EmailPlaceholder": "Enter Email Address",
             "PasswordPlaceholder": "Enter Password",
+            "Forget": "Forget your password?",
+
+            "ForgetNote": "Enter your email to reset your password",
+            "Send": "Send",
+            "CodeNote": "Please enter the 5 numbers sent to your email",
+            "Code": "verification code",
+            "Verify": "Verify",
+            "subNote": "Didn't get the code? Resend",
+            "SavePass": "Save password"
           },
           classes: {
             "AddClass": "Add Class",
@@ -176,7 +194,51 @@ export default {
             'AttachImg': 'Attach Image To Subject',
             'Unit': 'Units',
             'Lessons': 'Lessons',
-            'questionTypes': 'Question Types'
+            'questionTypes': 'Question Types',
+            "ShowContent": "View Content",
+            "Units": "Units",
+            "Exams": "Exams",
+            "Live": "Live",
+            "QuestionBank": "Question Bank",
+            "Questions": " Exam questions",
+            "AddUnit": "Add Unit",
+            "AddExam": "Add Exam",
+            "AddLive": "Add Live",
+            "LiveNow": "Live Now",
+            "start": "Start",
+            "update": "Update",
+            "delete": "Delete",
+            "Showexam": "Show Exams",
+            "Examtitle": "Exam Title",
+            "Rate": "success rate",
+            "Count": "Times to solve",
+            "Time": "Time",
+            "available": "Available",
+            "ChooseLevel": "Choose Level",
+            "ChooseGrade": "Choose Grade",
+            "ChooseSection": "Choose Class",
+            "ChooseSubject": "Choose Subject",
+            "ChooseUnit": "Choose Unit",
+            "ChooseLesson": "Choose Lesson",
+            "Typeofquestion": "Type Of Question",
+            "Questiontype": "Question Type",
+            "filter": "Question Type Filter",
+            "Search": "Search",
+            "SearchInExam": "Search In Exam",
+            "Questions": "Questions",
+            "AddQuestionsImage": "Add Question with image",
+            "AddQuestions": "Add Question",
+            "AddQuestionsGruop": "Add Group Question",
+            "Paragraph": "Paragraph",
+            "T/F": "True & False",
+            "Group": "Group",
+            "Complete": "Complete",
+            "Choose": "Choose",
+            "Voice": "Voice",
+            "Degree": "Degree",
+            "Answer": "Answer",
+            "HideContent": "Hide Content",
+            "ShowAnswer": "Show Answer"
           },
 
 
@@ -191,7 +253,9 @@ export default {
             'Class': 'Class',
             'Levels': 'Levels',
             'Sections': "Sections",
-            'addStudents': 'Add Students'
+            'addStudents': 'Add Students',
+            "ProfileImg": "Personal Picture",
+
           },
 
           systems: {
@@ -252,6 +316,8 @@ export default {
             'VSubject': 'Enter a Subject',
             "FileTitle": "File Title Is Required",
             "FileImage": "File Is Required",
+            "description": "Description",
+            "Title": "Title"
 
           }
         },
@@ -275,7 +341,16 @@ export default {
             "ValidatePassword": "كلمة المرور مطلوبة ",
             "EmailPlaceholder": "أدخل البريد الإلكتروني",
             "PasswordPlaceholder": "أدخل كلمة المرور",
-            "AttachImg": "إضافة صورة للمادة"
+            "AttachImg": "إضافة صورة للمادة",
+            "Forget": "نسيت كلمة المرور ؟",
+            "ForgetNote": "ادخل البريد الالكترونى الخاص بك  لاعادة  تعين كلمة المرور  ",
+            "Send": "ارسال",
+            "CodeNote": "من فضلك ادخل ال 5  ارقام التي أرسلت الى بريدك الالكترونى",
+            "Code": "كود التأكيد",
+            "Verify": "تاكيد",
+            "subNote": "لم احصل على الكود؟ إعادة ارسال",
+            "SavePass": "حفظ كلمة المرور"
+
           },
 
           levels: {
@@ -308,14 +383,58 @@ export default {
           subjects: {
             "AddSubject": "إضافة مادة",
             "Systems": "الأنطمة",
-            "Levels": "المراحل",
+            "Levels": " المراحل التعليمة",
             'Section': 'الصفوف',
             'Class': "الفصول",
             'AssignToTeacher': 'إسناد مدرس للمادة',
             'Student': 'الطالب',
             'Unit': 'الوحدات',
             'Lessons': 'الدروس',
-            'questionTypes': 'إختر نوع السؤال'
+            'questionTypes': 'إختر نوع السؤال',
+            "ShowContent": "عرض المحتوى",
+            "Units": "الوحدات",
+            "Exams": "الإمتحانات",
+            "Live": "البث",
+            "QuestionBank": " بنك الاسئلة",
+            "Questions": " اسئلة االامتحان",
+            "AddUnit": "إضافة وحدة",
+            "AddExam": "إضافة امتحان",
+            "AddLive": "إضافة لايف",
+            "LiveNow": "لايف ناو ",
+            "start": "أبدء",
+            "update": "تعديل",
+            "delete": "  حذف",
+            "Showexam": "عرض الأسئلة",
+            "Examtitle": "عنوان الامتحان",
+            "Rate": "نسبة النجاح",
+            "Count": "عدد مرات الحل",
+            "Time": "الوقت",
+            "available": "متاح",
+            "ChooseLevel": "إختر الصف",
+            "ChooseGrade": "إختر الفصل",
+            "ChooseSection": "إختر الشعبه",
+            "ChooseSubject": "إختر المادة",
+            "ChooseUnit": "إختر الوحدة",
+            "ChooseLesson": "إختر الدرس",
+            "Typeofquestion": "إختر نوع السؤال",
+            "Questiontype": " نوع الأسئلة",
+            "filter": "فلتر  بنوع السؤال",
+            "Search": "بحث",
+            "SearchInExam": "بحث في الأسئلة",
+            "Questions": "الأسئلة",
+            "AddQuestionsImage": "إضافة سؤال بصورة",
+            "AddQuestions": "إضافة أسئلة",
+            "AddQuestionsGruop": "إضافة سؤال جروب",
+            "Paragraph": "سؤال إنشائي",
+            "T/F": "صح اما خطا",
+            "Group": "سؤال مركب",
+            "Complete": "اكمل",
+            "Choose": "اختر",
+            "Voice": "صوتى",
+            "Degree": "Degree",
+            "Answer": "الاجابه",
+            "HideContent": " إخفاء الاجابه",
+            "ShowAnswer": " عرض الاجابه"
           },
 
 
@@ -328,9 +447,10 @@ export default {
             'attchFile': 'إرفاق ملف',
             'systems': 'النُظم',
             'Class': 'الفصل',
-            'Levels': 'المراحل',
+            'Levels': 'المراحل التعليمة',
             'Sections': 'الفصول',
-            'addStudents': 'إضافة طالب'
+            'addStudents': 'إضافة طالب',
+            "ProfileImg": "الصورة الشخصية",
           },
 
           lesson: {
@@ -341,7 +461,7 @@ export default {
           },
 
           systems: {
-            "Systems": "النظُم التعليمية",
+            "Systems": " الأنظمة التعليمية",
             "AddSystem": "إضافة نظام"
           },
 
@@ -349,7 +469,7 @@ export default {
           classes: {
             "AddClass": "إضافة فصل",
             "Systems": "الأنظمة التعليمية",
-            "Levels": "المراحل",
+            "Levels": "المراحل التعليمة",
             "Sections": "الفصول",
             "Capacity": "الحد الأقصي للفصل",
             "System": "النظام",
@@ -360,7 +480,8 @@ export default {
             "Subjects": "المواد",
             "ShowSubjects": "عرض المواد",
 
-            "ShowClasses": "عرض الفصول الدراسية"
+            "ShowClasses": "عرض الفصول الدراسية",
+            "Actions": "الاجراءات"
           },
           Validation: {
             "number": 'يجب ان يكون رقم',
@@ -389,7 +510,9 @@ export default {
             'Add': 'إضافة',
             'VSubject': 'ادخل مادة',
             "FileTitle": " عنوان الملف",
-            "FileImage": "ادخل الملف"
+            "FileImage": "ادخل الملف",
+            "description": "وصف",
+            "Title": "عنوان"
           }
         },
       }

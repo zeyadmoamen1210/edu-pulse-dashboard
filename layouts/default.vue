@@ -16,7 +16,10 @@
       }"
       v-else
     >
-      <Nuxt :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" />
+      <Nuxt
+        :dir="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
+        :class="[$store.state.lang == 'ar' ? 'arabicFont' : 'engFont']"
+      />
     </div>
   </div>
 </template>
@@ -39,15 +42,13 @@ export default {
     };
   },
 
- 
-
   mounted() {
-
-    if(this.$auth.loggedIn && localStorage.getItem("eduPulseDashboardUser")){
-      this.$auth.setUser(JSON.parse(localStorage.getItem("eduPulseDashboardUser")))
+    if (this.$auth.loggedIn && localStorage.getItem("eduPulseDashboardUser")) {
+      this.$auth.setUser(
+        JSON.parse(localStorage.getItem("eduPulseDashboardUser"))
+      );
     }
 
-    
     if (document.children) {
       if (this.$i18n.locale == "ar") {
         this.$moment.locale("ar");
@@ -88,16 +89,6 @@ export default {
 <style lang="scss">
 @import "../assets/styles/override.scss";
 
-@font-face {
-  font-family: "boldCairo";
-  src: url('../assets/Cairo/Cairo-Bold.ttf');
-}
-
-@font-face {
-  font-family: "regularCairo";
-  src: url('../assets/Cairo/Cairo-Regular.ttf');
-}
-
 .main-content.isInLogin {
   margin-right: 0 !important;
 }
@@ -119,15 +110,8 @@ export default {
   margin: 0;
   // direction: rtl;
   // text-align: right;
-  
 }
 
-h1,h2,h3,h4,h5,h6{
-  font-family: "boldCairo";
-}
-input, label, p, span, div{
-  font-family: "regularCairo";
-}
 .el-row {
   width: 100%;
 }

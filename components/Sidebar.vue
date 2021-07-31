@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <vs-sidebar
-    class="web-sidebar"
+      class="web-sidebar"
       :right="$i18n.locale == 'ar'"
       open
       v-model="active"
@@ -12,13 +12,9 @@
       </template>
       <vs-sidebar-item id="home" :to="`/systems/list`">
         <template #icon>
-          <img
-            style="width: 20px"
-            src="@/assets/imgs/reading-book.svg"
-            alt=""
-          />
+          <span class="icon"><i class="fas fa-book-reader"></i></span>
         </template>
-        {{$t('sidebar.system')}}
+        {{ $t("sidebar.system") }}
       </vs-sidebar-item>
       <vs-sidebar-item id="market" :to="`/levels/list`">
         <template #icon>
@@ -28,9 +24,13 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.levels')}}
+        {{ $t("sidebar.levels") }}
       </vs-sidebar-item>
-      <vs-sidebar-item id="students" :to="`/students`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+      <vs-sidebar-item
+        id="students"
+        :to="`/students`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -38,10 +38,14 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.students')}}
+        {{ $t("sidebar.students") }}
       </vs-sidebar-item>
 
-      <vs-sidebar-item id="teachers" :to="`/teachers`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+      <vs-sidebar-item
+        id="teachers"
+        :to="`/teachers`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -49,11 +53,10 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.teachers')}}
+        {{ $t("sidebar.teachers") }}
       </vs-sidebar-item>
 
-
-      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`" >
+      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`">
         <template #icon>
           <img
             style="width: 20px"
@@ -61,11 +64,14 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.questionsBank')}}
+        {{ $t("sidebar.questionsBank") }}
       </vs-sidebar-item>
 
-
-      <vs-sidebar-item id="teacher-subjects" :to="`/teacher-subjects`" v-if="$auth.loggedIn && $auth.user.role == 'teacher'">
+      <vs-sidebar-item
+        id="teacher-subjects"
+        :to="`/teacher-subjects`"
+        v-if="$auth.loggedIn && $auth.user.role == 'teacher'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -76,8 +82,11 @@
         المواد الدراسية
       </vs-sidebar-item>
 
-
-      <vs-sidebar-item id="parents" :to="`/parents`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+      <vs-sidebar-item
+        id="parents"
+        :to="`/parents`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -88,9 +97,7 @@
         الاَباء
       </vs-sidebar-item>
 
-
-
-      <vs-sidebar-item id="exams" :to="`/exams`" >
+      <vs-sidebar-item id="exams" :to="`/exams`">
         <template #icon>
           <img
             style="width: 20px"
@@ -98,35 +105,23 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.exams')}}
+        {{ $t("sidebar.exams") }}
       </vs-sidebar-item>
-
-      
 
       <template #footer>
         <vs-row justify="space-between">
-          <!-- <vs-avatar @click.native="toggleCollapse">
-            <img
-              style="width:20px;cursor:pointer"
-              src="@/assets/imgs/menu.svg"
-              alt=""
-            />
-          </vs-avatar> -->
+          <vs-avatar
+            @click.native="changeLocale('ar')"
+            v-if="$i18n.locale !== 'ar'"
+          >
+            English
+          </vs-avatar>
 
-            <vs-avatar @click.native="changeLocale('ar')" v-if="$i18n.locale !== 'ar'">
-            <img
-              src="@/assets/imgs/united-arab-emirates.svg"
-              style="width:25px"
-              alt=""
-            />
-            </vs-avatar>
-
-          <vs-avatar @click.native="changeLocale('en')" v-else-if="$i18n.locale !== 'en'">
-            <img
-              src="@/assets/imgs/united-kingdom.svg"
-              style="width:25px"
-              alt=""
-            />
+          <vs-avatar
+            @click.native="changeLocale('en')"
+            v-else-if="$i18n.locale !== 'en'"
+          >
+            Arabic
           </vs-avatar>
 
           <vs-avatar
@@ -134,51 +129,15 @@
             @click.native="logout()"
             badge-position="top-right"
           >
-            <img
-              style="width:26px;cursor:pointer"
-              src="@/assets/imgs/logout.svg"
-              alt=""
-            />
+            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
           </vs-avatar>
         </vs-row>
       </template>
     </vs-sidebar>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <button class="toggleMobileSidebar" @click="activeMobile = ! activeMobile">
-          toggle
-        </button>
+    <button class="toggleMobileSidebar" @click="activeMobile = !activeMobile">
+      toggle
+    </button>
 
     <vs-sidebar
       class="mobile-sidebar"
@@ -190,11 +149,7 @@
         <img src="@/assets/imgs/reading-book-yellow.svg" alt="" />
       </template>
 
-
-        <button @click="activeMobile = ! activeMobile">
-          toggle
-        </button>
-
+      <button @click="activeMobile = !activeMobile">toggle</button>
 
       <vs-sidebar-item id="home" :to="`/systems/list`">
         <template #icon>
@@ -204,7 +159,7 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.system')}}
+        {{ $t("sidebar.system") }}
       </vs-sidebar-item>
       <vs-sidebar-item id="market" :to="`/levels/list`">
         <template #icon>
@@ -214,9 +169,13 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.levels')}}
+        {{ $t("sidebar.levels") }}
       </vs-sidebar-item>
-      <vs-sidebar-item id="students" :to="`/students`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+      <vs-sidebar-item
+        id="students"
+        :to="`/students`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -224,10 +183,14 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.students')}}
+        {{ $t("sidebar.students") }}
       </vs-sidebar-item>
 
-      <vs-sidebar-item id="teachers" :to="`/teachers`" v-if="$auth.loggedIn && $auth.user.role == 'admin'">
+      <vs-sidebar-item
+        id="teachers"
+        :to="`/teachers`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -235,11 +198,14 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.teachers')}}
+        {{ $t("sidebar.teachers") }}
       </vs-sidebar-item>
 
-
-      <vs-sidebar-item id="teacher-subjects" :to="`/teacher-subjects`" v-if="$auth.loggedIn && $auth.user.role == 'teacher'">
+      <vs-sidebar-item
+        id="teacher-subjects"
+        :to="`/teacher-subjects`"
+        v-if="$auth.loggedIn && $auth.user.role == 'teacher'"
+      >
         <template #icon>
           <img
             style="width: 20px"
@@ -249,13 +215,6 @@
         </template>
         المواد الدراسية
       </vs-sidebar-item>
-
-
-
-
-
-
-
 
       <vs-sidebar-item id="parents" :to="`/parents`" v-if="$auth.loggedIn">
         <template #icon>
@@ -268,13 +227,7 @@
         الاَباء
       </vs-sidebar-item>
 
-
-
-
-      
-
-
-      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`" >
+      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`">
         <template #icon>
           <img
             style="width: 20px"
@@ -282,11 +235,10 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.questionsBank')}}
+        {{ $t("sidebar.questionsBank") }}
       </vs-sidebar-item>
 
-
-      <vs-sidebar-item id="exams" :to="`/exams`" >
+      <vs-sidebar-item id="exams" :to="`/exams`">
         <template #icon>
           <img
             style="width: 20px"
@@ -294,10 +246,8 @@
             alt=""
           />
         </template>
-        {{$t('sidebar.exams')}}
+        {{ $t("sidebar.exams") }}
       </vs-sidebar-item>
-
-      
 
       <template #footer>
         <vs-row justify="space-between">
@@ -309,18 +259,24 @@
             />
           </vs-avatar> -->
 
-            <vs-avatar @click.native="changeLocale('ar')" v-if="$i18n.locale !== 'ar'">
+          <vs-avatar
+            @click.native="changeLocale('ar')"
+            v-if="$i18n.locale !== 'ar'"
+          >
             <img
               src="@/assets/imgs/united-arab-emirates.svg"
-              style="width:25px"
+              style="width: 25px"
               alt=""
             />
-            </vs-avatar>
+          </vs-avatar>
 
-          <vs-avatar @click.native="changeLocale('en')" v-else-if="$i18n.locale !== 'en'">
+          <vs-avatar
+            @click.native="changeLocale('en')"
+            v-else-if="$i18n.locale !== 'en'"
+          >
             <img
               src="@/assets/imgs/united-kingdom.svg"
-              style="width:25px"
+              style="width: 25px"
               alt=""
             />
           </vs-avatar>
@@ -331,7 +287,7 @@
             badge-position="top-right"
           >
             <img
-              style="width:26px;cursor:pointer"
+              style="width: 26px; cursor: pointer"
               src="@/assets/imgs/logout.svg"
               alt=""
             />
@@ -340,15 +296,13 @@
       </template>
     </vs-sidebar>
 
-
-
     <!-- <el-menu
       class="el-menu-vertical-demo"
       @open="handleOpen"
     >
-      
 
-      
+
+
 
       <el-menu-item index="3" @click.native="toggleCollapse">
         <img style="width:20px" @click="toggleCollapse" src="@/assets/imgs/menu.svg" alt="">
@@ -364,13 +318,13 @@
       <img style="width: 20px" src="@/assets/imgs/level.svg" alt="">
         <span>Levels</span>
       </el-menu-item>
-      
-      
 
 
-     
 
-    
+
+
+
+
 
 
       <el-menu-item index="6" @click.native="$router.push(`/students`)">
@@ -390,14 +344,12 @@
 
 <script>
 export default {
-  mounted(){
-   
-  },
+  mounted() {},
   data() {
     return {
       isCollapse: true,
-      active: 'home',
-      activeMobile:false,
+      active: "home",
+      activeMobile: false,
     };
   },
 
@@ -409,22 +361,22 @@ export default {
 
       if (document.children) {
         if (this.$i18n.locale == "ar") {
-          this.$moment.locale('ar');
+          this.$moment.locale("ar");
           console.log("arabic ");
           var all = document.getElementsByTagName("*");
           var i;
           for (i = 0; i < all.length; i++) {
-            console.log("child ", all[i])
+            console.log("child ", all[i]);
             all[i].style.direction = "rtl";
             all[i].style.textAlign = "right";
           }
         } else {
-          this.$moment.locale('en');
+          this.$moment.locale("en");
           console.log("english ");
           var all = document.getElementsByTagName("*");
           var i;
           for (i = 0; i < all.length; i++) {
-             console.log("child ", all[i])
+            console.log("child ", all[i]);
             all[i].style.direction = "ltr";
             all[i].style.textAlign = "left";
           }
@@ -443,8 +395,8 @@ export default {
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -460,7 +412,7 @@ export default {
 
   .vs-sidebar-content.web-sidebar.open {
     left: -100% !important;
-    right: auto !important
+    right: auto !important;
   }
 
   .vs-sidebar-content.web-sidebar.open.right {
@@ -468,35 +420,41 @@ export default {
     left: auto !important;
   }
 
-  .vs-sidebar-content.open{
-    left: 0 !important
+  .vs-sidebar-content.open {
+    left: 0 !important;
   }
 
-  .vs-sidebar-content.open.right{
+  .vs-sidebar-content.open.right {
     right: 0 !important;
     left: auto !important;
   }
 
   .main-content.collapsed-english {
-  margin-left: 0 !important;
-}
+    margin-left: 0 !important;
+  }
 
-.main-content.collapsed-arabic {
-  margin-right: 0 !important;
+  .main-content.collapsed-arabic {
+    margin-right: 0 !important;
+  }
 }
-
+.icon {
+  color: #534dba;
 }
-
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  .toggleMobileSidebar{
+  .toggleMobileSidebar {
     display: none;
   }
 }
-
+.vs-avatar {
+  cursor: pointer;
+  width: 70px !important;
+  background: transparent !important;
+  height: 40px !important;
+}
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  .toggleMobileSidebar{
+  .toggleMobileSidebar {
     display: none;
   }
 }

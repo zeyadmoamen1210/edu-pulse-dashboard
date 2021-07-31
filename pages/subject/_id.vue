@@ -9,13 +9,13 @@
         <div>
           <h4 v-if="$i18n.locale == 'ar'">
             <img
-              style="width: 20px;margin: 0 7px;"
+              style="width: 20px; margin: 0 7px"
               src="@/assets/imgs/question-bank/next.svg"
             />
           </h4>
           <h4 v-else>
             <img
-              style="width: 20px;margin: 0 7px; transform: rotate(180deg);"
+              style="width: 20px; margin: 0 7px; transform: rotate(180deg)"
               src="@/assets/imgs/question-bank/next.svg"
             />
           </h4>
@@ -36,20 +36,20 @@
               :class="{ btn: true, active: active == 1 }"
               @click="activeTabClicked(1)"
             >
-              الوحدات
+              {{ $t("subjects.Units") }}
             </button>
             <button
               :class="{ btn: true, active: active == 2 }"
               @click="activeTabClicked(2)"
             >
-              الإمتحانات
+              {{ $t("subjects.Exams") }}
             </button>
 
             <button
               :class="{ btn: true, active: active == 4 }"
               @click="activeTabClicked(4)"
             >
-              اللايف
+              {{ $t("subjects.Live") }}
             </button>
 
             <button
@@ -57,54 +57,51 @@
               :class="{ btn: true, active: active == 3 }"
               @click="activeTabClicked(3)"
             >
-              اسئلة االامتحان
+              {{ $t("subjects.Questions") }}
             </button>
             <button
               class="btn"
               @click="
                 $router.push(
-                  `/bank-questions?${$route.query.level ? 'level=' + $route.query.level : ''}${$route.query.class ? '&class=' + $route.query.class : ''}${$route.query.section ? '&section=' + $route.query.section : ''}${$route.params.id ? '&subject=' + $route.params.id : ''}`
+                  `/bank-questions?${
+                    $route.query.level ? 'level=' + $route.query.level : ''
+                  }${$route.query.class ? '&class=' + $route.query.class : ''}${
+                    $route.query.section
+                      ? '&section=' + $route.query.section
+                      : ''
+                  }${$route.params.id ? '&subject=' + $route.params.id : ''}`
                 )
               "
             >
-              بنك الاسئلة
+              {{ $t("subjects.QuestionBank") }}
             </button>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="d-flex flex-row-reverse">
-            <el-button type="warning" v-if="active == 1" @click="handleAddUnit"
-              >إضافة وحدة</el-button
+            <el-button type="warning" v-if="active == 1" @click="handleAddUnit">
+              {{ $t("subjects.AddUnit") }}</el-button
             >
 
             <el-button
               v-else-if="active == 2"
               @click="openAddExamModel()"
               type="warning"
-              >إضافة امتحان</el-button
+            >
+              {{ $t("subjects.AddExam") }}</el-button
             >
 
             <el-button
               v-else-if="active == 4"
               @click="openAddLiveModel()"
               type="warning"
-              >إضافة لايف</el-button
+            >
+              {{ $t("subjects.AddLive") }}</el-button
             >
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
 
       <section v-if="liveAddModel" class="mb-3">
         <el-form :model="addLive" ref="addLive" class="for-add-or-update">
@@ -115,14 +112,13 @@
                 :rules="[
                   {
                     required: true,
-                    message: $t('Validation.title'),
-                    trigger: 'blur'
-                  }
+                    message: $t('Validation.Title'),
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
-                  :placeholder="$t('Validation.title')"
+                  :placeholder="$t('Validation.Title')"
                   v-model="addLive.name"
                 ></el-input>
               </el-form-item>
@@ -135,12 +131,11 @@
                   {
                     required: true,
                     message: $t('Validation.description'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.description')"
                   v-model="addLive.description"
                 ></el-input>
@@ -151,13 +146,13 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitAddLiveForm('addLive')"
                     >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="liveAddModel = false"
                     >{{ $t("Validation.close") }}</el-button
@@ -169,8 +164,6 @@
         </el-form>
       </section>
 
-
-
       <section v-if="liveUpdateModel" class="mb-3">
         <el-form :model="updateLive" ref="updateLive" class="for-add-or-update">
           <div class="inputs-grid row">
@@ -181,12 +174,11 @@
                   {
                     required: true,
                     message: $t('Validation.title'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.title')"
                   v-model="updateLive.name"
                 ></el-input>
@@ -200,12 +192,11 @@
                   {
                     required: true,
                     message: $t('Validation.description'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.description')"
                   v-model="updateLive.description"
                 ></el-input>
@@ -216,13 +207,13 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitUpdateLiveForm('updateLive')"
                     >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="liveUpdateModel = false"
                     >{{ $t("Validation.close") }}</el-button
@@ -237,8 +228,8 @@
       <section
         v-if="
           examQuestions.length > 0 &&
-            Object.keys(this.currQuestion).length > 0 &&
-            openUpdateModel
+          Object.keys(this.currQuestion).length > 0 &&
+          openUpdateModel
         "
         class="mb-3 questions-content"
       >
@@ -260,12 +251,11 @@
                   {
                     required: true,
                     message: $t('Validation.nameEn'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.nameEn')"
                   v-model="addNewUnit.nameEn"
                 ></el-input>
@@ -279,12 +269,11 @@
                   {
                     required: true,
                     message: $t('Validation.nameAr'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.nameAr')"
                   v-model="addNewUnit.nameAr"
                 ></el-input>
@@ -295,13 +284,13 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitAddForm('addNewUnit')"
                     >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="addUnitPopup = false"
                     >{{ $t("Validation.close") }}</el-button
@@ -323,12 +312,11 @@
                   {
                     required: true,
                     message: $t('Validation.nameEn'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.nameEn')"
                   v-model="updateUnit.nameEn"
                 ></el-input>
@@ -342,12 +330,11 @@
                   {
                     required: true,
                     message: $t('Validation.nameAr'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
-                  suffix-icon="el-icon-edit"
                   :placeholder="$t('Validation.nameAr')"
                   v-model="updateUnit.nameAr"
                 ></el-input>
@@ -358,13 +345,13 @@
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
                   <el-button
-                    icon="el-icon-edit"
+                    class="btn btn-org"
                     type="warning"
                     @click="submitUpdateForm('updateUnit')"
                     >{{ $t("Validation.save") }}</el-button
                   >
                   <el-button
-                    icon="el-icon-circle-close"
+                    class="btn btn-white"
                     type="info"
                     @click="updateUnitPopup = false"
                     >{{ $t("Validation.close") }}</el-button
@@ -381,29 +368,56 @@
           <div class="col-md-3" v-for="unit in units" :key="unit.id">
             <div class="unit-card">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7 p-0">
                   <div>
                     <h6 v-if="$i18n.locale == 'ar'">{{ unit.nameAr }}</h6>
                     <h6 v-else>{{ unit.nameEn }}</h6>
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-5 p-0">
                   <div class="unit-actions">
                     <el-button
+                      class="btn btn-Lightorg"
                       @click="
                         $router.push(
-                          `/unit/${unit.id}?${$route.query.level ? 'level=' + $route.query.level : ''}${$route.query.class ? '&class=' + $route.query.class : ''}${$route.query.section ? '&section=' + $route.query.section : ''}${$route.params.id ? '&subject=' + $route.params.id : ''}`
+                          `/unit/${unit.id}?${
+                            $route.query.level
+                              ? 'level=' + $route.query.level
+                              : ''
+                          }${
+                            $route.query.class
+                              ? '&class=' + $route.query.class
+                              : ''
+                          }${
+                            $route.query.section
+                              ? '&section=' + $route.query.section
+                              : ''
+                          }${
+                            $route.params.id
+                              ? '&subject=' + $route.params.id
+                              : ''
+                          }`
                         )
-                        
                       "
                     >
-                      عرض المحتوي
+                      {{ $t("subjects.ShowContent") }}
                     </el-button>
 
-                    <div>
-                      <button class="btn-edit" @click="handleUpdatUnit(unit)">
-                        <i class="el-icon-edit"></i>
+                    <div class="d-flex">
+                      <button
+                        class="btn-edit"
+                        style="
+                          width: 40px;
+                          height: 40px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                        :class="[$i18n.locale === 'ar' ? 'ml-2 mr-1' : 'mr-2']"
+                        @click="handleUpdatUnit(unit)"
+                      >
+                        <i class="fas fa-edit"></i>
                       </button>
                       <el-popconfirm
                         :confirm-button-text="$t('Validation.delete')"
@@ -413,8 +427,18 @@
                         icon-color="red"
                         :title="$t('Validation.AreYouSure')"
                       >
-                        <button class="btn-delete" slot="reference">
-                          <i class="el-icon-delete-solid"></i>
+                        <button
+                          class="btn-delete"
+                          slot="reference"
+                          style="
+                            width: 40px;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                        >
+                          <i class="fas fa-trash"></i>
                         </button>
                       </el-popconfirm>
                     </div>
@@ -456,20 +480,22 @@
                   <div slot="update-delete">
                     <div class="d-flex update-delete-exam text-center">
                       <button
+                        style="color: #534dba"
                         @click="openUpdateExamModel({ ...exam })"
                         :class="{
                           btn: true,
                           'w-50': true,
                           'border-right': $i18n.locale == 'en',
                           'border-left': $i18n.locale == 'ar',
-                          edit: true
+                          edit: true,
                         }"
                       >
+                        {{ $t("subjects.update") }}
                         <img
+                          class="mx-1"
                           src="@/assets/imgs/Icon-feather-edit-3.svg"
                           alt=""
                         />
-                        تعديل
                       </button>
 
                       <el-popconfirm
@@ -481,12 +507,17 @@
                         icon-color="red"
                         :title="$t('Validation.AreYouSure')"
                       >
-                        <button slot="reference" class="btn delete">
+                        <button
+                          slot="reference"
+                          class="btn delete"
+                          style="color: #ff5e5e"
+                        >
+                          {{ $t("subjects.delete") }}
                           <img
+                            class="mx-1"
                             src="@/assets/imgs/Icon-material-delete.svg"
                             alt=""
                           />
-                          حذف
                         </button>
                       </el-popconfirm>
                     </div>
@@ -522,7 +553,7 @@
                         'w-50': true,
                         'border-right': $i18n.locale == 'en',
                         'border-left': $i18n.locale == 'ar',
-                        edit: true
+                        edit: true,
                       }"
                     >
                       <img src="@/assets/imgs/Icon-feather-edit-3.svg" alt="" />
@@ -707,7 +738,7 @@
 
 
                    <div class="d-flex mb-3">
-                      
+
 
 
                             <div class="mr-1 ml-1 mb-1">
@@ -816,47 +847,54 @@
       </section>
 
       <section v-else-if="active == 4">
-
-
-        
-
         <div v-if="subjectLives.length > 0">
           <div class="row">
             <div class="col-md-2" v-for="live in subjectLives" :key="live.id">
               <div class="live-card">
                 <img src="@/assets/imgs/live.png" style="width: 100px" />
                 <h5>{{ live.name }}</h5>
-                <p :class="{'mb-5': live.hasStarted, 'mb-4': !live.hasStarted}">{{ live.description }}</p>
+                <p
+                  :class="{ 'mb-5': live.hasStarted, 'mb-4': !live.hasStarted }"
+                >
+                  {{ live.description }}
+                </p>
 
                 <!-- Live Now -->
-                      <div @click="joinMeeting(live)" class="d-flex justify-content-center mt-0 mb-3 live-now"  v-if="live.hasStarted && !live.hasFinished">
-                        
-                        <div class="circle pulse orange mt-1"></div>
-                        <span class="d-block mr-2 ml-2 text-success">
-                            لايف الأن
-                        </span>
-                      </div>
+                <div
+                  @click="joinMeeting(live)"
+                  class="d-flex justify-content-center mt-0 mb-3 live-now"
+                  v-if="live.hasStarted && !live.hasFinished"
+                >
+                  <div class="circle pulse orange mt-1"></div>
+                  <span class="d-block mr-2 ml-2 text-success">
+                    {{ $t("subjects.LiveNow") }}
+                  </span>
+                </div>
                 <span> {{ $moment(live.createdAt).fromNow() }} </span>
 
                 <div>
                   <div class="d-flex update-delete-exam text-center">
-
                     <button
-                    v-if="!live.hasStarted"
+                      v-if="!live.hasStarted"
                       @click="startLive({ ...live })"
                       :class="{
                         btn: true,
                         'w-50': true,
                         'border-right': $i18n.locale == 'en',
                         'border-left': $i18n.locale == 'ar',
-                        edit: true
+                        edit: true,
                       }"
                     >
-                      <img src="@/assets/imgs/podcast.png" style="width: 15px" alt="" />
-                      أبدء 
+                      <p class="d-flex">
+                        {{ $t("subjects.start") }}
+                        <img
+                          class="mx-1"
+                          src="@/assets/imgs/podcast.png"
+                          style="width: 15px"
+                          alt=""
+                        />
+                      </p>
                     </button>
-
-
                     <button
                       @click="openUpdateLiveModel({ ...live })"
                       :class="{
@@ -864,28 +902,35 @@
                         'w-50': true,
                         'border-right': $i18n.locale == 'en',
                         'border-left': $i18n.locale == 'ar',
-                        edit: true
+                        edit: true,
                       }"
                     >
-                      <img src="@/assets/imgs/Icon-feather-edit-3.svg" alt="" />
-                      تعديل
+                      <p class="d-flex">
+                        {{ $t("subjects.update") }}
+                        <img
+                          class="mx-1"
+                          src="@/assets/imgs/Icon-feather-edit-3.svg"
+                          alt=""
+                        />
+                      </p>
                     </button>
-
                     <el-popconfirm
                       :confirm-button-text="$t('Validation.delete')"
                       :cancel-button-text="$t('Validation.close')"
-                      icon="el-icon-info"
                       @confirm="deleteLive({ ...live })"
                       icon-color="red"
                       class="w-50 btn"
                       :title="$t('Validation.AreYouSure')"
                     >
-                      <button slot="reference" class="btn delete">
-                        <img
-                          src="@/assets/imgs/Icon-material-delete.svg"
-                          alt=""
-                        />
-                        حذف
+                      <button slot="reference" class="btn delete pl-0">
+                        <p class="d-flex pr-2">
+                          {{ $t("subjects.delete") }}
+                          <img
+                            class="mx-1"
+                            src="@/assets/imgs/Icon-material-delete.svg"
+                            alt=""
+                          />
+                        </p>
                       </button>
                     </el-popconfirm>
                   </div>
@@ -933,7 +978,7 @@ export default {
     ShowExam,
     ManyQuestions,
     AddManyQuestion,
-    ShowQuestions
+    ShowQuestions,
   },
   created() {
     this.getUnits();
@@ -969,7 +1014,7 @@ export default {
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    },
   },
   data() {
     return {
@@ -1011,14 +1056,14 @@ export default {
     };
   },
   methods: {
-
-    joinMeeting(live){
+    joinMeeting(live) {
       let loading = this.$vs.loading();
       this.$axios
         .patch(`/live/${live.id}/join`)
-        .then(res => {
-          window.open(res.data.url, '_blank').focus();
-        }).catch(error => {
+        .then((res) => {
+          window.open(res.data.url, "_blank").focus();
+        })
+        .catch((error) => {
           this.getSubjectsLive();
 
           this.$message.error({
@@ -1026,27 +1071,25 @@ export default {
               this.$i18n.locale == "ar"
                 ? "تم إنتهاء هذا اللايف"
                 : "This Live Has Finished Now",
-                type: "success"
+            type: "success",
           });
-
-
         })
         .finally(() => loading.close());
     },
 
-    startLive(live){
+    startLive(live) {
       let loading = this.$vs.loading();
       this.$axios
         .patch(`/live/${live.id}/start`)
-        .then(res => {
-          window.open(res.data.url, '_blank').focus();
-          this.liveAddModel= false;
+        .then((res) => {
+          window.open(res.data.url, "_blank").focus();
+          this.liveAddModel = false;
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم بدء اللايف بنجاح"
                 : "Live Started Now Succesfully",
-                type: "success"
+            type: "success",
           });
 
           this.getSubjectsLive();
@@ -1054,22 +1097,32 @@ export default {
         .finally(() => loading.close());
     },
 
-    openAddLiveModel(){
-      this.openUpdateModel = this.addUnitPopup = this.updateUnitPopup = this.openAddQuestionsToExamModel = this.liveUpdateModel = false;
+    openAddLiveModel() {
+      this.openUpdateModel =
+        this.addUnitPopup =
+        this.updateUnitPopup =
+        this.openAddQuestionsToExamModel =
+        this.liveUpdateModel =
+          false;
       this.subjectUpdateModel = false;
       this.addExamModel = false;
       this.liveAddModel = true;
     },
 
-    openAddExamModel(){
-      this.openUpdateModel = this.addUnitPopup = this.updateUnitPopup = this.openAddQuestionsToExamModel = this.liveUpdateModel = false;
+    openAddExamModel() {
+      this.openUpdateModel =
+        this.addUnitPopup =
+        this.updateUnitPopup =
+        this.openAddQuestionsToExamModel =
+        this.liveUpdateModel =
+          false;
       this.subjectUpdateModel = false;
       this.liveAddModel = false;
       this.addExamModel = true;
     },
 
     submitUpdateLiveForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.saveUpdateLive();
         } else {
@@ -1080,7 +1133,7 @@ export default {
     },
 
     submitAddLiveForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.saveAddLive();
         } else {
@@ -1090,19 +1143,18 @@ export default {
       });
     },
 
-
-    saveAddLive(){
+    saveAddLive() {
       let loading = this.$vs.loading();
       this.$axios
         .post(`/subjects/${this.$route.params.id}/live`, { ...this.addLive })
-        .then(res => {
-          this.liveAddModel= false;
+        .then((res) => {
+          this.liveAddModel = false;
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم إضافة اللايف بنجاح"
                 : "Live Added Succesfully",
-                type: "success"
+            type: "success",
           });
 
           this.getSubjectsLive();
@@ -1114,18 +1166,17 @@ export default {
       let loading = this.$vs.loading();
       this.$axios
         .patch(`/live/${this.updateLive.id}`, { ...this.updateLive })
-        .then(res => {
+        .then((res) => {
           this.liveUpdateModel = false;
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم تعديل اللايف بنجاح"
                 : "Live Updated Succesfully",
-                type: "success"
+            type: "success",
           });
 
           this.getSubjectsLive();
-
         })
         .finally(() => loading.close());
     },
@@ -1134,38 +1185,47 @@ export default {
       let loading = this.$vs.loading();
       this.$axios
         .delete(`/live/${live.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف اللايف بنجاح"
                 : "Live Deleted Succesfully",
-                type: "success"
+            type: "success",
           });
 
           this.getSubjectsLive();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error({
             message:
               this.$i18n.locale == "ar"
                 ? "حدث خطأ ما"
-                : "There Are Something Wrong"
+                : "There Are Something Wrong",
           });
         })
         .finally(() => loading.close());
     },
 
     activeTabClicked(val) {
-      this.openUpdateModel = this.addUnitPopup = this.updateUnitPopup = this.openAddQuestionsToExamModel = this.liveUpdateModel = false;
+      this.openUpdateModel =
+        this.addUnitPopup =
+        this.updateUnitPopup =
+        this.openAddQuestionsToExamModel =
+        this.liveUpdateModel =
+          false;
       this.subjectUpdateModel = false;
       this.addExamModel = false;
-      this.liveAddModel = false
+      this.liveAddModel = false;
       this.active = val;
     },
 
     openUpdateLiveModel(live) {
-      this.openUpdateModel = this.addUnitPopup = this.updateUnitPopup = this.openAddQuestionsToExamModel = false;
+      this.openUpdateModel =
+        this.addUnitPopup =
+        this.updateUnitPopup =
+        this.openAddQuestionsToExamModel =
+          false;
       this.updateLive = { ...live };
       this.liveUpdateModel = true;
     },
@@ -1174,7 +1234,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.$route.params.id}/live?page=${val}&limit=12`)
-        .then(res => {
+        .then((res) => {
           this.subjectLives = res.data.docs;
           this.livePage = res.data.page;
           this.liveTotalPages = res.data.totalPages;
@@ -1205,7 +1265,7 @@ export default {
 
       this.$axios
         .get(endPointQuery)
-        .then(res => {
+        .then((res) => {
           this.allQuestions = res.data.docs;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
@@ -1228,7 +1288,7 @@ export default {
           message:
             this.$i18n.locale == "ar"
               ? "حدد درجة السؤال اولا"
-              : "Determine Degree Of Questions"
+              : "Determine Degree Of Questions",
         });
         return;
       }
@@ -1237,16 +1297,16 @@ export default {
 
       this.$axios
         .patch(`/exams-add-questions/${this.currExamToAssignQuestions.id}`, [
-          { question: question.id, point: question.point }
+          { question: question.id, point: question.point },
         ])
-        .then(res => {
+        .then((res) => {
           question.point = "";
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم إضافة السؤال الي الامتحان بنجاح"
                 : "Question Added To Exam Successfully",
-            type: "success"
+            type: "success",
           });
           this.currExamToAssignQuestions = res.data;
           this.getExamQuestions();
@@ -1261,13 +1321,13 @@ export default {
 
       this.$axios
         .delete(qryParam)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال بنجاح"
                 : "Question Deleted Successfully",
-            type: "success"
+            type: "success",
           });
           this.getQuestions();
         })
@@ -1278,13 +1338,13 @@ export default {
 
       this.$axios
         .patch(qryParam)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success"
+            type: "success",
           });
           this.getExamQuestions();
         })
@@ -1301,7 +1361,7 @@ export default {
     },
 
     getLessons(id) {
-      this.$axios.get(`/units/${id}/lessons?paginate=false`).then(res => {
+      this.$axios.get(`/units/${id}/lessons?paginate=false`).then((res) => {
         this.allLessons = res.data;
       });
     },
@@ -1319,15 +1379,18 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/exams/${this.currExamToAssignQuestions.id}`)
-        .then(res => {
-          this.currExamToAssignQuestions = this.currUnitExam = this.currLessonExam = this.currSubjectExam =
-            res.data;
+        .then((res) => {
+          this.currExamToAssignQuestions =
+            this.currUnitExam =
+            this.currLessonExam =
+            this.currSubjectExam =
+              res.data;
           let arr = [];
-          res.data.questions.map(element => {
+          res.data.questions.map((element) => {
             arr.push({
               ...element.question,
               points: element.point,
-              childrenQuestions: element.childrenQuestions
+              childrenQuestions: element.childrenQuestions,
             });
           });
 
@@ -1343,7 +1406,10 @@ export default {
 
       this.addUnitPopup = this.openUpdateModel = false;
 
-      this.subjectUpdateModel = this.openUpdateModel = this.openUpdateModel = false;
+      this.subjectUpdateModel =
+        this.openUpdateModel =
+        this.openUpdateModel =
+          false;
 
       this.showQuestionsOfExam = false;
 
@@ -1369,14 +1435,14 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/exams/${this.currExamToAssignQuestions.id}`)
-        .then(res => {
+        .then((res) => {
           this.currExamToAssignQuestions = this.currSubjectExam = res.data;
           let arr = [];
-          res.data.questions.map(element => {
+          res.data.questions.map((element) => {
             arr.push({
               ...element.question,
               points: element.point,
-              childrenQuestions: element.childrenQuestions
+              childrenQuestions: element.childrenQuestions,
             });
           });
 
@@ -1423,13 +1489,13 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/exams/${exam.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف الامتحان بنجاح"
                 : "Exam Deleted Successfully",
-            type: "success"
+            type: "success",
           });
 
           this.getSubjectExams();
@@ -1442,7 +1508,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.subject.id}/exams?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.subjectExams = res.data;
         })
         .finally(() => loading.close());
@@ -1461,10 +1527,10 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/units/${unit.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units deleted Successfully !`,
-            type: "success"
+            type: "success",
           });
 
           this.getUnits();
@@ -1472,7 +1538,7 @@ export default {
         .finally(() => loading.close());
     },
     submitAddForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.addUnit();
@@ -1480,7 +1546,7 @@ export default {
       });
     },
     submitUpdateForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.updateTheUnit();
@@ -1492,12 +1558,12 @@ export default {
       this.$axios
         .post(`subjects/${this.$route.params.id}/units`, {
           nameAr: this.addNewUnit.nameAr,
-          nameEn: this.addNewUnit.nameEn
+          nameEn: this.addNewUnit.nameEn,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units added Successfully !`,
-            type: "success"
+            type: "success",
           });
           this.addUnitPopup = false;
           this.addNewUnit = {};
@@ -1510,12 +1576,12 @@ export default {
       this.$axios
         .patch(`/units/${this.updateUnit.id}`, {
           nameAr: this.updateUnit.nameAr,
-          nameEn: this.updateUnit.nameEn
+          nameEn: this.updateUnit.nameEn,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units Updated Successfully !`,
-            type: "success"
+            type: "success",
           });
           this.updateUnitPopup = false;
           this.updateUnit = {};
@@ -1527,7 +1593,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.$route.params.id}/units`)
-        .then(res => {
+        .then((res) => {
           this.units = res.data.docs;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
@@ -1538,13 +1604,13 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.subject = res.data;
           this.getSubjectExams();
         })
         .finally(() => loading.close());
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -1584,9 +1650,8 @@ export default {
       h6 {
         text-align: center;
         padding-top: 18px;
-        white-space: nowrap;
+
         text-overflow: ellipsis;
-        overflow: hidden;
       }
 
       .unit-actions {
@@ -1666,13 +1731,18 @@ export default {
 
 .live-card {
   border-radius: 7px;
-  box-shadow: 0 0 3px 0 #6b6767dd;
-  padding: 15px;
+  box-shadow: 0 0 3px 0 #dddddd;
+
   margin-bottom: 15px;
   text-align: center;
   background: #fff;
   position: relative;
   padding-top: 33px;
+
+  height: 350px;
+  h5 {
+    font-size: 18px;
+  }
 
   .circle {
     width: 15px;
@@ -1682,7 +1752,7 @@ export default {
     background: var(--success);
   }
 
-  .live-now{
+  .live-now {
     position: absolute;
     bottom: 27%;
     left: 50%;
@@ -1702,12 +1772,20 @@ export default {
     }
   }
 }
-.live-iframe{
+.live-iframe {
   padding: 15px;
-  iframe{
+  iframe {
     width: 100%;
     min-height: 1000px;
   }
+}
+.btn-Lightorg {
+  background-color: #fffbef !important;
+  font-family: 600 !important;
+  color: #534dba !important;
+  border: 1px solid #ffa400 !important;
+}
+.update-delete-exam {
 }
 @import "../../assets/styles/bank-questions.scss";
 </style>
