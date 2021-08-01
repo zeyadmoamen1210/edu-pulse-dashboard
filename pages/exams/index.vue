@@ -229,7 +229,7 @@
                                 edit: true,
                               }"
                               style="
-                                width: 60px !important;
+                               flex: 1;
                                 font-size: 12px !important;
                               "
                             >
@@ -247,7 +247,7 @@
                               icon="el-icon-info"
                               class="w-50 btn"
                               style="
-                                width: 28px !important ;
+                                flex: 1;
                                 font-size: 12px !important;
                               "
                               @confirm="deleteExam('subject', exam)"
@@ -420,11 +420,11 @@
                             @click="openUpdateExamModel('unit', { ...exam })"
                             :class="{
                               btn: true,
-                              'w-50': true,
                               'border-right': $i18n.locale == 'en',
                               'border-left': $i18n.locale == 'ar',
                               edit: true,
                             }"
+                            style="flex: 1;"
                           >
                             <img
                               src="@/assets/imgs/Icon-feather-edit-3.svg"
@@ -439,7 +439,8 @@
                             icon="el-icon-info"
                             @confirm="deleteExam('unit', exam)"
                             icon-color="red"
-                            class="w-50 btn"
+                            class=" btn"
+                            style="flex: 1;"
                             :title="$t('Validation.AreYouSure')"
                           >
                             <button slot="reference" class="btn delete">
@@ -614,11 +615,11 @@
                             @click="openUpdateExamModel('lesson', { ...exam })"
                             :class="{
                               btn: true,
-                              'w-50': true,
                               'border-right': $i18n.locale == 'en',
                               'border-left': $i18n.locale == 'ar',
                               edit: true,
                             }"
+                            style="flex: 1;"
                           >
                             <img
                               src="@/assets/imgs/Icon-feather-edit-3.svg"
@@ -628,6 +629,7 @@
                           </button>
 
                           <el-popconfirm
+                          style="flex: 1;"
                             class="w-50 btn"
                             @confirm="deleteExam('lesson', exam)"
                             :confirm-button-text="$t('Validation.delete')"

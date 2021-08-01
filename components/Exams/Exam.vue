@@ -68,8 +68,8 @@ export default {
   }
   .btn {
     display: flex;
-    width: 77px;
-    height: 23px;
+    // width: 77px;
+    // height: 23px;
     display: flex;
     align-items: center;
     justify-content: center;

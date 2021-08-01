@@ -19,9 +19,7 @@
 
         <div class="lesson-path">
           <div
-            @click="
-              $router.push(`/classes/${lesson.unit.subject.section.class.id}`)
-            "
+          
             v-if="
               lesson.unit &&
               lesson.unit.subject &&
@@ -51,7 +49,6 @@
           </div>
 
           <div
-            @click="$router.push(`/subject/${lesson.unit.subject.id}`)"
             v-if="lesson.unit && lesson.unit.subject"
           >
             <h4 v-if="$i18n.locale == 'ar'">
@@ -76,7 +73,6 @@
           </div>
 
           <div
-            @click="$router.push(`/unit/${lesson.unit.id}`)"
             v-if="lesson.unit"
           >
             <h4 v-if="$i18n.locale == 'ar'">{{ lesson.unit.nameAr }}</h4>
@@ -99,7 +95,6 @@
           </div>
 
           <div
-            @click="$router.push(`/section/${lesson.unit.subject.section.id}`)"
             v-if="
               lesson.unit && lesson.unit.subject && lesson.unit.subject.section
             "
@@ -839,11 +834,11 @@
                         @click="openUpdateExamModel({ ...exam })"
                         :class="{
                           btn: true,
-                          'w-50': true,
                           'border-right': $i18n.locale == 'en',
                           'border-left': $i18n.locale == 'ar',
                           edit: true,
                         }"
+                        style="flex: 1;"
                       >
                         <img
                           src="@/assets/imgs/Icon-feather-edit-3.svg"
