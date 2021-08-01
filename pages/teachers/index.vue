@@ -212,8 +212,8 @@
                   ></el-input>
                 </div> -->
 
-                <div class="row">
-                  <div class="col-md-2">
+                <div class="d-flex">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -231,7 +231,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -249,7 +249,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -267,7 +267,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div>
                       <el-select
                         clearable
@@ -285,7 +285,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div class="d-flex flex-row-reverse">
                       <el-input
                         id="phone"
@@ -297,7 +297,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="mr-1 ml-1">
                     <div class="d-flex flex-row-reverse">
                       <el-button
                         class="btn-org hight"
@@ -482,14 +482,22 @@ export default {
   },
   watch: {
     levelVal(val) {
+       this.classVal = this.sectionVal = "";
+     
       if (val != "") {
         this.getClasses(val);
+      }else{
+         this.classes = this.sections = [];
       }
       this.getTeachers();
     },
     classVal(val) {
+      this.sectionVal = "";
+      
       if (val != "") {
         this.getSections(val);
+      }else{
+        this.sections = [];
       }
       this.getTeachers();
     },
@@ -499,7 +507,13 @@ export default {
       }
       this.getTeachers();
     },
-    systemVal() {
+    systemVal(val) {
+      this.levelVal = this.classVal = this.sectionVal = "";
+      if(val == ''){
+        this.levels = this.classes = this.sections = [];
+      }else{
+        this.getLevels()
+      }
       this.getTeachers();
     },
     subjectVal() {

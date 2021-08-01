@@ -1736,7 +1736,6 @@ export default {
 }
 .exams .btn {
   border: none;
-  width: 70px;
   font-size: 16px !important;
 }
 .edu-tabs {

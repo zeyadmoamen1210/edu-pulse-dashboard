@@ -26,23 +26,10 @@
         </template>
         {{ $t("sidebar.levels") }}
       </vs-sidebar-item>
-      <vs-sidebar-item
-        id="students"
-        :to="`/students`"
-        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
-      >
-        <template #icon>
-          <img
-            style="width: 20px"
-            src="@/assets/imgs/graduate-student-avatar.svg"
-            alt=""
-          />
-        </template>
-        {{ $t("sidebar.students") }}
-      </vs-sidebar-item>
+   
 
       <vs-sidebar-item
-        id="teachers"
+        id="teacherss"
         :to="`/teachers`"
         v-if="$auth.loggedIn && $auth.user.role == 'admin'"
       >
@@ -53,10 +40,27 @@
             alt=""
           />
         </template>
-        {{ $t("sidebar.teachers") }}
+        {{ $i18n.locale == 'ar' ? 'المُدرسين' : 'Teachers' }}
       </vs-sidebar-item>
 
-      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`">
+
+       <vs-sidebar-item
+        id="outstudents"
+        :to="`/students`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/graduate-student-avatar.svg"
+            alt=""
+          />
+        </template>
+        {{ $t("sidebar.students2") }}
+      </vs-sidebar-item>
+
+
+      <vs-sidebar-item id="questionsBank1" :to="`/bank-questions`">
         <template #icon>
           <img
             style="width: 20px"
@@ -179,23 +183,10 @@
         </template>
         {{ $t("sidebar.levels") }}
       </vs-sidebar-item>
-      <vs-sidebar-item
-        id="students"
-        :to="`/students`"
-        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
-      >
-        <template #icon>
-          <img
-            style="width: 20px"
-            src="@/assets/imgs/graduate-student-avatar.svg"
-            alt=""
-          />
-        </template>
-        {{ $t("sidebar.students") }}
-      </vs-sidebar-item>
+     
 
-      <vs-sidebar-item
-        id="teachers"
+      <!-- <vs-sidebar-item
+        id="ourteachers"
         :to="`/teachers`"
         v-if="$auth.loggedIn && $auth.user.role == 'admin'"
       >
@@ -206,8 +197,8 @@
             alt=""
           />
         </template>
-        {{ $t("sidebar.teachers") }}
-      </vs-sidebar-item>
+        {{ $i18n.locale == 'ar' ? 'المُدرسين' : 'Teachers' }}
+      </vs-sidebar-item> -->
 
       <vs-sidebar-item
         id="teacher-subjects"
@@ -235,7 +226,7 @@
         {{ $t("sidebar.Parents") }}
       </vs-sidebar-item>
 
-      <vs-sidebar-item id="questionsBank" :to="`/bank-questions`">
+      <vs-sidebar-item id="questionsBank2" :to="`/bank-questions`">
         <template #icon>
           <img
             style="width: 20px"
@@ -255,6 +246,22 @@
           />
         </template>
         {{ $t("sidebar.exams") }}
+      </vs-sidebar-item>
+
+
+       <vs-sidebar-item
+        id="students222"
+        :to="`/students`"
+        v-if="$auth.loggedIn && $auth.user.role == 'admin'"
+      >
+        <template #icon>
+          <img
+            style="width: 20px"
+            src="@/assets/imgs/graduate-student-avatar.svg"
+            alt=""
+          />
+        </template>
+        {{ $t("sidebar.students2") }}
       </vs-sidebar-item>
 
       <template #footer>

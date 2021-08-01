@@ -132,7 +132,7 @@ export default {
           sidebar: {
             'system': "Edu System",
             'levels': "Edu Levels",
-            'students': "Our Students",
+            'students2': "Our Students",
             'teachers': "Our Teachers",
             'questionsBank': "Questions Bank",
             "exams": "Exams",
@@ -373,12 +373,12 @@ export default {
           sidebar: {
             'system': "النُظم",
             'levels': "المراحل",
-            'students': "الطُلاب",
+            'students2': "الطُلاب",
             'teachers': "المُدرسين",
-            'questionsBank': "بنك الأسئلة",
             "exams": "الإمتحانات",
             "Parents": "الاَباء",
-            "Subjects": "المواد الدراسية"
+            "Subjects": "المواد الدراسية",
+            "questionsBank": "بنك الأسئلة"
           },
           auth: {
             "Login": "تسجيل الدخول",

@@ -371,21 +371,35 @@ export default {
   },
   watch: {
     levelVal(val) {
+      this.classVal = this.sectionVal = "";
+      
       if (val != "") {
         this.getClasses(val);
+      }else{
+        this.classes = this.sections = [];
       }
       this.getStudents();
     },
     classVal(val) {
+      this.sectionVal = "";
+      
       if (val != "") {
         this.getSections(val);
+      }else{
+        this.sections = [];
       }
       this.getStudents();
     },
     sectionVal() {
       this.getStudents();
     },
-    systemVal() {
+    systemVal(val) {
+      this.levelVal = this.classVal = this.sectionVal = "";
+      if(val == ''){
+        this.levels = this.classes = this.sections = [];
+      }else{
+        this.getLevels()
+      }
       this.getStudents();
     },
     page() {

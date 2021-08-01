@@ -246,12 +246,8 @@ export default {
         //   type: "success",
         // });
 
-        this.$axios
-          .get(`/parents-students?parent=${parent.id}`)
-          .then((res) => {
-            parent.parentStudents = res.data;
-          })
-          .finally(() => loading.close());
+        location.reload();
+
       } catch (error) {
         this.$vs.notification({
           color: "#FA5B5A",
