@@ -4,6 +4,8 @@
   --yellowColor: #FFA400;
 }
 
+@import "_color.scss";
+
 .bank-questions {
   // Filters Section Style
   margin: 25px;
@@ -195,4 +197,48 @@
 .read-question .question-structure .index.question-border-right {
   border-right: 1px solid #8c8c8c;
   padding: 0 30px;
+}
+
+.el-form.add-question-form .el-upload.el-upload--picture-card {
+  width: 60% !important;
+  margin: 0 auto;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+}
+
+.el-upload--picture-card:hover,
+.el-upload:focus {
+  border-color: #c0ccda;
+  color: #c0ccda;
+}
+
+element.style {}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #409EFF;
+  background: #409EFF;
+}
+
+.el-form .el-radio__inner {
+  border-radius: 50% !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: $mainColor !important;
+  background: $mainColor !important;
+}
+
+.el-form-item__label {
+  text-align: start !important;
+}
+
+.el-form .true-false .el-radio__label {
+  font-size: 18px !important;
+  padding-left: 10px;
+  font-weight: 100;
+  color: #000000 !important;
 }

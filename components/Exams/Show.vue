@@ -1,7 +1,5 @@
 <template>
   <div class="show-exam">
-
-
     <section
       v-if="
         examQuestions.length > 0 &&
@@ -18,12 +16,13 @@
       />
     </section>
 
-
     <div class="exam-inner">
       <div class="exam-header pt-1 d-flex justify-content-between">
         <div class="head-info mt-5">
           <div class="text-center">
-            <h6 class="d-inline-block text-center blueColor">متاح للطُلاب</h6>
+            <h6 class="d-inline-block text-center blueColor">
+              {{ $t("subjects.available") }}
+            </h6>
             <el-switch
               class="d-inline-block"
               v-model="exam.availability"
@@ -35,8 +34,10 @@
           </div>
           <div>
             <h6 class="text-center yellowColor">
-              مدة الامتحان :
-              <span class="yellowColor">{{ exam.duration }} دقيقة</span>
+              {{ $t("subjects.Examduration") }} :
+              <span class="yellowColor"
+                >{{ exam.duration }} {{ $t("subjects.Minute") }}</span
+              >
             </h6>
           </div>
         </div>
@@ -45,32 +46,28 @@
           <h6 class="text-center blueColor fw-bold pt-5">{{ exam.title }}</h6>
         </div>
 
-
-        
-
         <div class="head-info">
-
           <div class="mb-3">
+            <slot name="update-delete"></slot>
+          </div>
 
-          <slot name="update-delete"></slot>
-         
-        </div>
-
-          <h6 class="text-center blueColor mb-0">{{ exam.points }} درجة</h6>
+          <h6 class="text-center blueColor mb-0">
+            {{ exam.points }} {{ $t("subjects.Degree") }}
+          </h6>
           <h6 class="text-center yellowColor mb-0">
-            نسبة النجاح
+            {{ $t("subjects.Rate") }}
             <span class="yellowColor">{{ exam.passing_percentage }} %</span>
           </h6>
         </div>
       </div>
 
       <div class="d-flex flex-row-reverse mt-3">
-        <button
+        <p
           @click="openAddQuestionsToExam()"
-          class="btn exam-questions-btn"
+          class="p exam-questions-btn pointer"
         >
-          سؤال جديد
-        </button>
+          {{ $t("subjects.NewQuestion") }}
+        </p>
       </div>
 
       <ShowQuestions
@@ -88,20 +85,19 @@
 </template>
 
 <script>
-
-import ShowQuestions from '@/components/QuestionsBank/ShowQuestions.vue';
+import ShowQuestions from "@/components/QuestionsBank/ShowQuestions.vue";
 
 export default {
-  components:{ShowQuestions},
+  components: { ShowQuestions },
   props: ["exam", "examQuestions"],
   mounted() {
     console.log(this.exam);
   },
-  data(){
-    return{
+  data() {
+    return {
       openUpdateModel: false,
-      currQuestion:{}
-    }
+      currQuestion: {},
+    };
   },
   methods: {
     closeUpdateQuestionModel() {
@@ -110,20 +106,22 @@ export default {
     },
     questionUpdated() {
       this.openUpdateModel = false;
-      this.$emit("getExamQuestion")
+      this.$emit("getExamQuestion");
     },
-    getQuestions(){
+    getQuestions() {
       const loading = this.$vs.loading();
-        this.$axios.get(`/exams/${this.exam.id}`).then(res => {
-          this.exam = {...res.data};
-            let arr = [];
-            res.data.questions.map(element => {
-                arr.push({...element.question, points: element.point})
-            });
+      this.$axios
+        .get(`/exams/${this.exam.id}`)
+        .then((res) => {
+          this.exam = { ...res.data };
+          let arr = [];
+          res.data.questions.map((element) => {
+            arr.push({ ...element.question, points: element.point });
+          });
 
-
-            this.examQuestions = arr;
-        }).finally(() => loading.close());
+          this.examQuestions = arr;
+        })
+        .finally(() => loading.close());
     },
     openAddQuestionsToExam() {
       this.$emit("openAddQuestionsToExam", { ...this.exam });
@@ -132,43 +130,40 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/questions/${question.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال  بنجاح"
                 : "Question Deleted Successfully",
-            type: "success"
+            type: "success",
           });
-          this.$emit("getExamQuestion")
+          this.$emit("getExamQuestion");
         })
         .finally(() => loading.close());
     },
 
-    deleteQuestionFromExam(question){
-       const loading = this.$vs.loading();
-        this.$axios
-          .patch(`/exams/${this.exam.id}/questions/${question.id}`)
-          .then(res => {
-            this.$message({
-              message:
-                this.$i18n.locale == "ar"
-                  ? "تم حذف السؤال من الامتحان بنجاح"
-                  : "Question Deleted From Exam Successfully",
-              type: "success"
-            });
-            this.$emit("getExamQuestion")
-          })
+    deleteQuestionFromExam(question) {
+      const loading = this.$vs.loading();
+      this.$axios
+        .patch(`/exams/${this.exam.id}/questions/${question.id}`)
+        .then((res) => {
+          this.$message({
+            message:
+              this.$i18n.locale == "ar"
+                ? "تم حذف السؤال من الامتحان بنجاح"
+                : "Question Deleted From Exam Successfully",
+            type: "success",
+          });
+          this.$emit("getExamQuestion");
+        })
         .finally(() => loading.close());
     },
 
     openUpdateQuesModel(question) {
-      this.$emit("openUpdateModel" , {...question})
+      this.$emit("openUpdateModel", { ...question });
     },
-
-    
-
-  }
+  },
 };
 </script>
 
@@ -202,19 +197,18 @@ export default {
     color: var(--blue);
   }
 
-  .update-delete-exam{
-    > .btn{
-        padding: 1px 15px;
-        border: 1px solid #D8D4D4;
-        border-radius: 3px;
-        box-shadow: none !important;
-        outline: none !important;
-        padding-bottom: 0;
-        img{
-          width: 15px;
-        }
+  .update-delete-exam {
+    > .btn {
+      padding: 1px 15px;
+      border: 1px solid #d8d4d4;
+      border-radius: 3px;
+      box-shadow: none !important;
+      outline: none !important;
+      padding-bottom: 0;
+      img {
+        width: 15px;
+      }
     }
-    
   }
 }
 </style>

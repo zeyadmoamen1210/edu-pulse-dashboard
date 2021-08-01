@@ -23,16 +23,22 @@
               <div class="col-md-3">
                 <div class="attach-photo">
                   <input type="file" @change="addPhoto" />
-                  <img
+                  <el-avatar
+                    size="large"
+                    :src="require('@/assets/imgs/photo-camera.svg')"
                     v-if="!url"
-                    src="@/assets/imgs/photo-camera.svg"
+                    class="img"
                     alt=""
-                  />
-                  <img v-else :src="url" alt="" />
+                  ></el-avatar>
+                  <el-avatar size="large" v-else :src="url" alt=""></el-avatar>
+                </div>
+
+                <div class="footer">
+                  <img src="@/assets/imgs/footer.png" alt="" />
                 </div>
               </div>
 
-              <div class="col-md-9">
+              <div class="col-md-9 mt-5">
                 <div>
                   <div class="row">
                     <div class="col-md-6">
@@ -43,8 +49,8 @@
                             {
                               required: true,
                               message: $t('Validation.Username'),
-                              trigger: 'blur'
-                            }
+                              trigger: 'blur',
+                            },
                           ]"
                         >
                           <el-input
@@ -63,13 +69,13 @@
                             {
                               required: true,
                               message: $t('Validation.Email'),
-                              trigger: 'blur'
+                              trigger: 'blur',
                             },
                             {
                               type: 'email',
                               message: $t('Validation.VEmail'),
-                              trigger: ['blur', 'change']
-                            }
+                              trigger: ['blur', 'change'],
+                            },
                           ]"
                         >
                           <el-input
@@ -88,8 +94,8 @@
                             {
                               required: true,
                               message: $t('Validation.VPassword'),
-                              trigger: 'blur'
-                            }
+                              trigger: 'blur',
+                            },
                           ]"
                         >
                           <el-input
@@ -103,10 +109,7 @@
 
                     <div class="col-md-6">
                       <div>
-                        <el-form-item
-                          prop="phone"
-
-                        >
+                        <el-form-item prop="phone">
                           <vue-phone-number-input
                             @update="updatePhone"
                             v-model="addTeacher.phone"
@@ -116,11 +119,14 @@
                       </div>
                     </div>
 
-                    <div class="col-md-6" style="margin:auto">
+                    <div
+                      class="col-md-2 mt-5"
+                      :class="[$i18n.locale === 'ar' ? 'mr-auto' : 'ml-auto']"
+                    >
                       <div>
                         <el-form-item class="mb-0">
                           <el-button
-                            class="form-button"
+                            class="btn btn-org"
                             type="warning"
                             @click="addNewTeacher('addTeacher')"
                             >{{ $t("Validation.save") }}</el-button
@@ -144,14 +150,14 @@ export default {
   data() {
     return {
       addTeacher: {},
-      photo:"",
-      url:"",
-      phoneObj:{}
+      photo: "",
+      url: "",
+      phoneObj: {},
     };
   },
   methods: {
     updatePhone(val) {
-        this.phoneObj = val;
+      this.phoneObj = val;
     },
     addPhoto(e) {
       if (e.target.files.length > 0) {
@@ -160,11 +166,17 @@ export default {
       }
     },
     addNewTeacher(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.phoneObj.formattedNumber && !this.phoneObj.isValid) {
-            this.$message.error({
-              message: `رقم الهاتف غير صالح !`
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text:
+                this.$i18n.locale == "en"
+                  ? `Phone Number Not Valid !`
+                  : `رقم الهاتف غير صالح !`,
             });
             return;
           }
@@ -178,8 +190,8 @@ export default {
       let formData = new FormData();
       formData.append("username", this.addTeacher.username);
       formData.append("email", this.addTeacher.email);
-      if(this.phoneObj.formattedNumber && this.phoneObj.isValid){
-          formData.append("phone", this.phoneObj.formattedNumber);
+      if (this.phoneObj.formattedNumber && this.phoneObj.isValid) {
+        formData.append("phone", this.phoneObj.formattedNumber);
       }
       formData.append("password", this.addTeacher.password);
       if (this.photo) {
@@ -188,31 +200,48 @@ export default {
 
       this.$axios
         .post(`/teachers`, formData)
-        .then(res => {
+        .then((res) => {
           this.addNewTeacherPopup = false;
-          this.$message({
-            message: `Teacher Added Successfully!`,
-            type: "success"
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة المعلم بنجاح!`
+                : `Teacher Added Successfully!`,
           });
           this.phoneObj = {};
           this.addTeacher = {};
           this.$router.push(`/teachers`);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           if (error.response && error.response.status == 400) {
-            this.$message.error({
-              message: `Email Or Phone Already Exist`
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text:
+                this.$i18n.locale == "en"
+                  ? `Email Or Phone Already Exist`
+                  : `البريد الإلكتروني أو الهاتف موجود بالفعل`,
             });
           } else {
-            this.$message.error({
-              message: `There Are Something Wrong!`
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text:
+                this.$i18n.locale == "en"
+                  ? `There Are Something Wrong!`
+                  : `هناك شيء خاطئ!`,
             });
           }
         })
         .finally(() => loading.close());
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -230,36 +259,118 @@ export default {
         }
       }
     }
-    .attach-photo {
-        
-        width: 150px;
-        height: 150px;
-        overflow: hidden;
-        position: relative;
-        margin: auto;
-        padding: 11px;
-        border-radius: 50%;
-        border: 5px #ddd;
-        border-style: double;
-        background: #fff;
-        margin-top: 0;
-      input[type="file"] {
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-      }
-      img {
-        width: 100%;
-        padding: 20px;
-      }
-    }
   }
   .all-teachers {
     padding: 10px;
   }
+}
+.text {
+  color: #343434;
+  font-size: 14px;
+}
+
+.relative {
+  position: relative;
+  height: 70vh;
+}
+
+.footer {
+  position: absolute;
+  bottom: 10px;
+  right: 280px;
+  left: 280px;
+}
+
+div {
+  &:first-of-type {
+    h5 {
+      color: var(--blue);
+    }
+  }
+}
+
+.el-avatar--large {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+  display: flex;
+  border: 1px solid #707070;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.img {
+    padding: 20px;
+
+    img {
+    }
+  }
+}
+
+.attach-photo {
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  position: relative;
+
+  padding: 5px;
+  border-radius: 50%;
+
+  border: 1px solid #707070;
+  background: #fff;
+  margin-top: 20px;
+
+  input[type="file"] {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  img {
+    width: 100%;
+
+    border-radius: 50%;
+  }
+}
+.bg-white {
+  background-color: #ffffff;
+  width: 100%;
+  min-height: 93vh;
+  box-shadow: 0 0 3px #dddddd;
+  margin: 20px 5px 20px 10px;
+  border-radius: 6px;
+  padding: 30px;
+
+  .header {
+    margin-bottom: 2rem;
+
+    h5 {
+      font-size: 18px !important;
+      font-weight: normal !important;
+      font-family: "Cairo", sans-serif !important;
+      color: #ffa400;
+
+      span {
+        font-size: 20px;
+        margin: 0 16px;
+      }
+    }
+  }
+}
+.btn-org {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 </style>

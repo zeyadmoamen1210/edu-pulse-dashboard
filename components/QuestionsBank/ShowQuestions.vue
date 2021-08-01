@@ -2,7 +2,6 @@
   <div class="exams">
     <div v-for="(question, index) in allQuestions" :key="question.id">
       <template v-if="question.type == 'choose'">
-        hh
         <Choose
           @openUpdateEvent="openUpdateQuestionModel(question)"
           @afterUpdateOrDelete="getQuestions()"
@@ -20,7 +19,7 @@
                   examQuestions.findIndex((ele) => ele.id == question.id) > -1
                 "
                 type="text"
-                >إزالة من الامتحان</el-button
+                >{{ $t("subjects.RemoveFromExam") }}</el-button
               >
 
               <div v-else>
@@ -33,13 +32,13 @@
                   type="text"
                   @click="addQuestionToExam(question)"
                 >
-                  إضافة إلي الامتحان
+                  {{ $t("subjects.AddToExam") }}
                 </el-button>
               </div>
             </div>
           </template>
           <template slot="updateDelete">
-            <div>
+            <div style="display: flex">
               <button
                 v-if="openUpdateQuestionModel"
                 @click="openUpdateQuestionModel(question)"
@@ -84,7 +83,7 @@
                   examQuestions.findIndex((ele) => ele.id == question.id) > -1
                 "
                 type="text"
-                >إزالة من الامتحان</el-button
+                >{{ $t("subjects.RemoveFromExam") }}</el-button
               >
 
               <div v-else>
@@ -97,7 +96,7 @@
                   type="text"
                   @click="addQuestionToExam(question)"
                 >
-                  إضافة إلي الامتحان
+                  {{ $t("subjects.AddToExam") }}
                 </el-button>
               </div>
             </div>
@@ -147,7 +146,7 @@
                   examQuestions.findIndex((ele) => ele.id == question.id) > -1
                 "
                 type="text"
-                >إزالة من الامتحان</el-button
+                >{{ $t("subjects.RemoveFromExam") }}</el-button
               >
 
               <div v-else>
@@ -160,7 +159,7 @@
                   type="text"
                   @click="addQuestionToExam(question)"
                 >
-                  إضافة إلي الامتحان
+                  {{ $t("subjects.AddToExam") }}
                 </el-button>
               </div>
             </div>
@@ -210,7 +209,7 @@
                   examQuestions.findIndex((ele) => ele.id == question.id) > -1
                 "
                 type="text"
-                >إزالة من الامتحان</el-button
+                >{{ $t("subjects.RemoveFromExam") }}</el-button
               >
 
               <div v-else>
@@ -223,7 +222,7 @@
                   type="text"
                   @click="addQuestionToExam(question)"
                 >
-                  إضافة إلي الامتحان
+                  {{ $t("subjects.AddToExam") }}
                 </el-button>
               </div>
             </div>
@@ -273,7 +272,7 @@
                   examQuestions.findIndex((ele) => ele.id == question.id) > -1
                 "
                 type="text"
-                >إزالة من الامتحان</el-button
+                >{{ $t("subjects.RemoveFromExam") }}</el-button
               >
 
               <div v-else>
@@ -286,7 +285,7 @@
                   type="text"
                   @click="addQuestionToExam(question)"
                 >
-                  إضافة إلي الامتحان
+                  {{ $t("subjects.AddToExam") }}
                 </el-button>
               </div>
             </div>

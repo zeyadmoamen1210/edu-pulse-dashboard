@@ -67,7 +67,7 @@
       color: #534DBA;
       font-size: 14px;
       margin: 0 18px;
-      cursor: pointer;
+      cursor: pointer !important;
     }
 
     &.delete {
@@ -158,4 +158,13 @@
       padding: 10px 0;
     }
   }
+}
+
+.subject-card {
+  cursor: pointer;
+}
+
+.subject-page .btn.active {
+  border-bottom: 3px solid #FFA400 !important;
+  border-radius: none !important;
 }

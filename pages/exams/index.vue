@@ -2,10 +2,6 @@
   <div class="exams-page">
     <div class="container-fluid">
       <div class="exams">
-
-
-
-
         <section
           v-if="
             (allQuestions.length > 0 || examQuestions.length > 0) &&
@@ -22,14 +18,12 @@
           />
         </section>
 
-
-
         <div class="edu-tabs">
           <button
             :class="{ btn: true, active: active == 1 }"
             @click="active = 1"
           >
-            الإمتحانات
+            {{ $t("subjects.Exams") }}
           </button>
           <button
             v-if="
@@ -39,24 +33,9 @@
             :class="{ btn: true, active: active == 2 }"
             @click="active = 2"
           >
-            أسئلة الامتحان
+            {{ $t("subjects.Questions") }}
           </button>
         </div>
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
 
         <section class="exams-tab" v-if="active == 1">
           <div class="edu-tabs">
@@ -64,19 +43,19 @@
               :class="{ btn: true, active: examsActive == 1 }"
               @click="examsActive = 1"
             >
-              المادة
+              {{ $t("subjects.Subject") }}
             </button>
             <button
               :class="{ btn: true, active: examsActive == 2 }"
               @click="examsActive = 2"
             >
-              الوحدات
+              {{ $t("subjects.Units") }}
             </button>
             <button
               :class="{ btn: true, active: examsActive == 3 }"
               @click="examsActive = 3"
             >
-              الدروس
+              {{ $t("subjects.Lessons") }}
             </button>
           </div>
 
@@ -189,8 +168,11 @@
                 </div>
                 <div class="col-md-3">
                   <div class="d-flex flex-row-reverse">
-                    <el-button @click="openAddExamToSubjectModel" type="warning"
-                      >إضافة امتحان</el-button
+                    <el-button
+                      @click="openAddExamToSubjectModel"
+                      type="warning"
+                      style="border-radius: 6px"
+                      >{{ $t("subjects.AddExam") }}</el-button
                     >
                   </div>
                 </div>
@@ -222,7 +204,6 @@
 
             <div class="exams">
               <div v-if="!subjectShowQuestionsOfExam">
-
                 <div class="row" v-if="subjectExams.length > 0">
                   <div
                     class="col-md-2"
@@ -237,7 +218,9 @@
                         <div slot="update-delete">
                           <div class="d-flex update-delete-exam text-center">
                             <button
-                              @click="openUpdateExamModel('subject', {...exam})"
+                              @click="
+                                openUpdateExamModel('subject', { ...exam })
+                              "
                               :class="{
                                 btn: true,
                                 'w-50': true,
@@ -245,12 +228,17 @@
                                 'border-left': $i18n.locale == 'ar',
                                 edit: true,
                               }"
+                              style="
+                                width: 60px !important;
+                                font-size: 12px !important;
+                              "
                             >
+                              تعديل
                               <img
                                 src="@/assets/imgs/Icon-feather-edit-3.svg"
                                 alt=""
+                                class="mx-1"
                               />
-                              تعديل
                             </button>
 
                             <el-popconfirm
@@ -258,16 +246,21 @@
                               :cancel-button-text="$t('Validation.close')"
                               icon="el-icon-info"
                               class="w-50 btn"
+                              style="
+                                width: 28px !important ;
+                                font-size: 12px !important;
+                              "
                               @confirm="deleteExam('subject', exam)"
                               icon-color="red"
                               :title="$t('Validation.AreYouSure')"
                             >
-                              <button slot="reference" class="btn delete">
+                              <button slot="reference" class="btn-dels delete">
+                                حذف
                                 <img
+                                  class="mx-1"
                                   src="@/assets/imgs/Icon-material-delete.svg"
                                   alt=""
                                 />
-                                حذف
                               </button>
                             </el-popconfirm>
                           </div>
@@ -275,10 +268,9 @@
                       </Exam>
                     </div>
                   </div>
-              </div>
+                </div>
 
-
-              <div v-else class="no-questions-available" style="">
+                <div v-else class="no-questions-available" style="">
                   <div class="no-questions-container">
                     <div class="no-files" style="">
                       <img
@@ -289,21 +281,17 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
 
               <div v-else>
-                <button
+                <p
                   @click="closeExamQuestion('subject')"
-                  class="btn exam-questions-btn"
+                  class="exam-questions-btn pointer"
                 >
-                  الرجوع إلي الامتحانات
-                </button>
+                  {{ $t("subjects.BackToExams") }}
+                </p>
 
                 <div>
-
-              
                   <ShowExam
                     :toExam="true"
                     :exam="currSubjectExam"
@@ -314,42 +302,46 @@
                     :examQuestions="examQuestions"
                     @getExamQuestion="getExamQuestions"
                   >
-                  <div slot="update-delete">
-                        <div class="d-flex update-delete-exam text-center">
-                          <button
-                            @click="openUpdateExamModel('subject', {...currSubjectExam})"
-                            :class="{
-                              btn: true,
-                              'w-50': true,
-                              'border-right': $i18n.locale == 'en',
-                              'border-left': $i18n.locale == 'ar',
-                              edit: true,
-                            }"
-                          >
+                    <div slot="update-delete">
+                      <div class="d-flex update-delete-exam text-center">
+                        <button
+                          @click="
+                            openUpdateExamModel('subject', {
+                              ...currSubjectExam,
+                            })
+                          "
+                          :class="{
+                            btn: true,
+                            'w-50': true,
+                            'border-right': $i18n.locale == 'en',
+                            'border-left': $i18n.locale == 'ar',
+                            edit: true,
+                          }"
+                        >
+                          <img
+                            src="@/assets/imgs/Icon-feather-edit-3.svg"
+                            alt=""
+                          />
+                        </button>
+
+                        <el-popconfirm
+                          :confirm-button-text="$t('Validation.delete')"
+                          :cancel-button-text="$t('Validation.close')"
+                          icon="el-icon-info"
+                          class="w-50 btn"
+                          @confirm="deleteExam('subject', currSubjectExam)"
+                          icon-color="red"
+                          :title="$t('Validation.AreYouSure')"
+                        >
+                          <button slot="reference" class="btn delete">
                             <img
-                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              src="@/assets/imgs/Icon-material-delete.svg"
                               alt=""
                             />
                           </button>
-
-                          <el-popconfirm
-                            :confirm-button-text="$t('Validation.delete')"
-                            :cancel-button-text="$t('Validation.close')"
-                            icon="el-icon-info"
-                            class="w-50 btn"
-                            @confirm="deleteExam('subject', currSubjectExam)"
-                            icon-color="red"
-                            :title="$t('Validation.AreYouSure')"
-                          >
-                            <button slot="reference" class="btn delete">
-                              <img
-                                src="@/assets/imgs/Icon-material-delete.svg"
-                                alt=""
-                              />
-                            </button>
-                          </el-popconfirm>
-                        </div>
+                        </el-popconfirm>
                       </div>
+                    </div>
                   </ShowExam>
                 </div>
               </div>
@@ -425,7 +417,7 @@
                       <div slot="update-delete">
                         <div class="d-flex update-delete-exam text-center">
                           <button
-                            @click="openUpdateExamModel('unit', {...exam})"
+                            @click="openUpdateExamModel('unit', { ...exam })"
                             :class="{
                               btn: true,
                               'w-50': true,
@@ -474,10 +466,8 @@
                 </button>
 
                 <div>
-           
-
                   <ShowExam
-                  :toExam="true"
+                    :toExam="true"
                     :exam="currUnitExam"
                     @openAddQuestionsToExam="
                       openAddQuestionsToSelectedExam('unit', $event)
@@ -486,42 +476,44 @@
                     :examQuestions="examQuestions"
                     @getExamQuestion="getExamQuestions"
                   >
-                  <div slot="update-delete">
-                        <div class="d-flex update-delete-exam text-center">
-                          <button
-                            @click="openUpdateExamModel('unit', {...currUnitExam})"
-                            :class="{
-                              btn: true,
-                              'w-50': true,
-                              'border-right': $i18n.locale == 'en',
-                              'border-left': $i18n.locale == 'ar',
-                              edit: true,
-                            }"
-                          >
+                    <div slot="update-delete">
+                      <div class="d-flex update-delete-exam text-center">
+                        <button
+                          @click="
+                            openUpdateExamModel('unit', { ...currUnitExam })
+                          "
+                          :class="{
+                            btn: true,
+                            'w-50': true,
+                            'border-right': $i18n.locale == 'en',
+                            'border-left': $i18n.locale == 'ar',
+                            edit: true,
+                          }"
+                        >
+                          <img
+                            src="@/assets/imgs/Icon-feather-edit-3.svg"
+                            alt=""
+                          />
+                        </button>
+
+                        <el-popconfirm
+                          :confirm-button-text="$t('Validation.delete')"
+                          :cancel-button-text="$t('Validation.close')"
+                          icon="el-icon-info"
+                          class="w-50 btn"
+                          @confirm="deleteExam('unit', currUnitExam)"
+                          icon-color="red"
+                          :title="$t('Validation.AreYouSure')"
+                        >
+                          <button slot="reference" class="btn delete">
                             <img
-                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              src="@/assets/imgs/Icon-material-delete.svg"
                               alt=""
                             />
                           </button>
-
-                          <el-popconfirm
-                            :confirm-button-text="$t('Validation.delete')"
-                            :cancel-button-text="$t('Validation.close')"
-                            icon="el-icon-info"
-                            class="w-50 btn"
-                            @confirm="deleteExam('unit', currUnitExam)"
-                            icon-color="red"
-                            :title="$t('Validation.AreYouSure')"
-                          >
-                            <button slot="reference" class="btn delete">
-                              <img
-                                src="@/assets/imgs/Icon-material-delete.svg"
-                                alt=""
-                              />
-                            </button>
-                          </el-popconfirm>
-                        </div>
+                        </el-popconfirm>
                       </div>
+                    </div>
                   </ShowExam>
                 </div>
               </div>
@@ -619,7 +611,7 @@
                       <div slot="update-delete">
                         <div class="d-flex update-delete-exam text-center">
                           <button
-                            @click="openUpdateExamModel('lesson', {...exam})"
+                            @click="openUpdateExamModel('lesson', { ...exam })"
                             :class="{
                               btn: true,
                               'w-50': true,
@@ -648,6 +640,7 @@
                               <img
                                 src="@/assets/imgs/Icon-material-delete.svg"
                                 alt=""
+                                class="mx-1"
                               />
                               حذف
                             </button>
@@ -668,10 +661,8 @@
                 </button>
 
                 <div>
-            
-                  
                   <ShowExam
-                  :toExam="true"
+                    :toExam="true"
                     :exam="currLessonExam"
                     @openAddQuestionsToExam="
                       openAddQuestionsToSelectedExam('lesson', $event)
@@ -680,42 +671,44 @@
                     :examQuestions="examQuestions"
                     @getExamQuestion="getExamQuestions"
                   >
-                  <div slot="update-delete">
-                        <div class="d-flex update-delete-exam text-center">
-                          <button
-                            @click="openUpdateExamModel('lesson', {...currLessonExam})"
-                            :class="{
-                              btn: true,
-                              'w-50': true,
-                              'border-right': $i18n.locale == 'en',
-                              'border-left': $i18n.locale == 'ar',
-                              edit: true,
-                            }"
-                          >
+                    <div slot="update-delete">
+                      <div class="d-flex update-delete-exam text-center">
+                        <button
+                          @click="
+                            openUpdateExamModel('lesson', { ...currLessonExam })
+                          "
+                          :class="{
+                            btn: true,
+                            'w-50': true,
+                            'border-right': $i18n.locale == 'en',
+                            'border-left': $i18n.locale == 'ar',
+                            edit: true,
+                          }"
+                        >
+                          <img
+                            src="@/assets/imgs/Icon-feather-edit-3.svg"
+                            alt=""
+                          />
+                        </button>
+
+                        <el-popconfirm
+                          :confirm-button-text="$t('Validation.delete')"
+                          :cancel-button-text="$t('Validation.close')"
+                          icon="el-icon-info"
+                          class="w-50 btn"
+                          @confirm="deleteExam('lesson', currLessonExam)"
+                          icon-color="red"
+                          :title="$t('Validation.AreYouSure')"
+                        >
+                          <button slot="reference" class="btn delete">
                             <img
-                              src="@/assets/imgs/Icon-feather-edit-3.svg"
+                              src="@/assets/imgs/Icon-material-delete.svg"
                               alt=""
                             />
                           </button>
-
-                          <el-popconfirm
-                            :confirm-button-text="$t('Validation.delete')"
-                            :cancel-button-text="$t('Validation.close')"
-                            icon="el-icon-info"
-                            class="w-50 btn"
-                            @confirm="deleteExam('lesson', currLessonExam)"
-                            icon-color="red"
-                            :title="$t('Validation.AreYouSure')"
-                          >
-                            <button slot="reference" class="btn delete">
-                              <img
-                                src="@/assets/imgs/Icon-material-delete.svg"
-                                alt=""
-                              />
-                            </button>
-                          </el-popconfirm>
-                        </div>
+                        </el-popconfirm>
                       </div>
+                    </div>
                   </ShowExam>
                 </div>
               </div>
@@ -759,62 +752,71 @@
             </button> -->
           </div>
 
-
-
-          
-
-
           <section v-if="lessonTab == 1">
-
-              <div class="questions">
-                  <div
-                        class="questions"
-                        v-if="selectedSubject && examQuestions.length > 0"
-                        >
-                        <ShowQuestions  :examQuestions="examQuestions" @deleteQuestionFromExam="deleteQuestionFromExam" @deleteQuestion="deleteQuestion" :allQuestionsCount="1" @openUpdateQuesModel="openUpdateQuesModel" :allQuestions="examQuestions" :page="page" :totalPages="totalPages"  @closeUpdateQuestionModel="closeUpdateQuestionModel" :toExam="true" />
-
-                        
-
-
-                    </div>
-                    <div v-else class="no-questions-available" style="">
-                      <div class="no-questions-container">
-                        <div class="no-files" style="">
-                          <img
-                            style=""
-                            src="@/assets/imgs/question-bank/Personal-files-bro.svg"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                  </div>
-
+            <div class="questions">
+              <div
+                class="questions"
+                v-if="selectedSubject && examQuestions.length > 0"
+              >
+                <ShowQuestions
+                  :examQuestions="examQuestions"
+                  @deleteQuestionFromExam="deleteQuestionFromExam"
+                  @deleteQuestion="deleteQuestion"
+                  :allQuestionsCount="1"
+                  @openUpdateQuesModel="openUpdateQuesModel"
+                  :allQuestions="examQuestions"
+                  :page="page"
+                  :totalPages="totalPages"
+                  @closeUpdateQuestionModel="closeUpdateQuestionModel"
+                  :toExam="true"
+                />
               </div>
+              <div v-else class="no-questions-available" style="">
+                <div class="no-questions-container">
+                  <div class="no-files" style="">
+                    <img
+                      style=""
+                      src="@/assets/imgs/question-bank/Personal-files-bro.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section v-if="lessonTab == 2">
-            
-
             <div
               class="questions"
               v-if="selectedSubject && allQuestions.length > 0"
             >
-              <ShowQuestions :toExam="true" @addQuestionToExam="addQuestionToExam" :examQuestions="examQuestions" @deleteQuestion="deleteQuestion"  @deleteQuestionFromExam="deleteQuestionFromExam" :allQuestionsCount="allQuestionsCount" @openUpdateQuesModel="openUpdateQuesModel" :allQuestions="allQuestions" :page="page" :totalPages="totalPages" @closeUpdateQuestionModel="closeUpdateQuestionModel" />
+              <ShowQuestions
+                :toExam="true"
+                @addQuestionToExam="addQuestionToExam"
+                :examQuestions="examQuestions"
+                @deleteQuestion="deleteQuestion"
+                @deleteQuestionFromExam="deleteQuestionFromExam"
+                :allQuestionsCount="allQuestionsCount"
+                @openUpdateQuesModel="openUpdateQuesModel"
+                :allQuestions="allQuestions"
+                :page="page"
+                :totalPages="totalPages"
+                @closeUpdateQuestionModel="closeUpdateQuestionModel"
+              />
 
               <div class="row mb-4">
-                  <div class="col-md-8"></div>
-                  <div class="col-md-4">
-                    <div class="center con-pagination" v-if="totalPages > 1">
-                      <vs-pagination
-                        progress
-                        v-model="page"
-                        color="#FFA400"
-                        :length="totalPages"
-                      />
-                    </div>
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <div class="center con-pagination" v-if="totalPages > 1">
+                    <vs-pagination
+                      progress
+                      v-model="page"
+                      color="#FFA400"
+                      :length="totalPages"
+                    />
                   </div>
                 </div>
-
+              </div>
             </div>
             <div v-else class="no-questions-available" style="">
               <div class="no-questions-container">
@@ -834,7 +836,7 @@
 
 
                    <div class="d-flex mb-3">
-                      
+
 
 
                             <div class="mr-1 ml-1 mb-1">
@@ -880,74 +882,69 @@
 
           </section> -->
 
-
           <section v-if="lessonTab == 4">
-              <div v-if="selectedSubject">
-
-                  <div class="d-flex mb-3">
-                       <div class="mr-1 ml-1 mb-1">
-                            <div>
-                                <el-select
-                                clearable
-                                v-model="unitToAddNewQuestion"
-                                :placeholder="$t('subjects.Unit')"
-                                >
-                                <el-option
-                                    v-for="item in allUnites"
-                                    :key="item.id"
-                                    :label="item.nameEn"
-                                    :value="item.id"
-                                >
-                                </el-option>
-                                </el-select>
-                            </div>
-                            </div>
-
-                            <div class="mr-1 ml-1 mb-1">
-                            <div>
-                                <el-select
-                                clearable
-                                v-model="lessonToAddNewQuestion"
-                                :placeholder="$t('subjects.Lessons')"
-                                >
-                                <el-option
-                                    v-for="item in allLessons"
-                                    :key="item.id"
-                                    :label="item.nameEn"
-                                    :value="item.id"
-                                >
-                                </el-option>
-                                </el-select>
-                            </div>
-                            </div>
-                   </div>
-
-
-                   <!-- @questionSavedSuccessfully="onAddManyQuestions" -->
-
-
-                  <AddManyQuestion
-                    :toExam="true"
-                    :lesson="lessonToAddNewQuestion"
-                    :examId="currExamToAssignQuestions"
-                    @questionSavedSuccessfully="questionsAddedToExam"
-                  />
-                </div>
-                <div v-else class="no-questions-available" style="">
-                  <div class="no-questions-container">
-                    <div class="no-files" style="">
-                      <img
-                        src="@/assets/imgs/question-bank/Questions-cuate.svg"
-                        alt=""
-                      />
-                    </div>
+            <div v-if="selectedSubject">
+              <div class="d-flex mb-3">
+                <div class="mr-1 ml-1 mb-1">
+                  <div>
+                    <el-select
+                      clearable
+                      v-model="unitToAddNewQuestion"
+                      :placeholder="$t('subjects.Unit')"
+                    >
+                      <el-option
+                        v-for="item in allUnites"
+                        :key="item.id"
+                        :label="item.nameEn"
+                        :value="item.id"
+                      >
+                      </el-option>
+                    </el-select>
                   </div>
                 </div>
 
+                <div class="mr-1 ml-1 mb-1">
+                  <div>
+                    <el-select
+                      clearable
+                      v-model="lessonToAddNewQuestion"
+                      :placeholder="$t('subjects.Lessons')"
+                    >
+                      <el-option
+                        v-for="item in allLessons"
+                        :key="item.id"
+                        :label="item.nameEn"
+                        :value="item.id"
+                      >
+                      </el-option>
+                    </el-select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- @questionSavedSuccessfully="onAddManyQuestions" -->
+
+              <AddManyQuestion
+                :toExam="true"
+                :lesson="lessonToAddNewQuestion"
+                :examId="currExamToAssignQuestions"
+                @questionSavedSuccessfully="questionsAddedToExam"
+              />
+            </div>
+            <div v-else class="no-questions-available" style="">
+              <div class="no-questions-container">
+                <div class="no-files" style="">
+                  <img
+                    src="@/assets/imgs/question-bank/Questions-cuate.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
           </section>
 
           <section v-if="lessonTab == 5">
-              <!-- <div v-if="selectedSubject">
+            <!-- <div v-if="selectedSubject">
 
                   <AddGroupQuestion
                     :toExam="true"
@@ -967,7 +964,6 @@
                     </div>
                   </div>
                 </div> -->
-
           </section>
         </section>
       </div>
@@ -985,7 +981,6 @@ import ShowQuestions from "~/components/QuestionsBank/ShowQuestions.vue";
 
 import UpdateQuestion from "~/components/QuestionsBank/Update/UpdateQuestion.vue";
 
-
 import AddSingleQuestion from "~/components/QuestionsBank/Add/Question.vue";
 import AddManyQuestion from "~/components/QuestionsBank/Add/ManyQuestions.vue";
 import AddGroupQuestion from "~/components/QuestionsBank/Add/Group.vue";
@@ -997,11 +992,11 @@ export default {
     Exam,
     UpdateExam,
     ShowExam,
-  
+
     UpdateQuestion,
     AddGroupQuestion,
     AddManyQuestion,
-    AddSingleQuestion
+    AddSingleQuestion,
   },
   data: () => ({
     active: 1,
@@ -1020,7 +1015,7 @@ export default {
     page: 1,
     allQuestionsCount: 1,
     totalPages: 1,
-    questionType:"",
+    questionType: "",
 
     allSystems: [],
     allLevels: [],
@@ -1032,7 +1027,7 @@ export default {
     subjectExams: [],
     unitsExams: [],
     lessonsExams: [],
-    examQuestions:[],
+    examQuestions: [],
     questionTypes: [
       { nameAr: "صح و خطأ", nameEn: "True Or False", val: "truefalse" },
       { nameAr: "إختياري", nameEn: "Choose", val: "choose" },
@@ -1040,8 +1035,8 @@ export default {
       { nameAr: "أكمل", nameEn: "Complete", val: "complete" },
     ],
 
-    lessonToAddNewQuestion:"",
-    unitToAddNewQuestion:"",
+    lessonToAddNewQuestion: "",
+    unitToAddNewQuestion: "",
 
     selectedUnit: "",
     selectedSubject: "",
@@ -1082,35 +1077,29 @@ export default {
       }
     },
 
-    
-
-    unitToAddNewQuestion(val){
-        this.lessonToAddNewQuestion = "";
-        this.getLessonsToAddNewQuestion(val);
+    unitToAddNewQuestion(val) {
+      this.lessonToAddNewQuestion = "";
+      this.getLessonsToAddNewQuestion(val);
     },
 
+    page(newVal, oldVal) {
+      this.getQuestions();
+      this.openUpdateModel = false;
+      if (newVal > oldVal) {
+        let theDefference = Number(newVal) - Number(oldVal);
+        this.allQuestionsCount += theDefference * 10;
+      } else {
+        let theDefference = Number(oldVal) - Number(newVal);
+        this.allQuestionsCount -= theDefference * 10;
+      }
 
-    page(newVal ,oldVal){
-        this.getQuestions();
-        this.openUpdateModel = false;
-        if (newVal > oldVal) {
-            let theDefference = Number(newVal) - Number(oldVal);
-            this.allQuestionsCount += theDefference * 10;
-        } else {
-            let theDefference = Number(oldVal) - Number(newVal);
-            this.allQuestionsCount -= theDefference * 10;
-        }
-
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
   mounted() {
     this.getSystems();
   },
   methods: {
-
-
-
     // Start Of Watcher On Select Box
     selectedSystemChanged() {
       this.selectedLevel =
@@ -1176,10 +1165,16 @@ export default {
       if (this.selectedSubject != "") {
         this.getUnites();
         this.getSubjectExams();
-      }else{
+      } else {
         this.subjectExams = [];
-        this.subjectUpdateModel = this.unitUpdateModel = this.lessonUpdateModel = false;
-        this.addSubjectExamModel = this.addUnitExamModel = this.addLessonExamModel = false;
+        this.subjectUpdateModel =
+          this.unitUpdateModel =
+          this.lessonUpdateModel =
+            false;
+        this.addSubjectExamModel =
+          this.addUnitExamModel =
+          this.addLessonExamModel =
+            false;
       }
     },
     selectedUnitChanged() {
@@ -1188,28 +1183,39 @@ export default {
       if (this.selectedUnit != "") {
         this.getLessons();
         this.getUnitExams();
-      }else{
+      } else {
         this.unitsExams = [];
-        this.subjectUpdateModel = this.unitUpdateModel = this.lessonUpdateModel = false;
-        this.addSubjectExamModel = this.addUnitExamModel = this.addLessonExamModel = false;
+        this.subjectUpdateModel =
+          this.unitUpdateModel =
+          this.lessonUpdateModel =
+            false;
+        this.addSubjectExamModel =
+          this.addUnitExamModel =
+          this.addLessonExamModel =
+            false;
       }
     },
 
     selectedLessonChanged() {
       if (this.selectedLesson != "") {
         this.getLessonExams();
-      }else{
+      } else {
         this.lessonsExams = [];
-        this.subjectUpdateModel = this.unitUpdateModel = this.lessonUpdateModel = false;
-        this.addSubjectExamModel = this.addUnitExamModel = this.addLessonExamModel = false;
+        this.subjectUpdateModel =
+          this.unitUpdateModel =
+          this.lessonUpdateModel =
+            false;
+        this.addSubjectExamModel =
+          this.addUnitExamModel =
+          this.addLessonExamModel =
+            false;
       }
     },
 
     // End Of Watcher On Select Box
 
-    addQuestionToExam(question){
-
-      if(!question.point){
+    addQuestionToExam(question) {
+      if (!question.point) {
         this.$message.error({
           message:
             this.$i18n.locale == "ar"
@@ -1222,7 +1228,9 @@ export default {
       const loading = this.$vs.loading();
 
       this.$axios
-        .patch(`/exams-add-questions/${this.currExamToAssignQuestions.id}`, [{'question': question.id, 'point': question.point}])
+        .patch(`/exams-add-questions/${this.currExamToAssignQuestions.id}`, [
+          { question: question.id, point: question.point },
+        ])
         .then((res) => {
           question.point = "";
           this.$message({
@@ -1233,7 +1241,7 @@ export default {
             type: "success",
           });
           this.currExamToAssignQuestions = res.data;
-          this.getExamQuestions()
+          this.getExamQuestions();
         })
         .finally(() => loading.close());
     },
@@ -1241,9 +1249,9 @@ export default {
     deleteQuestion(question) {
       const loading = this.$vs.loading();
 
-        let qryParam = `/questions/${question.id}`;
+      let qryParam = `/questions/${question.id}`;
 
-        this.$axios
+      this.$axios
         .delete(qryParam)
         .then((res) => {
           this.$message({
@@ -1254,15 +1262,13 @@ export default {
             type: "success",
           });
           this.getQuestions();
-          
         })
         .finally(() => loading.close());
-      
     },
-    deleteQuestionFromExam(question){
-      let qryParam = `/exams/${this.currExamToAssignQuestions.id}/questions/${question.id}`
+    deleteQuestionFromExam(question) {
+      let qryParam = `/exams/${this.currExamToAssignQuestions.id}/questions/${question.id}`;
 
-        this.$axios
+      this.$axios
         .patch(qryParam)
         .then((res) => {
           this.$message({
@@ -1276,30 +1282,47 @@ export default {
         })
         .finally(() => loading.close());
     },
-    openUpdateQuesModel(question){
-        this.openUpdateQuestionModel(question)
+    openUpdateQuesModel(question) {
+      this.openUpdateQuestionModel(question);
     },
-    
-    questionsAddedToExam(){
-        this.lessonTab = 1;
-        this.getExamQuestions();
-    },
-    getExamQuestions(){
-      this.addUnitExamModel = this.addLessonExamModel = this.addSubjectExamModel = false;
-      this.lessonUpdateModel = this.unitUpdateModel = this.subjectUpdateModel = false;
 
-        const loading = this.$vs.loading();
-        this.$axios.get(`/exams/${this.currExamToAssignQuestions.id}`).then(res => {
-            this.currExamToAssignQuestions = this.currUnitExam = this.currLessonExam = this.currSubjectExam = res.data;
-            let arr = [];
-            res.data.questions.map(element => {
-                arr.push({...element.question, points: element.point, childrenQuestions: element.childrenQuestions})
+    questionsAddedToExam() {
+      this.lessonTab = 1;
+      this.getExamQuestions();
+    },
+    getExamQuestions() {
+      this.addUnitExamModel =
+        this.addLessonExamModel =
+        this.addSubjectExamModel =
+          false;
+      this.lessonUpdateModel =
+        this.unitUpdateModel =
+        this.subjectUpdateModel =
+          false;
+
+      const loading = this.$vs.loading();
+      this.$axios
+        .get(`/exams/${this.currExamToAssignQuestions.id}`)
+        .then((res) => {
+          this.currExamToAssignQuestions =
+            this.currUnitExam =
+            this.currLessonExam =
+            this.currSubjectExam =
+              res.data;
+          let arr = [];
+          res.data.questions.map((element) => {
+            arr.push({
+              ...element.question,
+              points: element.point,
+              childrenQuestions: element.childrenQuestions,
             });
+          });
 
-            console.log(arr)
+          console.log(arr);
 
-            this.examQuestions = arr;
-        }).finally(() => loading.close());
+          this.examQuestions = arr;
+        })
+        .finally(() => loading.close());
     },
     closeUpdateQuestionModel() {
       console.log("hi");
@@ -1317,16 +1340,20 @@ export default {
     },
 
     closeExamQuestion(type) {
-
-      this.addUnitExamModel = this.addLessonExamModel = this.addSubjectExamModel = false;
-      this.lessonUpdateModel = this.unitUpdateModel = this.subjectUpdateModel = false;
+      this.addUnitExamModel =
+        this.addLessonExamModel =
+        this.addSubjectExamModel =
+          false;
+      this.lessonUpdateModel =
+        this.unitUpdateModel =
+        this.subjectUpdateModel =
+          false;
 
       this[type + "ShowQuestionsOfExam"] = false;
 
-        this.currSubjectExam = {};
-        this.currUnitExam = {};
-        this.currLessonExam = {};
-      
+      this.currSubjectExam = {};
+      this.currUnitExam = {};
+      this.currLessonExam = {};
     },
 
     openAddQuestionsToSelectedExam(type, e) {
@@ -1380,8 +1407,6 @@ export default {
 
       this.currExamToAssignQuestions = { ...e };
 
-
-
       if (type == "subject") {
         this.currSubjectExam = { ...e };
         this.getExamQuestions();
@@ -1390,7 +1415,7 @@ export default {
         this.getExamQuestions();
       } else if (type == "lesson") {
         this.currLessonExam = { ...e };
-        
+
         this.getExamQuestions();
       }
 
@@ -1398,7 +1423,10 @@ export default {
     },
 
     openUpdateExamModel(type, exam) {
-      this.addLessonExamModel = this.addSubjectExamModel = this.addUnitExamModel = false;
+      this.addLessonExamModel =
+        this.addSubjectExamModel =
+        this.addUnitExamModel =
+          false;
       this[type + "UpdateModel"] = true;
 
       if (exam.duration) {
@@ -1415,7 +1443,7 @@ export default {
         this.currLessonExam = { ...exam };
       }
 
-      window.scrollTo({top:0, behavior: "smooth"})
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     deleteExam(type, exam) {
       const loading = this.$vs.loading();
@@ -1440,8 +1468,6 @@ export default {
             this.getUnitExams();
             this.unitShowQuestionsOfExam = false;
           }
-          
-        
         })
         .finally(() => loading.close());
     },
@@ -1484,8 +1510,6 @@ export default {
 
     closeAddExam(e) {
       this[e] = false;
-
-    
     },
     closeUpdateExam(e) {
       this[e] = false;
@@ -1493,13 +1517,11 @@ export default {
     afterExamAdded(e) {
       this.addExam = {};
       this[e] = false;
-      if(e.includes('Lesson')){
+      if (e.includes("Lesson")) {
         this.getLessonExams();
-      }
-      else if (e.includes("Unit")){
-        this.getUnitExams()
-      }
-      else{
+      } else if (e.includes("Unit")) {
+        this.getUnitExams();
+      } else {
         this.getSubjectExams();
       }
     },
@@ -1514,7 +1536,6 @@ export default {
       }
     },
     openAddExamToSubjectModel() {
-
       this.subjectUpdateModel = false;
       if (!this.selectedSubject) {
         this.$message.error({
@@ -1529,7 +1550,6 @@ export default {
     },
 
     openAddExamToUnitModel() {
-
       this.unitUpdateModel = false;
 
       if (!this.selectedUnit) {
@@ -1545,9 +1565,7 @@ export default {
     },
 
     openAddExamToLessonModel() {
-
       this.lessonUpdateModel = false;
-
 
       if (!this.selectedLesson) {
         this.$message.error({
@@ -1628,8 +1646,8 @@ export default {
           this.allLessons = res.data;
         });
     },
-    getLessonsToAddNewQuestion(){
-        if (!this.unitToAddNewQuestion) {
+    getLessonsToAddNewQuestion() {
+      if (!this.unitToAddNewQuestion) {
         return;
       }
       this.$axios
@@ -1637,7 +1655,7 @@ export default {
         .then((res) => {
           this.allLessons = res.data;
         });
-    }
+    },
   },
 };
 </script>
@@ -1661,6 +1679,28 @@ export default {
     font-weight: bold;
   }
 }
-
+.edu-tabs .active {
+  border-bottom: 2px solid #ffa400 !important;
+  border-radius: 0 !important;
+}
+.exams .btn {
+  border: none;
+  width: 70px;
+  font-size: 16px !important;
+}
+.edu-tabs {
+  display: flex;
+  margin-bottom: 2rem;
+}
+.btn-dels {
+  width: 80px !important;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+  border: none !important;
+  background: transparent !important;
+}
 @import "../../assets/styles/bank-questions.scss";
 </style>

@@ -11,7 +11,7 @@
     </div>
 
     <div>
-      <button @click="openExamQuestions" class="btn exam-question">
+      <button @click="openExamQuestions" class="btn-show exam-question">
         {{ $t("subjects.Showexam") }}
       </button>
     </div>
@@ -40,6 +40,10 @@ export default {
   text-align: center;
   h5 {
     font-size: 16px !important;
+  }
+  .btn-show {
+    font-size: 16px !important;
+    margin: 1rem 0 0 !important;
   }
   .update-delete-exam {
     border: 1px solid #ddd;

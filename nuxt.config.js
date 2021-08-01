@@ -135,7 +135,8 @@ export default {
             'students': "Our Students",
             'teachers': "Our Teachers",
             'questionsBank': "Questions Bank",
-            "exams": "Exams"
+            "exams": "Exams",
+            "Parents": "Parents",
           },
 
           auth: {
@@ -194,6 +195,8 @@ export default {
             'AttachImg': 'Attach Image To Subject',
             'Unit': 'Units',
             'Lessons': 'Lessons',
+            'AddLessons': 'Add Lesson',
+
             'questionTypes': 'Question Types',
             "ShowContent": "View Content",
             "Units": "Units",
@@ -208,6 +211,7 @@ export default {
             "start": "Start",
             "update": "Update",
             "delete": "Delete",
+            'Edit': "Edit",
             "Showexam": "Show Exams",
             "Examtitle": "Exam Title",
             "Rate": "success rate",
@@ -238,7 +242,39 @@ export default {
             "Degree": "Degree",
             "Answer": "Answer",
             "HideContent": "Hide Content",
-            "ShowAnswer": "Show Answer"
+            "ShowAnswer": "Show Answer",
+            "questionHead": "Question Head",
+            "AddPic": "Add Image",
+            "AnswerReq": "Answer required",
+            "FirstChoose": "First Choice",
+            "Secondchoice": "Second Choice",
+            "Thirdchoice": "Third Choice",
+            "Fourthchoice": "Fourth Choice",
+            "True": "True",
+            "False": "False",
+            "Addanswer": "Add Answer",
+            "Questiontype": "Question Type :",
+            "FirstDegree": "Degree 1",
+            "SecondDegree": "Degree 2",
+            "FirstDegree": "Degree 1",
+            "SecondDegree": "Degree 2",
+            "system": "System",
+            "stages": "Stages",
+            "Levels": "Levels",
+            "Classes": "Classes",
+            "SearchByName": "Search By Name",
+            "Subject": "Subject",
+            "BackToExams": "Back To Exams",
+            "Addmorethanonequestion": "Add more than one question",
+            "que": "Questions",
+            "Examduration": "Exam Duration",
+            "Minute": "Minute",
+            "NewQuestion": "New Question",
+            "RemoveFromExam": "Remove From Exam",
+            "AddToExam": "Add To Exam",
+
+
+
           },
 
 
@@ -317,8 +353,17 @@ export default {
             "FileTitle": "File Title Is Required",
             "FileImage": "File Is Required",
             "description": "Description",
-            "Title": "Title"
+            "Title": "Title",
+            "dateofjoin": "Date of join",
+            "Student": "Student",
+            "Educationalsystem": "Educational System",
+            "Educationallevel": "Educational Level",
+            "Classroom": "Classroom",
+            "SearchForStudent": "Search For Student",
 
+          },
+          Parents: {
+            "Addaparent": "Add a Parent",
           }
         },
         ar: {
@@ -328,7 +373,8 @@ export default {
             'students': "الطُلاب",
             'teachers': "المُدرسين",
             'questionsBank': "بنك الأسئلة",
-            "exams": "الإمتحانات"
+            "exams": "الإمتحانات",
+            "Parents": "الاَباء",
           },
           auth: {
             "Login": "تسجيل الدخول",
@@ -390,6 +436,7 @@ export default {
             'Student': 'الطالب',
             'Unit': 'الوحدات',
             'Lessons': 'الدروس',
+            'AddLessons': ' إضافة درس',
             'questionTypes': 'إختر نوع السؤال',
             "ShowContent": "عرض المحتوى",
             "Units": "الوحدات",
@@ -431,10 +478,41 @@ export default {
             "Complete": "اكمل",
             "Choose": "اختر",
             "Voice": "صوتى",
-            "Degree": "Degree",
+            "Degree": "الدرجه",
             "Answer": "الاجابه",
             "HideContent": " إخفاء الاجابه",
-            "ShowAnswer": " عرض الاجابه"
+            "ShowAnswer": " عرض الاجابه",
+            "questionHead": "رأس السؤال",
+            "AddPic": "إضافة صورة",
+            "AnswerReq": "الإجابة مطلوب",
+            "FirstChoose": "الاختيار الأول",
+            "Secondchoice": "الاختيار الثاني",
+            "Thirdchoice": "الاختيار الثالث",
+            "Fourthchoice": "الاختيار الرابع",
+            "True": "صح",
+            "False": "خطأ",
+            "Addanswer": "إضافة إجابة",
+            "Questiontype": " : نوع السؤال",
+
+            "FirstDegree": "الدرجه 1",
+            "SecondDegree": "الدرجه 2",
+            "system": "النٌطم",
+            "stages": "المراحل",
+            "Levels": "الصفوف",
+            "Classes": "الفصول",
+            "SearchByName": "بحث بالإسم",
+            "Subject": "الماده",
+            "BackToExams": "الرجوع إلي الامتحانات",
+            "Addmorethanonequestion": "إضافة اكثر من سؤال",
+            "que": "الاسئلة",
+            "Examduration": "مدة الامتحان",
+            "Minute": "دقيقة",
+            "NewQuestion": "سؤال جديد",
+            "RemoveFromExam": "إزالة من الامتحان",
+            "AddToExam": "إضافة إلي الامتحان",
+
+
+
           },
 
 
@@ -512,7 +590,16 @@ export default {
             "FileTitle": " عنوان الملف",
             "FileImage": "ادخل الملف",
             "description": "وصف",
-            "Title": "عنوان"
+            "Title": "عنوان",
+            "dateofjoin": "تاريخ الإنضمام",
+            "Student": "الطالب",
+            "Educationalsystem": "النظام التعليمي",
+            "Educationallevel": "المرحلة التعليمية",
+            "Classroom": "الصف الدراسي",
+            "SearchForStudent": "بحث عن طالب",
+          },
+          Parents: {
+            "Addaparent": "إضافة ولي أمر",
           }
         },
       }

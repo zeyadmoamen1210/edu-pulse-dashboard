@@ -163,13 +163,13 @@ export default {
         if (this.$i18n.locale === "en") {
           this.$vs.notification({
             progress: "auto",
-            color: "#FFF3EA",
+            color: "warn",
             position: "top-center",
             text: `Welcome Back ${response.data.user.username}`,
           });
         } else {
           this.$vs.notification({
-            color: "#FFF3EA",
+            color: "warn",
             position: "top-center",
             text: ` ${response.data.user.username} اهلا وسهلا `,
           });

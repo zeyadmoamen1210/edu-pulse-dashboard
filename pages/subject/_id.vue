@@ -528,12 +528,12 @@
           </div>
 
           <div v-else>
-            <button
+            <p
               @click="closeExamQuestion('subject')"
-              class="btn exam-questions-btn"
+              class="exam-questions-btn pointer"
             >
-              الرجوع إلي الامتحانات
-            </button>
+              {{ $t("subjects.BackToExams") }}
+            </p>
 
             <div>
               <ShowExam
@@ -593,13 +593,13 @@
             :class="{ btn: true, active: lessonTab == 1 }"
             @click="lessonTab = 1"
           >
-            الاسئلة
+            {{ $t("subjects.que") }}
           </button>
           <button
             :class="{ btn: true, active: lessonTab == 2 }"
             @click="lessonTab = 2"
           >
-            بنك الاسئلة
+            {{ $t("subjects.QuestionBank") }}
           </button>
           <!-- <button
               :class="{ btn: true, active: lessonTab == 3 }"
@@ -611,7 +611,7 @@
             :class="{ btn: true, active: lessonTab == 4 }"
             @click="lessonTab = 4"
           >
-            إضافة اكثر من سؤال
+            {{ $t("subjects.Addmorethanonequestion") }}
           </button>
           <!-- <button
               :class="{ btn: true, active: lessonTab == 5 }"
@@ -1065,14 +1065,22 @@ export default {
         })
         .catch((error) => {
           this.getSubjectsLive();
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
 
-          this.$message.error({
-            message:
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إنتهاء هذا اللايف"
                 : "This Live Has Finished Now",
-            type: "success",
           });
+          // this.$message.error({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم إنتهاء هذا اللايف"
+          //       : "This Live Has Finished Now",
+          //   type: "success",
+          // });
         })
         .finally(() => loading.close());
     },
@@ -1084,6 +1092,15 @@ export default {
         .then((res) => {
           window.open(res.data.url, "_blank").focus();
           this.liveAddModel = false;
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? "تم بدء اللايف بنجاح"
+                : "Live Started Now Succesfully",
+          });
           this.$message({
             message:
               this.$i18n.locale == "ar"
@@ -1149,13 +1166,22 @@ export default {
         .post(`/subjects/${this.$route.params.id}/live`, { ...this.addLive })
         .then((res) => {
           this.liveAddModel = false;
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إضافة اللايف بنجاح"
                 : "Live Added Succesfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم إضافة اللايف بنجاح"
+          //       : "Live Added Succesfully",
+          //   type: "success",
+          // });
 
           this.getSubjectsLive();
         })
@@ -1168,13 +1194,22 @@ export default {
         .patch(`/live/${this.updateLive.id}`, { ...this.updateLive })
         .then((res) => {
           this.liveUpdateModel = false;
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم تعديل اللايف بنجاح"
                 : "Live Updated Succesfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم تعديل اللايف بنجاح"
+          //       : "Live Updated Succesfully",
+          //   type: "success",
+          // });
 
           this.getSubjectsLive();
         })
@@ -1186,23 +1221,41 @@ export default {
       this.$axios
         .delete(`/live/${live.id}`)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف اللايف بنجاح"
                 : "Live Deleted Succesfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف اللايف بنجاح"
+          //       : "Live Deleted Succesfully",
+          //   type: "success",
+          // });
 
           this.getSubjectsLive();
         })
         .catch((err) => {
-          this.$message.error({
-            message:
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "حدث خطأ ما"
                 : "There Are Something Wrong",
           });
+          // this.$message.error({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "حدث خطأ ما"
+          //       : "There Are Something Wrong",
+          // });
         })
         .finally(() => loading.close());
     },
@@ -1284,12 +1337,21 @@ export default {
 
     addQuestionToExam(question) {
       if (!question.point) {
-        this.$message.error({
-          message:
+        this.$vs.notification({
+          color: "#FA5B5A",
+          position: "top-center",
+
+          text:
             this.$i18n.locale == "ar"
               ? "حدد درجة السؤال اولا"
               : "Determine Degree Of Questions",
         });
+        // this.$message.error({
+        //   message:
+        //     this.$i18n.locale == "ar"
+        //       ? "حدد درجة السؤال اولا"
+        //       : "Determine Degree Of Questions",
+        // });
         return;
       }
 
@@ -1301,13 +1363,22 @@ export default {
         ])
         .then((res) => {
           question.point = "";
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إضافة السؤال الي الامتحان بنجاح"
                 : "Question Added To Exam Successfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم إضافة السؤال الي الامتحان بنجاح"
+          //       : "Question Added To Exam Successfully",
+          //   type: "success",
+          // });
           this.currExamToAssignQuestions = res.data;
           this.getExamQuestions();
         })
@@ -1322,13 +1393,22 @@ export default {
       this.$axios
         .delete(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال بنجاح"
                 : "Question Deleted Successfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف السؤال بنجاح"
+          //       : "Question Deleted Successfully",
+          //   type: "success",
+          // });
           this.getQuestions();
         })
         .finally(() => loading.close());
@@ -1339,13 +1419,22 @@ export default {
       this.$axios
         .patch(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف السؤال من الامتحان بنجاح"
+          //       : "Question Deleted From Exam Successfully",
+          //   type: "success",
+          // });
           this.getExamQuestions();
         })
         .finally(() => loading.close());
@@ -1490,13 +1579,23 @@ export default {
       this.$axios
         .delete(`/exams/${exam.id}`)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف الامتحان بنجاح"
                 : "Exam Deleted Successfully",
-            type: "success",
           });
+          // this.$message({
+
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف الامتحان بنجاح"
+          //       : "Exam Deleted Successfully",
+          //   type: "success",
+          // });
 
           this.getSubjectExams();
           this.showQuestionsOfExam = false;
@@ -1528,10 +1627,19 @@ export default {
       this.$axios
         .delete(`/units/${unit.id}`)
         .then((res) => {
-          this.$message({
-            message: `units deleted Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم مسح الوحده بنجاح!`
+                : `units deleted Successfully !`,
           });
+          // this.$message({
+          //   message: `units deleted Successfully !`,
+          //   type: "success",
+          // });
 
           this.getUnits();
         })
@@ -1561,10 +1669,19 @@ export default {
           nameEn: this.addNewUnit.nameEn,
         })
         .then((res) => {
-          this.$message({
-            message: `units added Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة الوحده بنجاح!`
+                : `units added Successfully !`,
           });
+          // this.$message({
+          //   message: `units added Successfully !`,
+          //   type: "success",
+          // });
           this.addUnitPopup = false;
           this.addNewUnit = {};
           this.getUnits();
@@ -1633,8 +1750,8 @@ export default {
   }
 
   .btn.active {
-    border-bottom: 3px solid var(--blue) !important;
-    border-radius: 0;
+    border-bottom: 2px solid #ffa400 !important;
+    border-radius: 0 !important;
   }
 
   .units-tab {
@@ -1784,6 +1901,20 @@ export default {
   font-family: 600 !important;
   color: #534dba !important;
   border: 1px solid #ffa400 !important;
+}
+.delete {
+  margin: 0 -5px;
+}
+.exams {
+  .btn {
+    width: 50px !important;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    border: none !important;
+  }
 }
 .update-delete-exam {
 }

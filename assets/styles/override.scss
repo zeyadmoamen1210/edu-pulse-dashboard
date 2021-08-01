@@ -77,11 +77,66 @@ body::-webkit-scrollbar-thumb {
   font-family: 'Roboto', sans-serif !important;
 }
 
-.el-input__inner {
+// .el-input__inner {
 
-  &:focus,
-  &:hover {
-    border: 1px solid #DCDFE6 !important;
+//   &:focus,
+//   &:hover {
+//     border: 1px solid #DCDFE6 !important;
+//   }
+// }
+.el-select {
+  .el-input__inner {
+    &:focus {
+      border: 1px solid #DCDFE6 !important;
+    }
+  }
+}
+
+.el-select-dropdown__item {
+
+  font-family: cairo;
+  font-size: 12px;
+
+
+  &.selected {
+    background: #FFF3EA !important;
+    color: $mainColor !important;
+
+
+  }
+
+  &.hover {
+    background: rgba($color: $textColor, $alpha: 0.2) !important;
+    color: $mainColor !important;
+  }
+
+}
+
+.el-scrollbar__wrap {
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 6px;
+  }
+
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+
+
+
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG);
+
+    border-radius: 6px;
+    // border: 3px solid var(--scrollbarBG);
   }
 }
 
@@ -510,13 +565,13 @@ tbody {
   }
 }
 
-.el-select.multi {
-  direction: ltr !important;
+// .el-select.multi {
+//   direction: ltr !important;
 
-  .el-input__inner {
-    direction: rtl !important;
-  }
-}
+//   .el-input__inner {
+//     direction: rtl !important;
+//   }
+// }
 
 .el-notification {
   direction: rtl !important;
@@ -544,6 +599,7 @@ tbody {
     box-shadow: none !important;
     color: var(--blue) !important;
     font-size: 19px;
+
   }
 
 }
@@ -595,7 +651,7 @@ tbody {
 
 .vs-notification__content__text {
   p {
-    color: $mainColor;
+    color: #ffffff;
   }
 }
 
@@ -623,11 +679,16 @@ tbody {
   font-size: 12px !important;
   font-family: 'Cairo', sans-serif !important;
   font-weight: 600 !important;
+  border-radius: 6px !important;
 
 
   &.btn-white {
     border: none !important;
   }
+}
+
+.p-0 {
+  padding: 0 !important;
 }
 
 .ml-2 {
@@ -702,4 +763,8 @@ tbody {
   .el-input__inner {
     background-color: #FAFBFC !important;
   }
+}
+
+.pointer {
+  cursor: pointer !important;
 }

@@ -94,7 +94,7 @@
             alt=""
           />
         </template>
-        الاَباء
+        {{ $t("sidebar.Parents") }}
       </vs-sidebar-item>
 
       <vs-sidebar-item id="exams" :to="`/exams`">

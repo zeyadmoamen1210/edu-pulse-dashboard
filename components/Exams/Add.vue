@@ -166,13 +166,23 @@ export default {
       this.$axios
         .post(`/exams`, exam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إضافة الامتحان بنجاح"
                 : "Exam Added Successfully",
-            type: "success",
           });
+
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم إضافة الامتحان بنجاح"
+          //       : "Exam Added Successfully",
+          //   type: "success",
+          // });
           this.$emit("examAddedSuccessfully");
         })
         .finally(() => loading.close());
