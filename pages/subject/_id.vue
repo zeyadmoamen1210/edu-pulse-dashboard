@@ -2,7 +2,7 @@
   <div class="subject-page">
     <div class="container-fluid">
       <div class="subject-path">
-        <div @click="$router.push(`/subject/${subject.id}`)">
+        <div >
           <h4 v-if="$i18n.locale == 'ar'">{{ subject.nameAr }}</h4>
           <h4 v-else>{{ subject.nameEn }}</h4>
         </div>
@@ -22,7 +22,7 @@
         </div>
         <div
           v-if="subject.section"
-          @click="$router.push(`/section/${subject.section.id}`)"
+       
         >
           <h4 v-if="$i18n.locale == 'ar'">{{ subject.section.nameAr }}</h4>
           <h4 v-else>{{ subject.section.nameEn }}</h4>
@@ -480,11 +480,10 @@
                   <div slot="update-delete">
                     <div class="d-flex update-delete-exam text-center">
                       <button
-                        style="color: #534dba"
+                        style="color: #534dba;flex: 1;"
                         @click="openUpdateExamModel({ ...exam })"
                         :class="{
                           btn: true,
-                          'w-50': true,
                           'border-right': $i18n.locale == 'en',
                           'border-left': $i18n.locale == 'ar',
                           edit: true,
@@ -506,6 +505,7 @@
                         @confirm="deleteExam(exam)"
                         icon-color="red"
                         :title="$t('Validation.AreYouSure')"
+                        style="flex: 1;"
                       >
                         <button
                           slot="reference"
@@ -1709,9 +1709,9 @@ export default {
     getUnits() {
       const loading = this.$vs.loading();
       this.$axios
-        .get(`/subjects/${this.$route.params.id}/units`)
+        .get(`/subjects/${this.$route.params.id}/units?paginate=false`)
         .then((res) => {
-          this.units = res.data.docs;
+          this.units = res.data;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
         })
@@ -1907,8 +1907,7 @@ export default {
 }
 .exams {
   .btn {
-    width: 50px !important;
-    height: 24px;
+
     display: flex;
     align-items: center;
     justify-content: center;

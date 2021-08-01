@@ -369,7 +369,7 @@ export default {
 <style lang="scss">
 .exams {
   .btn {
-    width: 38px;
+    // width: 38px;
     height: 24px;
     display: flex;
     align-items: center;

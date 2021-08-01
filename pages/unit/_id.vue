@@ -4,7 +4,6 @@
       <div>
         <div class="unit-path">
           <div
-            @click="$router.push(`/classes/${unit.subject.section.class.id}`)"
             v-if="
               unit.subject && unit.subject.section && unit.subject.section.class
             "
@@ -31,7 +30,6 @@
           </div>
 
           <div
-            @click="$router.push(`/subject/${unit.subject.id}`)"
             v-if="unit.subject"
           >
             <h4 v-if="$i18n.locale == 'ar'">{{ unit.subject.nameAr }}</h4>
@@ -53,7 +51,7 @@
             </h4>
           </div>
 
-          <div @click="$router.push(`/unit/${unit.id}`)">
+          <div >
             <h4 v-if="$i18n.locale == 'ar'">{{ unit.nameAr }}</h4>
             <h4 v-else>{{ unit.nameEn }}</h4>
           </div>
@@ -74,7 +72,7 @@
           </div>
 
           <div
-            @click="$router.push(`/section/${unit.subject.section.id}`)"
+          
             v-if="unit.subject && unit.subject.section"
           >
             <h4 v-if="$i18n.locale == 'ar'">
@@ -313,7 +311,7 @@
                           $router.push(
                             `/lesson/${lesson.id}${
                               $route.query.level
-                                ? 'level=' + $route.query.level
+                                ? '?level=' + $route.query.level
                                 : ''
                             }${
                               $route.query.class
@@ -399,11 +397,11 @@
                           @click="openUpdateExamModel({ ...exam })"
                           :class="{
                             btn: true,
-                            'w-50': true,
                             'border-right': $i18n.locale == 'en',
                             'border-left': $i18n.locale == 'ar',
                             edit: true,
                           }"
+                          style="flex: 1;"
                         >
                           <img
                             src="@/assets/imgs/Icon-feather-edit-3.svg"
@@ -419,6 +417,7 @@
                           class="w-50 btn"
                           @confirm="deleteExam(exam)"
                           icon-color="red"
+                          style="flex: 1;"
                           :title="$t('Validation.AreYouSure')"
                         >
                           <button slot="reference" class="btn delete">
@@ -458,8 +457,8 @@
                       <button
                         @click="openUpdateExamModel({ ...currSubjectExam })"
                         :class="{
+                          
                           btn: true,
-                          'w-50': true,
                           'border-right': $i18n.locale == 'en',
                           'border-left': $i18n.locale == 'ar',
                           edit: true,
@@ -914,9 +913,9 @@ export default {
     getLessons() {
       const loading = this.$vs.loading();
       this.$axios
-        .get(`/units/${this.$route.params.id}/lessons`)
+        .get(`/units/${this.$route.params.id}/lessons?paginate=false`)
         .then((res) => {
-          this.lessons = res.data.docs;
+          this.lessons = res.data;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
         })
@@ -1221,26 +1220,14 @@ export default {
         })
         .finally(() => loading.close());
     },
-    submitAddForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log("valid");
-          this.addUnit();
-        }
-      });
-    },
-    submitUpdateForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log("valid");
-          this.updateTheUnit();
-        }
-      });
-    },
+ 
+ 
+
+
     addUnit() {
       const loading = this.$vs.loading();
       this.$axios
-        .post(`subjects/${this.$route.params.id}/units`, {
+        .post(`subjects/${this.$route.query.subject}/units`, {
           nameAr: this.addNewUnit.nameAr,
           nameEn: this.addNewUnit.nameEn,
         })
@@ -1255,6 +1242,9 @@ export default {
         })
         .finally(() => loading.close());
     },
+
+
+
     updateTheUnit() {
       const loading = this.$vs.loading();
       this.$axios
@@ -1276,9 +1266,9 @@ export default {
     getUnits() {
       const loading = this.$vs.loading();
       this.$axios
-        .get(`/subjects/${this.$route.params.id}/units`)
+        .get(`/subjects/${this.$route.query.subject}/units?paginate=false`)
         .then((res) => {
-          this.units = res.data.docs;
+          this.units = res.data;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
         })

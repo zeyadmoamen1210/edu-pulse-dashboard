@@ -325,7 +325,7 @@ export default {
           break;
       }
 
-      let qryParam = "";
+      let qryParam = `lessons/${this.lesson}/questions`;
 
       this.$axios
         .post(qryParam, formData)
