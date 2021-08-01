@@ -131,13 +131,16 @@ export default {
       this.$axios
         .delete(`/questions/${question.id}`)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال  بنجاح"
                 : "Question Deleted Successfully",
-            type: "success",
           });
+
           this.$emit("getExamQuestion");
         })
         .finally(() => loading.close());
@@ -148,13 +151,16 @@ export default {
       this.$axios
         .patch(`/exams/${this.exam.id}/questions/${question.id}`)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success",
           });
+
           this.$emit("getExamQuestion");
         })
         .finally(() => loading.close());

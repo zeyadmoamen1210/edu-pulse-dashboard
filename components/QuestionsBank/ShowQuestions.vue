@@ -1,5 +1,5 @@
 <template>
-  <div class="exams">
+  <div class="exams show">
     <div v-for="(question, index) in allQuestions" :key="question.id">
       <template v-if="question.type == 'choose'">
         <Choose
@@ -367,15 +367,17 @@ export default {
 </script>
 
 <style lang="scss">
-.exams {
-  .btn {
-    width: 38px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 0.5rem;
-    border: 1px solid #d8d4d4;
+.show {
+  &.exams {
+    .btn {
+      width: 38px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.5rem;
+      border: 1px solid #d8d4d4;
+    }
   }
 }
 .add-delete-from-exam {

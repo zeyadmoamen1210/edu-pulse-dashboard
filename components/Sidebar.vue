@@ -8,7 +8,7 @@
       :reduce="false"
     >
       <template #logo>
-        <img src="@/assets/imgs/reading-book-yellow.svg" alt="" />
+        <span class="iconBook"> <i class="fas fa-book-reader"></i></span>
       </template>
       <vs-sidebar-item id="home" :to="`/systems/list`">
         <template #icon>
@@ -79,7 +79,7 @@
             alt=""
           />
         </template>
-        المواد الدراسية
+        {{ $t("sidebar.Subjects") }}
       </vs-sidebar-item>
 
       <vs-sidebar-item
@@ -129,14 +129,17 @@
             @click.native="logout()"
             badge-position="top-right"
           >
-            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+            <span class="iconBook"><i class="fas fa-sign-out-alt"></i></span>
           </vs-avatar>
         </vs-row>
       </template>
     </vs-sidebar>
 
-    <button class="toggleMobileSidebar" @click="activeMobile = !activeMobile">
-      toggle
+    <button
+      class="toggleMobileSidebar mx-3 mt-5"
+      @click="activeMobile = !activeMobile"
+    >
+      <i class="fas fa-bars"></i>
     </button>
 
     <vs-sidebar
@@ -146,10 +149,15 @@
       v-model="active"
     >
       <template #logo>
-        <img src="@/assets/imgs/reading-book-yellow.svg" alt="" />
+        <span class="iconBook"> <i class="fas fa-book-reader"></i></span>
       </template>
 
-      <button @click="activeMobile = !activeMobile">toggle</button>
+      <button
+        class="toggleMobileSidebar mx-5 mt-5 mb-5"
+        @click="activeMobile = !activeMobile"
+      >
+        <span class="icon"> <i class="fas fa-bars"></i></span>
+      </button>
 
       <vs-sidebar-item id="home" :to="`/systems/list`">
         <template #icon>
@@ -213,7 +221,7 @@
             alt=""
           />
         </template>
-        المواد الدراسية
+        {{ $t("sidebar.Subjects") }}
       </vs-sidebar-item>
 
       <vs-sidebar-item id="parents" :to="`/parents`" v-if="$auth.loggedIn">
@@ -224,7 +232,7 @@
             alt=""
           />
         </template>
-        الاَباء
+        {{ $t("sidebar.Parents") }}
       </vs-sidebar-item>
 
       <vs-sidebar-item id="questionsBank" :to="`/bank-questions`">
@@ -263,22 +271,14 @@
             @click.native="changeLocale('ar')"
             v-if="$i18n.locale !== 'ar'"
           >
-            <img
-              src="@/assets/imgs/united-arab-emirates.svg"
-              style="width: 25px"
-              alt=""
-            />
+            English
           </vs-avatar>
 
           <vs-avatar
             @click.native="changeLocale('en')"
             v-else-if="$i18n.locale !== 'en'"
           >
-            <img
-              src="@/assets/imgs/united-kingdom.svg"
-              style="width: 25px"
-              alt=""
-            />
+            Arabic
           </vs-avatar>
 
           <vs-avatar
@@ -401,6 +401,11 @@ export default {
 </script>
 
 <style lang="scss">
+.toggleMobileSidebar {
+  border: none;
+  color: #ffa400;
+  background: transparent;
+}
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .vs-sidebar-content.reduce {
@@ -457,5 +462,11 @@ export default {
   .toggleMobileSidebar {
     display: none;
   }
+}
+.icon {
+  color: #ffa400 !important;
+}
+.iconBook {
+  color: #ffa400 !important;
 }
 </style>

@@ -24,9 +24,9 @@
             "
             v-if="
               lesson.unit &&
-                lesson.unit.subject &&
-                lesson.unit.subject.section &&
-                lesson.unit.subject.section.class
+              lesson.unit.subject &&
+              lesson.unit.subject.section &&
+              lesson.unit.subject.section.class
             "
           >
             <h4 v-if="$i18n.locale == 'ar'">
@@ -38,13 +38,13 @@
           <div>
             <h4 v-if="$i18n.locale == 'ar'">
               <img
-                style="width: 20px;margin: 0 7px;"
+                style="width: 20px; margin: 0 7px"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
             <h4 v-else>
               <img
-                style="width: 20px;margin: 0 7px; transform: rotate(180deg);"
+                style="width: 20px; margin: 0 7px; transform: rotate(180deg)"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
@@ -63,13 +63,13 @@
           <div>
             <h4 v-if="$i18n.locale == 'ar'">
               <img
-                style="width: 20px;margin: 0 7px;"
+                style="width: 20px; margin: 0 7px"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
             <h4 v-else>
               <img
-                style="width: 20px;margin: 0 7px; transform: rotate(180deg);"
+                style="width: 20px; margin: 0 7px; transform: rotate(180deg)"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
@@ -86,13 +86,13 @@
           <div>
             <h4 v-if="$i18n.locale == 'ar'">
               <img
-                style="width: 20px;margin: 0 7px;"
+                style="width: 20px; margin: 0 7px"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
             <h4 v-else>
               <img
-                style="width: 20px;margin: 0 7px; transform: rotate(180deg);"
+                style="width: 20px; margin: 0 7px; transform: rotate(180deg)"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
@@ -113,13 +113,13 @@
           <div>
             <h4 v-if="$i18n.locale == 'ar'">
               <img
-                style="width: 20px;margin: 0 7px;"
+                style="width: 20px; margin: 0 7px"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
             <h4 v-else>
               <img
-                style="width: 20px;margin: 0 7px; transform: rotate(180deg);"
+                style="width: 20px; margin: 0 7px; transform: rotate(180deg)"
                 src="@/assets/imgs/question-bank/next.svg"
               />
             </h4>
@@ -159,7 +159,19 @@
               class="btn"
               @click="
                 $router.push(
-                  `/bank-questions?${$route.query.level ? 'level=' + $route.query.level : ''}${$route.query.class ? '&class=' + $route.query.class : ''}${$route.query.section ? '&section=' + $route.query.section : ''}${$route.query.subject  ? '&subject=' + $route.query.subject : ''}${$route.query.unit ? '&unit=' + $route.query.unit: '' }${$route.params.id ? '&lesson=' + $route.params.id : ''}`
+                  `/bank-questions?${
+                    $route.query.level ? 'level=' + $route.query.level : ''
+                  }${$route.query.class ? '&class=' + $route.query.class : ''}${
+                    $route.query.section
+                      ? '&section=' + $route.query.section
+                      : ''
+                  }${
+                    $route.query.subject
+                      ? '&subject=' + $route.query.subject
+                      : ''
+                  }${$route.query.unit ? '&unit=' + $route.query.unit : ''}${
+                    $route.params.id ? '&lesson=' + $route.params.id : ''
+                  }`
                 )
               "
             >
@@ -198,8 +210,8 @@
                   {
                     required: true,
                     message: $t('lesson.FileTitle'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -272,8 +284,8 @@
                   {
                     required: true,
                     message: $t('lesson.FileTitle'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -346,7 +358,7 @@
           <div class="inputs-grid row">
             <div class="col-md-1 text-center">
               <el-switch
-                style="padding-top: 18px;"
+                style="padding-top: 18px"
                 v-model="isLink"
                 active-color="var(--yellow)"
                 inactive-color="var(--blue)"
@@ -361,8 +373,8 @@
                   {
                     required: true,
                     message: $t('lesson.FileTitle'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -380,8 +392,8 @@
                   {
                     required: true,
                     message: $t('Validation.required'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -420,12 +432,6 @@
               </el-form-item>
             </div>
 
-
-
-
-
-
-
             <div class="col-md-5">
               <div class="d-flex flex-row-reverse">
                 <el-form-item>
@@ -446,80 +452,75 @@
             </div>
 
             <div class="col-md-6">
-              <div class="row d-flex  mt-4">
-
-               <div class="col-md-2">
-                  <el-button class="mb-3" @click="addNewVideo.content.push({title:'', timing: ''})">+</el-button>
-               </div>
-              <div class="col-md-10">
-
-                <div class="d-flex mb-4" v-for="(timestamp, index) in addNewVideo.content" :key="index">
-                <div class="mr-1 ml-1" style="flex: 1">
-                  <div>
-                    <el-form-item 
-                    :prop="`content[${index}].title`"
-                    :rules="[
-                      {
-                        required: true,
-                        message: $t('Validation.required'),
-                        trigger: 'blur'
-                      }
-                    ]"
-                    >
-                        <el-input
-                          suffix-icon="el-icon-edit"
-                          :placeholder="$t('lesson.title')"
-                          v-model="addNewVideo.content[index].title"
-                        ></el-input>
-
-                    </el-form-item>
-                  </div>
+              <div class="row d-flex mt-4">
+                <div class="col-md-2">
+                  <el-button
+                    class="mb-3"
+                    @click="addNewVideo.content.push({ title: '', timing: '' })"
+                    >+</el-button
+                  >
                 </div>
+                <div class="col-md-10">
+                  <div
+                    class="d-flex mb-4"
+                    v-for="(timestamp, index) in addNewVideo.content"
+                    :key="index"
+                  >
+                    <div class="mr-1 ml-1" style="flex: 1">
+                      <div>
+                        <el-form-item
+                          :prop="`content[${index}].title`"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur',
+                            },
+                          ]"
+                        >
+                          <el-input
+                            suffix-icon="el-icon-edit"
+                            :placeholder="$t('lesson.title')"
+                            v-model="addNewVideo.content[index].title"
+                          ></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
 
-                 <div class="mr-1 ml-1" style="flex: 1">
-                  <div>
-                    <el-form-item 
-                    :prop="`content[${index}].timing`"
-                    :rules="[
-                      {
-                        required: true,
-                        message: $t('Validation.required'),
-                        trigger: 'blur'
-                      }
-                    ]"
-                    >
-                        
-
-                       
-
-
-                        <el-time-picker
-                        arrow-control
-                        suffix-icon="el-icon-edit"
-                        :picker-options="{
-                            format: 'HH:mm'
-                          }"
-                          value-format='HH:mm'
-                          :placeholder="$t('lesson.timing')"
-                          v-model="addNewVideo.content[index].timing"
+                    <div class="mr-1 ml-1" style="flex: 1">
+                      <div>
+                        <el-form-item
+                          :prop="`content[${index}].timing`"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur',
+                            },
+                          ]"
+                        >
+                          <el-time-picker
+                            arrow-control
+                            suffix-icon="el-icon-edit"
+                            :picker-options="{
+                              format: 'HH:mm',
+                            }"
+                            value-format="HH:mm"
+                            :placeholder="$t('lesson.timing')"
+                            v-model="addNewVideo.content[index].timing"
                           >
-                      </el-time-picker>
+                          </el-time-picker>
+                        </el-form-item>
+                      </div>
+                    </div>
 
-                    </el-form-item>
+                    <el-button @click="addNewVideo.content.splice(index, 1)"
+                      >-</el-button
+                    >
                   </div>
                 </div>
-
-                <el-button  @click="addNewVideo.content.splice(index, 1)">-</el-button>
-              </div>
-
-
-              </div>
-
-
               </div>
             </div>
-
-
 
             <div class="col-md-3 mt-4">
               <el-form-item prop="videoPhoto">
@@ -548,8 +549,6 @@
                 </el-upload>
               </el-form-item>
             </div>
-
-            
           </div>
         </el-form>
       </section>
@@ -565,7 +564,7 @@
           <div class="inputs-grid row">
             <div class="col-md-1 text-center">
               <el-switch
-                style="padding-top: 18px;"
+                style="padding-top: 18px"
                 v-model="isLink"
                 active-color="var(--yellow)"
                 inactive-color="var(--blue)"
@@ -580,8 +579,8 @@
                   {
                     required: true,
                     message: $t('lesson.FileTitle'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -599,8 +598,8 @@
                   {
                     required: true,
                     message: $t('Validation.required'),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
               >
                 <el-input
@@ -658,83 +657,76 @@
               </div>
             </div>
 
-
-
-
-
-
-
             <div class="col-md-6">
-              <div class="row d-flex  mt-4">
-
-               <div class="col-md-2">
-                  <el-button class="mb-3" @click="updateVideo.content.push({title:'', timing: ''})">+</el-button>
-               </div>
-              <div class="col-md-10">
-
-                <div class="d-flex mb-4" v-for="(timestamp, index) in updateVideo.content" :key="index">
-                <div class="mr-1 ml-1" style="flex: 1">
-                  <div>
-                    <el-form-item 
-                    :prop="`content[${index}].title`"
-                    :rules="[
-                      {
-                        required: true,
-                        message: $t('Validation.required'),
-                        trigger: 'blur'
-                      }
-                    ]"
-                    >
-                        <el-input
-                          suffix-icon="el-icon-edit"
-                          :placeholder="$t('lesson.title')"
-                          v-model="updateVideo.content[index].title"
-                        ></el-input>
-
-                    </el-form-item>
-                  </div>
+              <div class="row d-flex mt-4">
+                <div class="col-md-2">
+                  <el-button
+                    class="mb-3"
+                    @click="updateVideo.content.push({ title: '', timing: '' })"
+                    >+</el-button
+                  >
                 </div>
+                <div class="col-md-10">
+                  <div
+                    class="d-flex mb-4"
+                    v-for="(timestamp, index) in updateVideo.content"
+                    :key="index"
+                  >
+                    <div class="mr-1 ml-1" style="flex: 1">
+                      <div>
+                        <el-form-item
+                          :prop="`content[${index}].title`"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur',
+                            },
+                          ]"
+                        >
+                          <el-input
+                            suffix-icon="el-icon-edit"
+                            :placeholder="$t('lesson.title')"
+                            v-model="updateVideo.content[index].title"
+                          ></el-input>
+                        </el-form-item>
+                      </div>
+                    </div>
 
-                 <div class="mr-1 ml-1" style="flex: 1">
-                  <div>
-                    <el-form-item 
-                    :prop="`content[${index}].timing`"
-                    :rules="[
-                      {
-                        required: true,
-                        message: $t('Validation.required'),
-                        trigger: 'blur'
-                      }
-                    ]"
-                    >
-                       
-
-                        <el-time-picker
-                        arrow-control
-                        suffix-icon="el-icon-edit"
-                        :picker-options="{
-                            format: 'HH:mm'
-                          }"
-                          value-format='HH:mm'
-                          :placeholder="$t('lesson.timing')"
-                          v-model="updateVideo.content[index].timing"
+                    <div class="mr-1 ml-1" style="flex: 1">
+                      <div>
+                        <el-form-item
+                          :prop="`content[${index}].timing`"
+                          :rules="[
+                            {
+                              required: true,
+                              message: $t('Validation.required'),
+                              trigger: 'blur',
+                            },
+                          ]"
+                        >
+                          <el-time-picker
+                            arrow-control
+                            suffix-icon="el-icon-edit"
+                            :picker-options="{
+                              format: 'HH:mm',
+                            }"
+                            value-format="HH:mm"
+                            :placeholder="$t('lesson.timing')"
+                            v-model="updateVideo.content[index].timing"
                           >
-                      </el-time-picker>
+                          </el-time-picker>
+                        </el-form-item>
+                      </div>
+                    </div>
 
-                    </el-form-item>
+                    <el-button @click="updateVideo.content.splice(index, 1)"
+                      >-</el-button
+                    >
                   </div>
                 </div>
-
-                <el-button  @click="updateVideo.content.splice(index, 1)">-</el-button>
-              </div>
-
-
-              </div>
-
-
               </div>
             </div>
-
 
             <div class="col-md-3 mt-4">
               <el-form-item prop="videoPhoto">
@@ -763,8 +755,6 @@
                 </el-upload>
               </el-form-item>
             </div>
-
-
           </div>
         </el-form>
       </section>
@@ -852,7 +842,7 @@
                           'w-50': true,
                           'border-right': $i18n.locale == 'en',
                           'border-left': $i18n.locale == 'ar',
-                          edit: true
+                          edit: true,
                         }"
                       >
                         <img
@@ -894,7 +884,7 @@
               الرجوع إلي الامتحانات
             </button>
 
-            <div>
+            <div class="exam">
               <ShowExam
                 :toExam="true"
                 :exam="currSubjectExam"
@@ -904,36 +894,43 @@
                 @getExamQuestion="getExamQuestions"
               >
                 <div slot="update-delete">
-                  <div class="d-flex update-delete-exam text-center">
-                    <button
-                      @click="openUpdateExamModel({ ...currSubjectExam })"
-                      :class="{
-                        btn: true,
-                        'w-50': true,
-                        'border-right': $i18n.locale == 'en',
-                        'border-left': $i18n.locale == 'ar',
-                        edit: true
-                      }"
-                    >
-                      <img src="@/assets/imgs/Icon-feather-edit-3.svg" alt="" />
-                    </button>
-
-                    <el-popconfirm
-                      :confirm-button-text="$t('Validation.delete')"
-                      :cancel-button-text="$t('Validation.close')"
-                      icon="el-icon-info"
-                      class="w-50 btn"
-                      @confirm="deleteExam(currSubjectExam)"
-                      icon-color="red"
-                      :title="$t('Validation.AreYouSure')"
-                    >
-                      <button slot="reference" class="btn delete">
+                  <div slot="update-delete">
+                    <div class="d-flex update-delete-exam text-center">
+                      <button
+                        @click="openUpdateExamModel({ ...exam })"
+                        :class="{
+                          btn: true,
+                          'w-50': true,
+                          'border-right': $i18n.locale == 'en',
+                          'border-left': $i18n.locale == 'ar',
+                          edit: true,
+                        }"
+                      >
                         <img
-                          src="@/assets/imgs/Icon-material-delete.svg"
+                          src="@/assets/imgs/Icon-feather-edit-3.svg"
                           alt=""
                         />
+                        {{ $t("subjects.update") }}
                       </button>
-                    </el-popconfirm>
+
+                      <el-popconfirm
+                        :confirm-button-text="$t('Validation.delete')"
+                        :cancel-button-text="$t('Validation.close')"
+                        icon="el-icon-info"
+                        class="w-50 btn"
+                        @confirm="deleteExam(exam)"
+                        icon-color="red"
+                        :title="$t('Validation.AreYouSure')"
+                      >
+                        <button slot="reference" class="btn delete">
+                          <img
+                            src="@/assets/imgs/Icon-material-delete.svg"
+                            alt=""
+                          />
+                          {{ $t("subjects.delete") }}
+                        </button>
+                      </el-popconfirm>
+                    </div>
                   </div>
                 </div>
               </ShowExam>
@@ -1058,7 +1055,7 @@
 
 
                    <div class="d-flex mb-3">
-                      
+
 
 
                             <div class="mr-1 ml-1 mb-1">
@@ -1180,7 +1177,7 @@ export default {
     ShowExam,
     ManyQuestions,
     AddManyQuestion,
-    ShowQuestions
+    ShowQuestions,
   },
 
   created() {
@@ -1198,20 +1195,20 @@ export default {
       addNewFile: {},
       updateFile: {},
       updateVideo: {
-        content:[
+        content: [
           {
-            title:"",
-            timing: ""
-          }
-        ]
+            title: "",
+            timing: "",
+          },
+        ],
       },
       addNewVideo: {
-        content:[
+        content: [
           {
-            title:"",
-            timing: ""
-          }
-        ]
+            title: "",
+            timing: "",
+          },
+        ],
       },
       addFilePopup: false,
       addVideoPopup: false,
@@ -1253,7 +1250,7 @@ export default {
       subject: {},
       active: 1,
       allLessons: [],
-      allUnites: []
+      allUnites: [],
     };
   },
 
@@ -1273,12 +1270,14 @@ export default {
     },
     active(val) {
       if (val == 1) {
-        this.videosMaterial = this.material.filter(ele => ele.type == "video");
+        this.videosMaterial = this.material.filter(
+          (ele) => ele.type == "video"
+        );
         this.handleYoutubeAndVimeo();
       } else if (val == 2) {
-        this.filesMaterials = this.material.filter(ele => ele.type == "pdf");
+        this.filesMaterials = this.material.filter((ele) => ele.type == "pdf");
       }
-    }
+    },
   },
 
   methods: {
@@ -1290,7 +1289,7 @@ export default {
       } else {
         this.$refs.uploadUpdateFile.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach PDF!"
+          message: "This File Not Allowed..Please Attach PDF!",
         });
       }
     },
@@ -1316,7 +1315,7 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     handleYoutubeAndVimeo() {
-      this.material.map(ele => {
+      this.material.map((ele) => {
         if (ele.link.includes("youtube.com")) {
           ele.link = ele.link.replace("watch?v=", "embed/");
           if (ele.link.includes("&")) {
@@ -1338,10 +1337,10 @@ export default {
 
       this.$axios
         .delete(`/material/${material.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "Material Deleted Successfully",
-            type: "success"
+            type: "success",
           });
           this.getMaterials();
         })
@@ -1352,34 +1351,34 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/lessons/${this.$route.params.id}/material?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.material = res.data;
           this.videosMaterial = this.material.filter(
-            ele => ele.type == "video"
+            (ele) => ele.type == "video"
           );
-          this.filesMaterials = this.material.filter(ele => ele.type == "pdf");
+          this.filesMaterials = this.material.filter(
+            (ele) => ele.type == "pdf"
+          );
           this.handleYoutubeAndVimeo();
         })
         .finally(() => loading.close());
     },
     submitAddVideoForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.isLink && !this.addNewVideo.video) {
             this.$message.error({
-              message: "Please Attach Video It's Required"
+              message: "Please Attach Video It's Required",
             });
             return;
           }
-
 
           if (!this.addNewVideo.videoPhoto) {
             this.$message.error({
-              message: "Please Attach Video Cover It's Required"
+              message: "Please Attach Video Cover It's Required",
             });
             return;
           }
-
 
           console.log("valid");
           this.addVideo();
@@ -1387,18 +1386,18 @@ export default {
       });
     },
     submitUpdateVideoForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.isLink && !this.updateVideo.video) {
             this.$message.error({
-              message: "Please Attach Video It's Required"
+              message: "Please Attach Video It's Required",
             });
             return;
           }
 
           if (!this.updateVideo.videoPhoto) {
             this.$message.error({
-              message: "Please Attach Video Cover It's Required"
+              message: "Please Attach Video Cover It's Required",
             });
             return;
           }
@@ -1409,11 +1408,11 @@ export default {
       });
     },
     submitAddFileForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.addNewFile.pdf) {
             this.$message.error({
-              message: "Please Attach File It's Required"
+              message: "Please Attach File It's Required",
             });
             return;
           }
@@ -1425,11 +1424,11 @@ export default {
     },
 
     submitUpdateFileForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.updateFile.link && !this.updateFile.pdf) {
             this.$message.error({
-              message: "Please Attach File It's Required"
+              message: "Please Attach File It's Required",
             });
             return;
           }
@@ -1445,30 +1444,32 @@ export default {
 
       let material;
 
-     
-        material = new FormData();
-        material.append("title", this.addNewVideo.title);
-        if(this.isLink){
+      material = new FormData();
+      material.append("title", this.addNewVideo.title);
+      if (this.isLink) {
         material.append("link", this.addNewVideo.link);
-
-        }else{
-
-          material.append("video", this.addNewVideo.video);
-        }
-        material.append("videoPhoto", this.addNewVideo.videoPhoto);
-        for(let i = 0 ; i < this.addNewVideo.content.length; i++){
-          material.append(`content[${i}][title]`, this.addNewVideo.content[i].title);
-          material.append(`content[${i}][timing]`, this.addNewVideo.content[i].timing);
-        }
-        material.append("type", "video");
-      
+      } else {
+        material.append("video", this.addNewVideo.video);
+      }
+      material.append("videoPhoto", this.addNewVideo.videoPhoto);
+      for (let i = 0; i < this.addNewVideo.content.length; i++) {
+        material.append(
+          `content[${i}][title]`,
+          this.addNewVideo.content[i].title
+        );
+        material.append(
+          `content[${i}][timing]`,
+          this.addNewVideo.content[i].timing
+        );
+      }
+      material.append("type", "video");
 
       this.$axios
         .post(`/lessons/${this.$route.params.id}/material`, material)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "Video Added Successfully",
-            type: "success"
+            type: "success",
           });
           this.addVideoPopup = false;
           this.addNewVideo = {};
@@ -1482,30 +1483,32 @@ export default {
 
       let material;
 
-     
-        material = new FormData();
-        material.append("title", this.updateVideo.title);
-        if(this.isLink){
+      material = new FormData();
+      material.append("title", this.updateVideo.title);
+      if (this.isLink) {
         material.append("link", this.updateVideo.link);
-
-        }else{
-
-          material.append("video", this.updateVideo.video);
-        }
-        material.append("videoPhoto", this.updateVideo.videoPhoto);
-        for(let i = 0 ; i < this.updateVideo.content.length; i++){
-          material.append(`content[${i}][title]`, this.updateVideo.content[i].title);
-          material.append(`content[${i}][timing]`, this.updateVideo.content[i].timing);
-        }
-        material.append("type", "video");
-      
+      } else {
+        material.append("video", this.updateVideo.video);
+      }
+      material.append("videoPhoto", this.updateVideo.videoPhoto);
+      for (let i = 0; i < this.updateVideo.content.length; i++) {
+        material.append(
+          `content[${i}][title]`,
+          this.updateVideo.content[i].title
+        );
+        material.append(
+          `content[${i}][timing]`,
+          this.updateVideo.content[i].timing
+        );
+      }
+      material.append("type", "video");
 
       this.$axios
         .patch(`/material/${this.updateVideo.id}`, material)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "Video Added Successfully",
-            type: "success"
+            type: "success",
           });
           this.updateVideoPopup = false;
           this.updateVideo = {};
@@ -1524,10 +1527,10 @@ export default {
 
       this.$axios
         .post(`/lessons/${this.$route.params.id}/material`, formData)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "File Added Successfully",
-            type: "success"
+            type: "success",
           });
           this.addFilePopup = false;
           this.addNewFile = {};
@@ -1549,10 +1552,10 @@ export default {
 
       this.$axios
         .patch(`/material/${this.updateFile.id}`, formData)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "File Updated Successfully",
-            type: "success"
+            type: "success",
           });
           this.updateFilePopup = false;
           this.updateFile = {};
@@ -1569,12 +1572,12 @@ export default {
       } else {
         this.$refs.upload.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach PDF!"
+          message: "This File Not Allowed..Please Attach PDF!",
         });
       }
     },
 
-    handleAddVideoPhoto(e){
+    handleAddVideoPhoto(e) {
       if (
         e.raw &&
         (e.raw.type.endsWith("png") ||
@@ -1590,12 +1593,12 @@ export default {
       } else {
         this.$refs.addVideoPhoto.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach jpg or png jpeg!"
+          message: "This File Not Allowed..Please Attach jpg or png jpeg!",
         });
       }
     },
 
-    handleUpdateVideoPhoto(e){
+    handleUpdateVideoPhoto(e) {
       if (
         e.raw &&
         (e.raw.type.endsWith("png") ||
@@ -1611,7 +1614,7 @@ export default {
       } else {
         this.$refs.updateVideoPhoto.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach jpg or png jpeg!"
+          message: "This File Not Allowed..Please Attach jpg or png jpeg!",
         });
       }
     },
@@ -1630,7 +1633,7 @@ export default {
       } else {
         this.$refs.uploadUpdate.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach PDF!"
+          message: "This File Not Allowed..Please Attach PDF!",
         });
       }
     },
@@ -1653,7 +1656,7 @@ export default {
         console.log("failed");
         this.$refs.uploadVideo.clearFiles();
         this.$message.error({
-          message: "This File Not Allowed..Please Attach Video!"
+          message: "This File Not Allowed..Please Attach Video!",
         });
       }
     },
@@ -1663,12 +1666,11 @@ export default {
     },
     removeAddVideo(e) {
       delete this.addNewVideo.video;
-
     },
 
-    removeVideoPhoto(){
-        delete this.updateVideo.videoPhoto;
-        delete this.addNewVideo.videoPhoto;
+    removeVideoPhoto() {
+      delete this.updateVideo.videoPhoto;
+      delete this.addNewVideo.videoPhoto;
     },
 
     handleAddFile() {
@@ -1683,7 +1685,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/lessons/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.lesson = res.data;
         })
         .finally(() => loading.close());
@@ -1712,7 +1714,7 @@ export default {
 
       this.$axios
         .get(endPointQuery)
-        .then(res => {
+        .then((res) => {
           this.allQuestions = res.data.docs;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
@@ -1735,7 +1737,7 @@ export default {
           message:
             this.$i18n.locale == "ar"
               ? "حدد درجة السؤال اولا"
-              : "Determine Degree Of Questions"
+              : "Determine Degree Of Questions",
         });
         return;
       }
@@ -1744,16 +1746,16 @@ export default {
 
       this.$axios
         .patch(`/exams-add-questions/${this.currExamToAssignQuestions.id}`, [
-          { question: question.id, point: question.point }
+          { question: question.id, point: question.point },
         ])
-        .then(res => {
+        .then((res) => {
           question.point = "";
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم إضافة السؤال الي الامتحان بنجاح"
                 : "Question Added To Exam Successfully",
-            type: "success"
+            type: "success",
           });
           this.currExamToAssignQuestions = res.data;
           this.getExamQuestions();
@@ -1768,13 +1770,15 @@ export default {
 
       this.$axios
         .delete(qryParam)
-        .then(res => {
-          this.$message({
-            message:
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
-                ? "تم حذف السؤال بنجاح"
+                ? "تم حذف السؤال  بنجاح"
                 : "Question Deleted Successfully",
-            type: "success"
           });
           this.getQuestions();
         })
@@ -1785,14 +1789,17 @@ export default {
 
       this.$axios
         .patch(qryParam)
-        .then(res => {
-          this.$message({
-            message:
+        .then((res) => {
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success"
           });
+
           this.getExamQuestions();
         })
         .finally(() => loading.close());
@@ -1821,15 +1828,18 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/exams/${this.currExamToAssignQuestions.id}`)
-        .then(res => {
-          this.currExamToAssignQuestions = this.currUnitExam = this.currLessonExam = this.currSubjectExam =
-            res.data;
+        .then((res) => {
+          this.currExamToAssignQuestions =
+            this.currUnitExam =
+            this.currLessonExam =
+            this.currSubjectExam =
+              res.data;
           let arr = [];
-          res.data.questions.map(element => {
+          res.data.questions.map((element) => {
             arr.push({
               ...element.question,
               points: element.point,
-              childrenQuestions: element.childrenQuestions
+              childrenQuestions: element.childrenQuestions,
             });
           });
 
@@ -1872,14 +1882,14 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/exams/${this.currExamToAssignQuestions.id}`)
-        .then(res => {
+        .then((res) => {
           this.currExamToAssignQuestions = this.currSubjectExam = res.data;
           let arr = [];
-          res.data.questions.map(element => {
+          res.data.questions.map((element) => {
             arr.push({
               ...element.question,
               points: element.point,
-              childrenQuestions: element.childrenQuestions
+              childrenQuestions: element.childrenQuestions,
             });
           });
 
@@ -1926,13 +1936,13 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/exams/${exam.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message:
               this.$i18n.locale == "ar"
                 ? "تم حذف الامتحان بنجاح"
                 : "Exam Deleted Successfully",
-            type: "success"
+            type: "success",
           });
 
           this.getSubjectExams();
@@ -1945,7 +1955,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/lessons/${this.$route.params.id}/exams?paginate=false`)
-        .then(res => {
+        .then((res) => {
           this.subjectExams = res.data;
         })
         .finally(() => loading.close());
@@ -1964,10 +1974,10 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/units/${unit.id}`)
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units deleted Successfully !`,
-            type: "success"
+            type: "success",
           });
 
           this.getUnits();
@@ -1975,7 +1985,7 @@ export default {
         .finally(() => loading.close());
     },
     submitAddForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.addUnit();
@@ -1983,7 +1993,7 @@ export default {
       });
     },
     submitUpdateForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.updateTheUnit();
@@ -1995,12 +2005,12 @@ export default {
       this.$axios
         .post(`subjects/${this.$route.params.id}/units`, {
           nameAr: this.addNewUnit.nameAr,
-          nameEn: this.addNewUnit.nameEn
+          nameEn: this.addNewUnit.nameEn,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units added Successfully !`,
-            type: "success"
+            type: "success",
           });
           this.addUnitPopup = false;
           this.addNewUnit = {};
@@ -2013,12 +2023,12 @@ export default {
       this.$axios
         .patch(`/units/${this.updateUnit.id}`, {
           nameAr: this.updateUnit.nameAr,
-          nameEn: this.updateUnit.nameEn
+          nameEn: this.updateUnit.nameEn,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: `units Updated Successfully !`,
-            type: "success"
+            type: "success",
           });
           this.updateUnitPopup = false;
           this.updateUnit = {};
@@ -2030,7 +2040,7 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.$route.params.id}/units`)
-        .then(res => {
+        .then((res) => {
           this.units = res.data.docs;
           this.page = res.data.page;
           this.totalPages = res.data.totalPages;
@@ -2041,18 +2051,27 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .get(`/subjects/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.subject = res.data;
           this.getSubjectExams();
         })
         .finally(() => loading.close());
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .lesson-page {
+  .exams .btn {
+    width: 38px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    border: none !important;
+  }
   .lesson-path {
     display: flex;
     padding-top: 15px;

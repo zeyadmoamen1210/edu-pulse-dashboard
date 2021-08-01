@@ -450,3 +450,13 @@ html {
 
   .form-button {}
 }
+
+.el-upload--text {
+  button {
+    &:hover {
+      background: #ffa400;
+      border-color: #ffa400;
+      color: #ffffff;
+    }
+  }
+}

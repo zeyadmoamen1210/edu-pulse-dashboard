@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="addExam">
     <el-form :model="addNewExam" ref="addNewExam" class="for-add-or-update">
       <div
         :style="{
@@ -83,8 +83,12 @@
           </el-form-item>
         </div>
 
-        <div class="col-md-1 switcher">
-          <el-form-item :label="$t('subjects.available')" prop="availability">
+        <div class="col-md-2 switcher p-0 width" style="max-width: 30%">
+          <el-form-item
+            :label="$t('subjects.available')"
+            prop="availability"
+            style="max-width: 50%"
+          >
             <el-switch
               v-model="addNewExam.availability"
               active-color="var(--yellow)"
@@ -94,7 +98,7 @@
           </el-form-item>
         </div>
 
-        <div class="col-md-1 switcher">
+        <div class="col-md-1 switcher p-0">
           <el-form-item :label="$t('subjects.Time')" prop="isDuration">
             <el-switch
               v-model="addNewExam.isDuration"
@@ -105,22 +109,30 @@
           </el-form-item>
         </div>
 
-        <div :class="{ 'col-md-2': true, 'col-md-4': !addNewExam.isDuration }">
-          <div class="d-flex flex-row-reverse mt-1">
-            <el-form-item>
-              <el-button
-                class="btn btn-org"
-                type="warning"
-                @click="validateAddExam('addNewExam')"
-                >{{ $t("Validation.save") }}</el-button
-              >
-              <el-button
-                class="btn btn-white"
-                type="info"
-                @click.native="closeExamModel"
-                >{{ $t("Validation.close") }}</el-button
-              >
-            </el-form-item>
+        <div
+          :class="{
+            'col-md-2': true,
+            'col-md-4': !addNewExam.isDuration,
+          }"
+          class="d-flex ml-auto"
+        >
+          <div :class="[$i18n.locale === 'ar' ? 'ml-auto' : 'mr-auto']">
+            <div class="d-flex flex-row-reverse mt-1">
+              <el-form-item class="d-flex">
+                <el-button
+                  class="btn btn-org"
+                  type="warning"
+                  @click="validateAddExam('addNewExam')"
+                  >{{ $t("Validation.save") }}</el-button
+                >
+                <el-button
+                  class="btn btn-white"
+                  type="info"
+                  @click.native="closeExamModel"
+                  >{{ $t("Validation.close") }}</el-button
+                >
+              </el-form-item>
+            </div>
           </div>
         </div>
       </div>
@@ -226,11 +238,19 @@ export default {
 }
 .switcher {
   .el-form-item {
-    width: 160%;
     .el-form-item__label {
       font-size: 14px !important;
       padding: 0;
     }
+  }
+}
+.width {
+  flex: 0 0 auto;
+  width: 10.66666667%;
+}
+.addExam {
+  .el-form-item__content {
+    display: flex;
   }
 }
 </style>

@@ -539,6 +539,15 @@ export default {
         .patch(`/sections/${this.updateSection.id}`, this.updateSection)
         .then((res) => {
           this.getClassSections();
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم تحديث القسم بنجاح!`
+                : `Section Updated Successfully!`,
+          });
         })
         .finally(() => loading.close());
     },
@@ -549,12 +558,25 @@ export default {
         .then((res) => {
           this.deleteSubjectPop = !this.deleteSubjectPop;
           this.getClassSections();
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم حذف القسم بنجاح!`
+                : `Section Deleted Successfully!`,
+          });
         })
         .catch((err) => {
           if (err.response.status == 403) {
-            this.$message.error({
-              message: err.response.data.message,
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text: err.response.data.message,
             });
+
             return;
           }
         })
@@ -578,6 +600,15 @@ export default {
           this.addClassPopOver = !this.addClassPopOver;
           this.addSection = {};
           this.getClassSections();
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة القسم بنجاح!`
+                : `Section Added Successfully!`,
+          });
         })
         .finally(() => loading.close());
     },

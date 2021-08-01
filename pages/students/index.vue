@@ -245,8 +245,8 @@
                       :file-list="fileList"
                       ref="excelUploader"
                     >
-                      <el-button color="var(--blue)"
-                        >إضافة إكسيل شيت طلاب</el-button
+                      <el-button color="var(--blue)">
+                        {{ $t("subjects.AddExcel") }}</el-button
                       >
                     </el-upload>
                   </div>

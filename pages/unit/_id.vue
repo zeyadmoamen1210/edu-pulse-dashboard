@@ -179,7 +179,6 @@
                   ]"
                 >
                   <el-input
-                    suffix-icon="el-icon-edit"
                     :placeholder="$t('Validation.nameEn')"
                     v-model="addNewLesson.nameEn"
                   ></el-input>
@@ -198,7 +197,6 @@
                   ]"
                 >
                   <el-input
-                    suffix-icon="el-icon-edit"
                     :placeholder="$t('Validation.nameAr')"
                     v-model="addNewLesson.nameAr"
                   ></el-input>
@@ -209,13 +207,13 @@
                 <div class="d-flex flex-row-reverse">
                   <el-form-item>
                     <el-button
-                      icon="el-icon-edit"
+                      class="btn btn-org"
                       type="warning"
                       @click="submitAddForm('addNewLesson')"
                       >{{ $t("Validation.save") }}</el-button
                     >
                     <el-button
-                      icon="el-icon-circle-close"
+                      class="btn btn-white"
                       type="info"
                       @click="addLessonPopup = false"
                       >{{ $t("Validation.close") }}</el-button
@@ -309,6 +307,7 @@
                   <div class="col-md-6">
                     <div class="lesson-actions">
                       <el-button
+                        class="btn btn-Lightorg"
                         @click="
                           $router.push(
                             `/lesson/${lesson.id}${
@@ -338,12 +337,22 @@
                         {{ $t("subjects.ShowContent") }}
                       </el-button>
 
-                      <div>
+                      <div class="d-flex">
                         <button
                           class="btn-edit"
+                          :class="[
+                            $i18n.locale === 'ar' ? 'ml-2 mr-1' : 'mr-2',
+                          ]"
+                          style="
+                            width: 40px;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
                           @click="handleUpdatLesson(lesson)"
                         >
-                          <i class="el-icon-edit"></i>
+                          <i class="fas fa-edit"></i>
                         </button>
                         <el-popconfirm
                           :confirm-button-text="$t('Validation.delete')"
@@ -353,8 +362,18 @@
                           icon-color="red"
                           :title="$t('Validation.AreYouSure')"
                         >
-                          <button class="btn-delete" slot="reference">
-                            <i class="el-icon-delete-solid"></i>
+                          <button
+                            class="btn-delete"
+                            style="
+                              width: 40px;
+                              height: 40px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                            slot="reference"
+                          >
+                            <i class="fas fa-trash"></i>
                           </button>
                         </el-popconfirm>
                       </div>
@@ -437,12 +456,12 @@
             </div>
 
             <div v-else>
-              <button
+              <p
                 @click="closeExamQuestion('subject')"
                 class="exam-questions-btn"
               >
                 {{ $t("subjects.BackToExams") }}
-              </button>
+              </p>
 
               <div>
                 <ShowExam
@@ -850,9 +869,14 @@ export default {
       this.$axios
         .delete(`/lessons/${lesson.id}`)
         .then((res) => {
-          this.$message({
-            message: `lessons deleted Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم حذف الدروس بنجاح!`
+                : `lessons deleted Successfully !`,
           });
 
           this.getLessons();
@@ -883,10 +907,16 @@ export default {
           nameEn: this.addNewLesson.nameEn,
         })
         .then((res) => {
-          this.$message({
-            message: `lesson added Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة الدرس بنجاح!`
+                : `lesson added Successfully !`,
           });
+
           this.addLessonPopup = false;
           this.addNewLesson = {};
           this.getLessons();
@@ -901,10 +931,16 @@ export default {
           nameEn: this.updateLesson.nameEn,
         })
         .then((res) => {
-          this.$message({
-            message: `lesson Updated Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم تحديث الدرس بنجاح!`
+                : `lesson Updated Successfully !`,
           });
+
           this.updateLessonPopup = false;
           this.updateLesson = {};
           this.getLessons();
@@ -974,12 +1010,16 @@ export default {
 
     addQuestionToExam(question) {
       if (!question.point) {
-        this.$message.error({
-          message:
+        this.$vs.notification({
+          color: "#FA5B5A",
+          position: "top-center",
+
+          text:
             this.$i18n.locale == "ar"
               ? "حدد درجة السؤال اولا"
               : "Determine Degree Of Questions",
         });
+
         return;
       }
 
@@ -991,13 +1031,16 @@ export default {
         ])
         .then((res) => {
           question.point = "";
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إضافة السؤال الي الامتحان بنجاح"
                 : "Question Added To Exam Successfully",
-            type: "success",
           });
+
           this.currExamToAssignQuestions = res.data;
           this.getExamQuestions();
         })
@@ -1012,12 +1055,14 @@ export default {
       this.$axios
         .delete(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
-                ? "تم حذف السؤال بنجاح"
+                ? "تم حذف السؤال  بنجاح"
                 : "Question Deleted Successfully",
-            type: "success",
           });
           this.getQuestions();
         })
@@ -1029,13 +1074,16 @@ export default {
       this.$axios
         .patch(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success",
           });
+
           this.getExamQuestions();
         })
         .finally(() => loading.close());
@@ -1331,9 +1379,8 @@ export default {
       h6 {
         text-align: center;
         padding-top: 18px;
-        white-space: nowrap;
+
         text-overflow: ellipsis;
-        overflow: hidden;
       }
 
       .lesson-actions {
@@ -1394,6 +1441,12 @@ export default {
 .btn .active {
   border-bottom: 2px solid #ffa400 !important;
   border-radius: 0 !important;
+}
+.btn-Lightorg {
+  background-color: #fffbef !important;
+  font-family: 600 !important;
+  color: #534dba !important;
+  border: 1px solid #ffa400 !important;
 }
 
 @import "../../assets/styles/bank-questions.scss";

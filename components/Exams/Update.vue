@@ -15,13 +15,13 @@
             :rules="[
               {
                 required: true,
-                message: 'عنوان الامتحان',
+                message: $t('subjects.Examtitle'),
                 trigger: 'blur',
               },
             ]"
           >
             <el-input
-              :placeholder="'عنوان الامتحان'"
+              :placeholder="$t('subjects.Examtitle')"
               v-model="exam.title"
             ></el-input>
           </el-form-item>
@@ -33,14 +33,14 @@
             :rules="[
               {
                 required: true,
-                message: 'نسبة النجاح مطلوبة',
+                message: $t('subjects.Rate'),
                 trigger: 'blur',
               },
               { type: 'number', message: 'age must be a number' },
             ]"
           >
             <el-input
-              placeholder="نسبة النجاح"
+              :placeholder="$t('subjects.Rate')"
               v-model.number="exam.passing_percentage"
             ></el-input>
           </el-form-item>
@@ -52,14 +52,14 @@
             :rules="[
               {
                 required: true,
-                message: 'عدد مرات الحل',
+                message: $t('subjects.Count'),
                 trigger: 'blur',
               },
               { type: 'number', message: 'age must be a number' },
             ]"
           >
             <el-input
-              placeholder="عدد مرات الحل"
+              :placeholder="$t('subjects.Count')"
               v-model.number="exam.numberOfAllowedTimesToSolve"
             ></el-input>
           </el-form-item>
@@ -71,17 +71,20 @@
             :rules="[
               {
                 required: true,
-                message: 'الوقت',
+                message: $t('subjects.Time'),
                 trigger: 'blur',
               },
             ]"
           >
-            <el-input v-model="exam.duration" placeholder="الوقت"></el-input>
+            <el-input
+              v-model="exam.duration"
+              :placeholder="$t('subjects.Time')"
+            ></el-input>
           </el-form-item>
         </div>
 
         <div class="col-md-1 switcher">
-          <el-form-item label="متاح " prop="availability">
+          <el-form-item :label="$t('subjects.available')" prop="availability">
             <el-switch
               v-model="exam.availability"
               active-color="var(--yellow)"
@@ -92,7 +95,7 @@
         </div>
 
         <div class="col-md-1 switcher">
-          <el-form-item label="الوقت " prop="isDuration">
+          <el-form-item :label="$t('subjects.Time')" prop="isDuration">
             <el-switch
               v-model="exam.isDuration"
               active-color="var(--yellow)"

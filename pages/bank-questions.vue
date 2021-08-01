@@ -474,12 +474,14 @@ export default {
       this.$axios
         .delete(`/questions/${question.id}`)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
-                ? "تم حذف السؤال بنجاح"
+                ? "تم حذف السؤال  بنجاح"
                 : "Question Deleted Successfully",
-            type: "success",
           });
           this.getQuestions();
         })
@@ -541,13 +543,16 @@ export default {
     onAddQuestion() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       this.activeTab = 0;
-      this.$message({
-        message:
+      this.$vs.notification({
+        color: "#45D7B6",
+        position: "top-center",
+
+        text:
           this.$i18n.locale == "ar"
             ? "تم إضافة السؤال بنجاح"
             : "Question Added Successfully",
-        type: "success",
       });
+
       this.getQuestions();
     },
 

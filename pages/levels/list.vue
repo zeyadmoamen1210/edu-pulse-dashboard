@@ -280,15 +280,31 @@ export default {
       this.$axios
         .post(`/levels`, this.createLevels)
         .then((res) => {
-          this.$message({
-            message: `System Added Successfully!`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة النظام بنجاح!`
+                : `System Added Successfully!`,
           });
+
+          // this.$message({
+          //   message: `System Added Successfully!`,
+          //   type: "success",
+          // });
           this.getLevels();
         })
         .catch((error) => {
-          this.$message.error({
-            message: `There Are Something Wrong!`,
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `يوجد خطا ما`
+                : `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());
@@ -306,16 +322,36 @@ export default {
           nameEn: this.currLevelToEdit.nameEn,
         })
         .then((res) => {
-          this.$message({
-            message: `Level Updated Successfully!`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تم تحديث المستوى بنجاح!`
+                : `Level Updated Successfully!`,
           });
+
+          // this.$message({
+          //   message: `Level Updated Successfully!`,
+          //   type: "success",
+          // });
           this.getLevels(this.page);
         })
         .catch((err) => {
-          this.$message.error({
-            message: `There Are Something Wrong!`,
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `يوجد خطا ما`
+                : `There Are Something Wrong!`,
           });
+
+          // this.$message.error({
+          //   message: `There Are Something Wrong!`,
+          // });
         })
         .finally(() => loading.close());
     },
@@ -338,10 +374,19 @@ export default {
       this.$axios
         .delete(`/levels/${ele.id}`)
         .then((res) => {
-          this.$message({
-            message: `Level Deleted Successfully!`,
-            type: "success",
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `Level Deleted Successfully!`
+                : `تم حذف المستوى بنجاح!`,
           });
+          // this.$message({
+          //   message: `Level Deleted Successfully!`,
+          //   type: "success",
+          // });
           this.getLevels(this.page);
         })
         .catch((err) => {
@@ -351,9 +396,18 @@ export default {
             });
             return;
           }
-          this.$message.error({
-            message: `There Are Something Wrong!`,
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `يوجد خطا ما`
+                : `There Are Something Wrong!`,
           });
+          // this.$message.error({
+          //   message: `There Are Something Wrong!`,
+          // });
         })
         .finally(() => loading.close());
     },

@@ -735,10 +735,16 @@ export default {
       this.$axios
         .delete(`subjects/${sub.id}`)
         .then((res) => {
-          this.$message({
-            message: `Subject Deleted Successfully!`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت مسح الماده بنجاح!`
+                : `Subject Deleted Successfully!`,
           });
+
           this.getSectionSubjects();
         })
         .catch((err) => {
@@ -772,8 +778,14 @@ export default {
       }
 
       if (!this.addNewSubject.teacher.id) {
-        this.$message.error({
-          message: `This Teacher not Exist`,
+        this.$vs.notification({
+          color: "#FA5B5A",
+          position: "top-center",
+
+          text:
+            this.$i18n.locale == "ar"
+              ? `هذا المعلم غير موجود`
+              : `This Teacher not Exist`,
         });
 
         return;
@@ -788,17 +800,29 @@ export default {
           formData
         )
         .then((res) => {
-          this.$message({
-            message: `Subject Added Successfully!`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت إضافة الماده بنجاح!`
+                : `Subject Added Successfully!`,
           });
+
           this.addSubjectPopup = false;
           this.addNewSubject = {};
           this.getSectionSubjects();
         })
         .catch((err) => {
-          this.$message.error({
-            message: `There Are Something Wrong!`,
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `يوجد خطا ما`
+                : `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());
@@ -820,16 +844,28 @@ export default {
       this.$axios
         .patch(`/subjects/${this.updateSubject.id}`, formData)
         .then((res) => {
-          this.$message({
-            message: `Subject Updated Successfully !`,
-            type: "success",
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `تمت تحديث الماده بنجاح!`
+                : `Subject Updated Successfully!`,
           });
+
           this.updateSubjectPopup = false;
           this.getSectionSubjects();
         })
         .catch((err) => {
-          this.$message.error({
-            message: `There Are Something Wrong !`,
+          this.$vs.notification({
+            color: "#FA5B5A",
+            position: "top-center",
+
+            text:
+              this.$i18n.locale == "ar"
+                ? `يوجد خطا ما`
+                : `There Are Something Wrong!`,
           });
         })
         .finally(() => loading.close());

@@ -71,14 +71,14 @@
       @click.prevent="saveQuestions()"
       class="btn btn-org mb-3 mt-2"
       :class="[$i18n.locale === 'ar' ? 'mr-auto' : 'ml-auto']"
-      >إضافة الأسئلة</vs-button
+      >{{ $t("subjects.AddQuestions") }}</vs-button
     >
     <vs-button
       v-if="questions.length > 0 && toAddGroupQuestion"
       @click.prevent="saveGroupQuestion()"
       class="btn btn-org mb-3 mt-2"
       :class="[$i18n.locale === 'ar' ? 'mr-auto' : 'ml-auto']"
-      >إضافة السؤال</vs-button
+      >{{ $t("subjects.AddQuestion") }}</vs-button
     >
 
     <div class="add-question d-flex justify-content-between mb-3">

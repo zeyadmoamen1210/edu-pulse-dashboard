@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="AddQuestionCom">
     <el-form
       :model="addQuestion"
       ref="addQuestion"
@@ -325,7 +325,7 @@ export default {
           break;
       }
 
-      let qryParam = "";
+      let qryParam = `lessons/${this.lesson}/questions`;
 
       this.$axios
         .post(qryParam, formData)
@@ -401,6 +401,14 @@ export default {
 
   label[for="modelAnswer"] {
     visibility: hidden !important;
+  }
+}
+.AddQuestionCom {
+  .el-form-item__content {
+    width: 100%;
+  }
+  .avatar-uploader {
+    width: 100%;
   }
 }
 </style>

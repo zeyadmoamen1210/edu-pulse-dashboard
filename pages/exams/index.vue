@@ -1233,13 +1233,23 @@ export default {
         ])
         .then((res) => {
           question.point = "";
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم إضافة السؤال الي الامتحان بنجاح"
                 : "Question Added To Exam Successfully",
-            type: "success",
           });
+
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم إضافة السؤال الي الامتحان بنجاح"
+          //       : "Question Added To Exam Successfully",
+          //   type: "success",
+          // });
           this.currExamToAssignQuestions = res.data;
           this.getExamQuestions();
         })
@@ -1254,13 +1264,23 @@ export default {
       this.$axios
         .delete(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال بنجاح"
                 : "Question Deleted Successfully",
-            type: "success",
           });
+
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف السؤال بنجاح"
+          //       : "Question Deleted Successfully",
+          //   type: "success",
+          // });
           this.getQuestions();
         })
         .finally(() => loading.close());
@@ -1271,13 +1291,23 @@ export default {
       this.$axios
         .patch(qryParam)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف السؤال من الامتحان بنجاح"
                 : "Question Deleted From Exam Successfully",
-            type: "success",
           });
+
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف السؤال من الامتحان بنجاح"
+          //       : "Question Deleted From Exam Successfully",
+          //   type: "success",
+          // });
           this.getExamQuestions();
         })
         .finally(() => loading.close());
@@ -1449,14 +1479,24 @@ export default {
       const loading = this.$vs.loading();
       this.$axios
         .delete(`/exams/${exam.id}`)
+
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم حذف الامتحان بنجاح"
                 : "Exam Deleted Successfully",
-            type: "success",
           });
+          // this.$message({
+          //   message:
+          //     this.$i18n.locale == "ar"
+          //       ? "تم حذف الامتحان بنجاح"
+          //       : "Exam Deleted Successfully",
+          //   type: "success",
+          // });
 
           if (type == "subject") {
             this.getSubjectExams();
@@ -1568,12 +1608,21 @@ export default {
       this.lessonUpdateModel = false;
 
       if (!this.selectedLesson) {
-        this.$message.error({
-          message:
+        this.$vs.notification({
+          color: "#FA5B5A",
+          position: "top-center",
+
+          text:
             this.$i18n.locale == "ar"
               ? "حدد الدرس اولا"
               : "determine Exam First",
         });
+        // this.$message.error({
+        //   message:
+        //     this.$i18n.locale == "ar"
+        //       ? "حدد الدرس اولا"
+        //       : "determine Exam First",
+        // });
         return;
       }
       this.addLessonExamModel = !this.addLessonExamModel;

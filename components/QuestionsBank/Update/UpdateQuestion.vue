@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="updateQuestionCom">
     <el-form
       :model="updateQuestion"
       ref="updateQuestion"
@@ -340,30 +340,39 @@ export default {
       this.$axios
         .patch(`/questions/${this.updateQuestion.id}`, formData)
         .then((res) => {
-          this.$message({
-            message:
+          this.$vs.notification({
+            color: "#45D7B6",
+            position: "top-center",
+
+            text:
               this.$i18n.locale == "ar"
                 ? "تم تعديل السؤال بنجاح"
                 : "Question updated Successfully",
-            type: "success",
           });
+
           this.$emit("questionUpdatedSuccessfully");
           window.scrollTo({ top: 0, behavior: "smooth" });
         })
         .catch((err) => {
           if (err.response.status == 403) {
-            this.$message.error({
-              message:
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text:
                 this.$i18n.locale == "ar"
                   ? "غير مسموح لك بتعديل هذا السؤال"
                   : "Dont Allow To update This Question",
             });
           } else {
-            this.$message.error({
-              message:
+            this.$vs.notification({
+              color: "#FA5B5A",
+              position: "top-center",
+
+              text:
                 this.$i18n.locale == "ar"
-                  ? "حدث خطا ما"
-                  : "There Are Something Wrong",
+                  ? `يوجد خطا ما`
+                  : `There Are Something Wrong!`,
             });
           }
         })
@@ -403,5 +412,13 @@ export default {
   box-shadow: none !important;
   border-radius: 6px !important;
   color: #ff3636 !important;
+}
+.updateQuestionCom {
+  .el-form-item__content {
+    width: 100%;
+  }
+  .avatar-uploader {
+    width: 100%;
+  }
 }
 </style>

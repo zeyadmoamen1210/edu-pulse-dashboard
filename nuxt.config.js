@@ -137,6 +137,7 @@ export default {
             'questionsBank': "Questions Bank",
             "exams": "Exams",
             "Parents": "Parents",
+            "Subjects": "Subjects"
           },
 
           auth: {
@@ -272,7 +273,9 @@ export default {
             "NewQuestion": "New Question",
             "RemoveFromExam": "Remove From Exam",
             "AddToExam": "Add To Exam",
-
+            "AddQuestions": "Add Question",
+            "AddQuestion": "Add Question",
+            "AddExcel": "Add Excel"
 
 
           },
@@ -375,6 +378,7 @@ export default {
             'questionsBank': "بنك الأسئلة",
             "exams": "الإمتحانات",
             "Parents": "الاَباء",
+            "Subjects": "المواد الدراسية"
           },
           auth: {
             "Login": "تسجيل الدخول",
@@ -510,6 +514,9 @@ export default {
             "NewQuestion": "سؤال جديد",
             "RemoveFromExam": "إزالة من الامتحان",
             "AddToExam": "إضافة إلي الامتحان",
+            "AddQuestions": "إضافة الأسئلة",
+            "AddQuestion": "إضافة السؤال",
+            "AddExcel": " إضافة إكسيل شيت طلاب"
 
 
 
